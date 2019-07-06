@@ -1,0 +1,15 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/splash-screen.css": "/css/splash-screen.css",
+    "/css/app.css": "/css/app.css",
+    "/js/edges.js": "/js/edges.js",
+    "/js/geoDist.js": "/js/geoDist.js",
+    "/js/pace.min.js": "/js/pace.min.js",
+    "/js/popper.min.js": "/js/popper.min.js",
+    "/js/forms.js": "/js/forms.js",
+    "/js/offline.min.js": "/js/offline.min.js",
+    "/js/scheduleMaker.js": "/js/scheduleMaker.js",
+    "/js/jquery-ui.min.js": "/js/jquery-ui.min.js",
+    "/js/sorttable.js": "/js/sorttable.js",
+    "/js/tables.js": "/js/tables.js"
+}

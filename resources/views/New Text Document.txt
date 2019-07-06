@@ -1,0 +1,25 @@
+@foreach($Edges as $section => $edgesOfSection)
+                        <tbody id="{{ $section }}" v-if="section == '{{ $section }}'">
+                            @foreach($edgesOfSection as $name => $YearEdges)
+                            <tr>
+                                <td class="name" class="clickable" data-toggle="collapse" data-target="#group-{{ $loop->index }}" aria-expanded="false" aria-controls="group-{{ $loop->index }}">
+                                    <strong>+</strong> {{ $name }}
+                                </td>
+                                <td class="year">متوسط كل السنين</td>
+                                <td class="edge">{{ $YearEdges->sum()/$YearEdges->count() }}</td>
+                            </tr>
+                            <tbody class="collapse" id="group-{{ $loop->index }}">
+                                @foreach ($YearEdges as $year => $edge)
+                                    <tr>
+                                        @if ($loop->first)
+                                        <td rowspan="{{ $YearEdges->count() }}">{{ $name }}</td>
+                                        @else
+                                        @endif
+                                        <td class="year">{{ $year }}</td>
+                                        <td class="edge">{{ $edge }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            @endforeach
+                        </tbody>
+                        @endforeach

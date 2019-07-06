@@ -1,0 +1,11 @@
+.card-header button {
+	font-size: 1.1em;
+	color: #d24536;
+}
+.card-header button:hover {
+	text-decoration: none;
+	color: #6d65ae;
+}
+.card-header button:focus {
+	text-decoration: none;
+}
