@@ -37,3 +37,5 @@ Route::get('/Tansik/Taqleel-al-eghterab','PagesController@TansikReduceAlienation
 Route::get('/faculty/getEdges','FacultyController@SaveEdges');
 Route::resource('/faculty','FacultyController');
 
+//Deployment
+Route::post('deploy', 'DeployController@deploy');

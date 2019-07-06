@@ -123,6 +123,9 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    //GitHub Deployment
+    'deploy_secret' => env('APP_DEPLOY_SECRET'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
