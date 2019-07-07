@@ -23,7 +23,7 @@
 @section('content')
 		<div class="row">
 			<div class="col p-0" style="margin-top:-20px; border-bottom: 3px solid #d24536;">
-				<img class="img-fluid" src="{{ Storage::url('assets/images/Header.jpg') }}" width="100%"/>
+				<img class="img-fluid" src="{{ Storage::url('assets/images/Header.jpg') }}" alt="Welcome to Thanawya Helwa Website" width="100%"/>
 			</div>
     	</div>
 		<div class="row" style="margin-bottom: -5%;">

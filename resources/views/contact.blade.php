@@ -84,7 +84,7 @@
 @endsection
 
 @section('scripts')
-    <script src="https://www.google.com/recaptcha/api.js?render=6LfeSKsUAAAAAKAiHeGSYBkabpC6mh9ZmzbTKSma"></script>
+    <script defer src="https://www.google.com/recaptcha/api.js?render=6LfeSKsUAAAAAKAiHeGSYBkabpC6mh9ZmzbTKSma"></script>
     <script defer>
         $(document).ready(function() {
             //Google reCaptcha

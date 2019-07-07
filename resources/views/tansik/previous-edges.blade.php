@@ -14,19 +14,7 @@
     </div>
 
     <div class="row text-right justify-content-center">
-        <div class="col-12 col-md-4">
-            <div class="form-group text-right focused">
-                <label>اختار الجامعة اللي بتدور عليها</label>
-                <select id="University" class="form-control filled">
-                    <option value="0" selected>كل الجامعات</option>
-                    @foreach ($Universities as $uni)
-                    <option value="{{ $uni->id }}">{{ $uni->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-2">
+        <div class="col-6 col-md-3">
             <div class="form-group text-right focused">
                 <label>الشعبة</label>
                 <select id="Section" class="form-control filled" v-model="section" v-on:change="getEdges()">
@@ -35,7 +23,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-6 col-md-4">
+        <div class="col-12 col-md-6">
             <div class="form-group text-right focused">
                 <label>تحب تشوف المجموع الكلي ولا النسب المئوية؟</label>
                 <select v-model="percent" v-on:change="GradeOrPercent()" class="form-control filled">
@@ -52,24 +40,30 @@
         </div>
         <div class="col-12 text-right">
             <!-- User Interface controls -->
-            <b-row>
-                <b-col cols="12" class="my-1">
+            <div class="row">
+                <div class="col-12 col-md-6 my-1">
                     <b-form-group label-cols-sm="3" label="اكتب اسم أي كلية عايز تشوف درجاتها" class="mb-0">
                             <div class="form-inline mx-0 px-0" id="searchBox">
                                 <b-form-input class="mx-1" v-on:input="isTyping = true" v-model="filter" placeholder="اكتب لتقوم بالبحث"></b-form-input>
                                 <b-button class="mx-1" v-if="filter" :disabled="!filter" v-on:click="filter = ''">مسح المكتوب</b-button>
                             </div>
                     </b-form-group>
-                </b-col>
-                <b-col md="6"  class="my-1">
+                </div>
+                <div class="col-12 col-md-6 my-1">
                     <b-form-group label-cols-sm="3" label="عدد الكليات في كل صفحة" class="mb-0">
                         <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
                     </b-form-group>
-                </b-col>
-            </b-row>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 my-1">
+                    <b-pagination v-model="currentPage" align="center" :total-rows="items.length" :per-page="perPage" class="my-0">
+                    </b-pagination>
+                </div>
+            </div>
             {{--Table--}}
-            <b-row>
-                <b-col cols="12">
+            <div class="row">
+                <div class="col-12">
                     <b-table dir="rtl" class="mx-0"
                     ref="table"
                     striped hover bordered small responsive foot-clone
@@ -87,22 +81,22 @@
                     v-on:filtered="onFiltered">
                     <template slot="table-caption">جميع البيانات في هذه الجداول مأخوذة من موقع التنسيق، ووجود أخطاء إملائية في أسامي الكليات غير راجع لفريق ثانوية حلوة.</template>
                     </b-table>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col cols="12" class="my-1">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 my-1">
                     <b-pagination v-model="currentPage" align="center" :total-rows="items.length" :per-page="perPage" class="my-0"></b-pagination>
-                </b-col>
-            </b-row>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/edges.js') }}"></script>
-<script>
-    const offsetSearchBox = $("#searchBox").offset().top - $("nav").height();
+<script defer src="{{ asset('js/edges.js') }}"></script>
+<script defer>
+    const offsetSearchBox = $("#searchBox").offset().top;
     window.document.body.onscroll = function() {
         if ($(window).scrollTop() >= offsetSearchBox) {
             //Move it

@@ -105,7 +105,7 @@
                 <div id="collapse2" class="collapse" aria-labelledby="heading2"
                     data-parent="#ReduceAlienationQuestions">
                     <div class="card-body">
-                        <p><a href="{{ route('Tansik-Geo-Dist') }}" target="_blank">دوس هنا</a> واختار محافظتك والإدارة
+                        <p><a href="{{ route('Tansik-Geo-Dist') }}" target="_blank" rel="noopener">دوس هنا</a> واختار محافظتك والإدارة
                             التعليمية اللي تابع ليها وإحنا هنقولك إيه الجامعات اللي في مجموعة (أ) ليك.</p>
                     </div>
                 </div>
@@ -262,7 +262,7 @@
                     data-parent="#ReduceAlienationQuestions">
                     <div class="card-body">
                         <p>
-                            من موقع التنسيق.. <a href="https://tansik.egypt.gov.eg/application/" target="_blank">دوس هنا
+                            من موقع التنسيق.. <a href="https://tansik.egypt.gov.eg/application/" target="_blank" rel="noopener">دوس هنا
                                 عشان تدخل عليه</a>
                         </p>
                     </div>
@@ -283,7 +283,7 @@
                 <div id="collapse9" class="collapse" aria-labelledby="heading9"
                     data-parent="#ReduceAlienationQuestions">
                     <div class="card-body">
-                        <p>ابعتلنا من هنا <a href="https://m.me/Thanawya.Helwa" target="_blank"><i
+                        <p>ابعتلنا من هنا <a href="https://m.me/Thanawya.Helwa" target="_blank" rel="noopener"><i
                                     class="fab fa-facebook-messenger"></i></a> وقولنا سؤالك وإحنا هنرد عليك وهنزوده هنا
                             كمان عشان
                             باقي زمايلك.</p>

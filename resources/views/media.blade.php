@@ -61,7 +61,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script defer>
     //Animate "loading" text
     i = 0;
     text = "جاري إحضار الفيديو";

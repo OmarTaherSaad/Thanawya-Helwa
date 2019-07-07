@@ -65,7 +65,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
 <script>
 function getAdmin(val) {
     $("#gov").attr('disabled',true);

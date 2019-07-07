@@ -1,8 +1,12 @@
 //Vue
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-Vue.use(BootstrapVue);
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import { TablePlugin, PaginationPlugin, FormGroupPlugin, FormSelectPlugin, FormInputPlugin } from 'bootstrap-vue';
+Vue.use(TablePlugin);
+Vue.use(PaginationPlugin);
+Vue.use(FormGroupPlugin);
+Vue.use(FormSelectPlugin);
+Vue.use(FormInputPlugin);
+
 import Fuse from 'fuse.js';
 
 window.vueApp = new Vue({

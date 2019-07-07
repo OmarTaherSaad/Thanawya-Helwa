@@ -28,14 +28,10 @@ Route::post('/Tansik/admin','PagesController@getDist')->name('get-dist');
 //Faculties' edges for AXIOS
 Route::post('/Tansik/edges','PagesController@getEdges')->name('get-edges');
 
-Route::get('/Tansik/Geographic-Distibution','PagesController@TansikGeoDist')->name('Tansik-Geo-Dist');
-Route::get('/Tansik/Geographic-Distibution-Information','PagesController@TansikGeoDistInfo')->name('Tansik-Geo-Dist-Info');
+Route::get('/Tansik/Geographic-Distribution','PagesController@TansikGeoDist')->name('Tansik-Geo-Dist');
+Route::get('/Tansik/Geographic-Distribution-Information','PagesController@TansikGeoDistInfo')->name('Tansik-Geo-Dist-Info');
 Route::get('/Tansik/Tzalom','PagesController@TansikTzalom')->name('Tansik-Tzalom');
 Route::get('/Tansik/Taqleel-al-eghterab','PagesController@TansikReduceAlienation')->name('Tansik-ReduceAlienation');
-
-//Route::get('/','PagesController@index')->name('home');
-Route::get('/faculty/getEdges','FacultyController@SaveEdges');
-Route::resource('/faculty','FacultyController');
 
 //Deployment
 Route::post('deploy', 'DeployController@deploy');

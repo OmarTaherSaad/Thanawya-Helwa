@@ -79,7 +79,7 @@
 				</div>
 				<div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#GeoDistQuestions">
 					<div class="card-body">
-						<p><a href="{{ route('Tansik-Geo-Dist') }}" target="_blank">دوس هنا</a> واختار محافظتك والإدارة التعليمية اللي تابع ليها وإحنا هنقولك كل المجموعات بالنسبالك.</p>
+						<p><a href="{{ route('Tansik-Geo-Dist') }}" target="_blank" rel="noopener">دوس هنا</a> واختار محافظتك والإدارة التعليمية اللي تابع ليها وإحنا هنقولك كل المجموعات بالنسبالك.</p>
 					</div>
 				</div>
 			</div>
@@ -219,7 +219,7 @@
 									طلاب مناطق (الخانكة - شبرا الخيمة – شبين القناطر- القناطر الخيرية- قليوب – ابوزعبل - الخصوص- العبور) التابعة لمحافظة القليوبية يكون قبولهم أولا بجميع كليات جامعة عين شمس أو جامعة بنها، ماعدا كلية الهندسة فيقتصر قبولهم أولاً علي كلية الهندسة بشبرا جامعة بنها عدا طلاب منطقة العبور لهم الحق في إبداء رغبتهم بكلية الهندسة جامعة عين شمس كأختيار أول.
 								</li>
 								<li class="list-group-item">
-								التوزيع الوارد بالجداول -اللي هتلاقوها على موقع ثانوية حلوة هنا- توزيع جغرافى لا ينطبق علي كليات التربية وشعبها المختلفة والتربية النوعية وشعبها المختلفة وكلية البنات ( تربية – تربية رياضة - تعليم ابتدائى – طفولة ) جامعة عين شمس والمعاهد الفنية للتمريض والمعاهد الفنية الصحية والكليات الاخرى التى تقبل طبقا للتوزيع الاقليمى حيث إن القبول بهذه الكليات والمعاهد يخضع لقاعدة التوزيع الإقليمي، <a href="https://tansik.egypt.gov.eg/application/Certificates/Thanwy/Dalel/4-3.htm" target="_blank">(افتح جداول القبول الإقليمي من هنا)</a>.
+								التوزيع الوارد بالجداول -اللي هتلاقوها على موقع ثانوية حلوة هنا- توزيع جغرافى لا ينطبق علي كليات التربية وشعبها المختلفة والتربية النوعية وشعبها المختلفة وكلية البنات ( تربية – تربية رياضة - تعليم ابتدائى – طفولة ) جامعة عين شمس والمعاهد الفنية للتمريض والمعاهد الفنية الصحية والكليات الاخرى التى تقبل طبقا للتوزيع الاقليمى حيث إن القبول بهذه الكليات والمعاهد يخضع لقاعدة التوزيع الإقليمي، <a href="https://tansik.egypt.gov.eg/application/Certificates/Thanwy/Dalel/4-3.htm" target="_blank" rel="noopener">(افتح جداول القبول الإقليمي من هنا)</a>.
 								</li>
 								<li class="list-group-item">
 								القبول بالمعاهد الفنية التابعة للكليات التكنولوجية لها توزيع جغرافي خاص بها ولا يخضع للتوزيع الوارد بهذه الجداول.
@@ -251,7 +251,7 @@
 				<div id="collapse11" class="collapse" aria-labelledby="heading11" data-parent="#GeoDistQuestions">
 					<div class="card-body">
 						<p>
-							من موقع التنسيق .. <a href="https://tansik.egypt.gov.eg/application/" target="_blank">دوس هنا عشان تدخل عليه</a>.
+							من موقع التنسيق .. <a href="https://tansik.egypt.gov.eg/application/" target="_blank" rel="noopener">دوس هنا عشان تدخل عليه</a>.
 						</p>
 					</div>
 				</div>
@@ -269,7 +269,7 @@
 				</div>
 				<div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#GeoDistQuestions">
 					<div class="card-body">
-						<p>ابعتلنا من هنا <a href="https://m.me/Thanawya.Helwa" target="_blank"><i
+						<p>ابعتلنا من هنا <a href="https://m.me/Thanawya.Helwa" target="_blank" rel="noopener"><i
 									class="fab fa-facebook-messenger"></i></a> وقولنا سؤالك وإحنا هنرد عليك وهنزوده هنا كمان عشان
 							باقي زمايلك.</p>
 					</div>
