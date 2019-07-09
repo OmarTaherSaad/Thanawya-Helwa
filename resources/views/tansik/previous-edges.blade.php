@@ -94,7 +94,7 @@
 @endsection
 
 @section('scripts')
-<script defer src="{{ asset('js/edges.js') }}"></script>
+<script defer src="{{ mix('js/edges.js') }}"></script>
 <script defer>
     const offsetSearchBox = $("#searchBox").offset().top;
     window.document.body.onscroll = function() {

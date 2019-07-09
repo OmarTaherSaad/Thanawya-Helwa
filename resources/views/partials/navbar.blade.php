@@ -1,11 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="{{ route('home') }}">
-        <img src="{{ Storage::url('assets/images/logo.svg') }}" 
-            class="img-fluid" alt="فريق ثانوية حلوة">
+        <img src="{{ Storage::url('assets/images/logo.svg') }}" onerror="this.src='../assets/images/logo.png'; this.onerror=null;" class="img-fluid" alt="فريق ثانوية حلوة">
     </a>
 
 
@@ -35,5 +34,6 @@
                 </div>
             </li>
         </ul>
+        <span class="connection navbar-text"></span>
     </div>
 </nav>

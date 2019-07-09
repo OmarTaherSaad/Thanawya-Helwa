@@ -29,6 +29,10 @@ class PagesController extends Controller
         return view('join-us');
     }
 
+    public function offline() {
+        return view('offline');
+    }
+
     public function contact() {
         return view('contact');
     }

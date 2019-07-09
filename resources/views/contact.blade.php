@@ -3,8 +3,8 @@
 @section('title','تواصل معنا')
 
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
-    <script type="text/javascript" src="{{ asset('js/forms.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ mix('css/forms.css') }}">
+    <script type="text/javascript" src="{{ mix('js/forms.js') }}" defer></script>
 @endsection
 
 @section('content')

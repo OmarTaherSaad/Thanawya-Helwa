@@ -33,5 +33,10 @@ Route::get('/Tansik/Geographic-Distribution-Information','PagesController@Tansik
 Route::get('/Tansik/Tzalom','PagesController@TansikTzalom')->name('Tansik-Tzalom');
 Route::get('/Tansik/Taqleel-al-eghterab','PagesController@TansikReduceAlienation')->name('Tansik-ReduceAlienation');
 
+//Offline
+Route::get('/offline','PagesController@offline')->name('offline');
+
+
+
 //Deployment
 Route::post('deploy', 'DeployController@deploy');

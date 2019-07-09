@@ -2,10 +2,6 @@
 
 @section('title','عن الفريق')
 
-@section('head')
-<link rel="stylesheet" href="{{ asset('css/about_us.css') }}">
-@endsection
-
 @section('content')
 <div class="row align-items-center my-3 my-3">
     <div class="col text-center">
@@ -14,8 +10,9 @@
 </div>
 <div class="row text-right my-2 py-2 align-items-center">
     <div class="col-12 col-md-3">
-        <img src="{{ Storage::url('assets/images/logo_bg.svg') }}" onerror="this.src='assets/images/logo_bg.jpg'; this.onerror=null;"
-            alt="Thanawya Helwa Team" class="img-fluid" style="border-radius: 10%">
+        <a href="{{ Storage::url('assets/images/logo_bg.jpg') }}" class="progressive replace">
+            <img src="{{ Storage::url('assets/images/logo_bg-sm.jpg') }}" alt="Thanawya Helwa Team" class="preview img-fluid" style="border-radius: 10%">
+        </a>
     </div>
     <div class="col">
         <div class="row my-3">
@@ -54,16 +51,15 @@
         </p>
     </div>
     <div class="col-md-5 col-12">
-        <iframe class="w-100" src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FOmarTaherSaad%2Fposts%2F865257316855598&width=500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-        {{-- <img src="{{ Storage::url('assets/images/The start.JPG') }}" alt="Thanawya Helwa Team" class="img-fluid"
-            style="border-radius: 5px"> --}}
+        <iframe class="w-100" title="Omar Taher's Facebook post of founding Thanawya Helwa" src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FOmarTaherSaad%2Fposts%2F865257316855598&width=500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
     </div>
 </div>
 <hr>
 <div class="row text-right my-2 py-2 align-items-center">
     <div class="col-12 col-md-3">
-        <img src="{{ Storage::url('assets/images/shantet_elthanawya.jpg') }}" alt="Thanawya Helwa Team" class="img-fluid"
-            style="border-radius: 5%">
+        <a href="{{ Storage::url('assets/images/shantet_elthanawya.jpg') }}" class="progressive replace">
+            <img src="{{ Storage::url('assets/images/shantet_elthanawya.jpg') }}" alt="Thanawya Helwa Team" class="preview img-fluid" style="border-radius: 5%">
+        </a>
     </div>
     <div class="col">
         <h3>
