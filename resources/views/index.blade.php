@@ -4,6 +4,9 @@
 
 @section('head')
 <style>
+	main {
+		margin-bottom: 9vh !important;
+	}
 	.overlay {
 		position: absolute;
 		top: 0;
@@ -78,9 +81,11 @@
 				<a href="{{ $item[0][1] }}" class="progressive replace">
 					<img src="{{ $item[0][0] }}" alt="{{ $item[1] }}" class="preview">
 				</a>
-				<div class="overlay">
-					<a href="{{ $item[2] }}" class="thumbnail-text">{{ $item[1] }}</a>
-				</div>
+				<a href="{{ $item[2] }}" class="overlay">
+					<span class="thumbnail-text">
+						{{ $item[1] }}
+					</span>
+				</a>
 			</div>
 			@endforeach
 			</div>

@@ -1,0 +1,25 @@
+{
+    "short_name": "TH",
+    "name": "Thanawya Helwa",
+    "theme_color": "#E6DCE7",
+    "background_color": "#E6DCE7",
+    "display": "standalone",
+    "icons": [{
+            "src": "/storage/assets/icons/logo_48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "/storage/assets/icons/logo_192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/storage/assets/icons/logo_512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/",
+    "orientation": "portrait"
+}

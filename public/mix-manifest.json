@@ -1,10 +1,11 @@
 {
-    "/js/app.js": "/js/app.js?id=1949a1e68e62ae7427be",
-    "/css/app.css": "/css/app.css?id=0736e5f25d497364a4eb",
-    "/css/splash-screen.css": "/css/splash-screen.css?id=ac7f0cd7be1bfc84a560",
-    "/css/forms.css": "/css/forms.css?id=8d8c78bbf8fe0ec5bd98",
-    "/js/edges.js": "/js/edges.js?id=9d39f3f57e210d91969e",
-    "/js/forms.js": "/js/forms.js?id=597437eb96e24e47d02f",
-    "/js/geoDist.js": "/js/geoDist.js?id=0ffd09f90f063152d8ef",
-    "/js/service-worker.js": "/js/service-worker.js?id=fe9ce5508ff6d1539401"
+    "/js/app.js": "/js/app.js?id=7524daa564a646591297",
+    "/css/app.css": "/css/app.css?id=7b3c09b9a9b2d3099bed",
+    "/css/splash-screen.css": "/css/splash-screen.css?id=a62364338cdf326141e2",
+    "/css/forms.css": "/css/forms.css?id=cb7ad43b2cfd8fced9b1",
+    "/js/edges.js": "/js/edges.js?id=4ba6515644e9ce3e00fc",
+    "/js/forms.js": "/js/forms.js?id=72362a9900c161a791d6",
+    "/js/geoDist.js": "/js/geoDist.js?id=e9305c635f449724d6a7",
+    "/js/service-worker.js": "/js/service-worker.js?id=271a8e6d7048d6f23f96",
+    "/js/app.min.js": "/js/app.min.js?id=7524daa564a646591297"
 }

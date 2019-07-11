@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title','جدول التوزيع الجغرافي الخاص بيك')
 @section('head')
-    <link href="{{ mix('css/jquery-ui.min.css') }}" rel="stylesheet">
     <style>
         #DistTable {
             display: none;
@@ -139,7 +138,6 @@ function makeDistTable(DistArr) {
             var rowspan = $rows.eq(currGroupStartIdx).data('rowspan') + 1;
             $rows.eq(currGroupStartIdx).data('rowspan', rowspan);
         }
-
     });
 
 

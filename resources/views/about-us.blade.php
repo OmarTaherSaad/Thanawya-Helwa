@@ -50,8 +50,8 @@
             كلنا وقررنا إننا نعمل الصفحة يوم 20-8-2015 ونكون في خدمة الطلبة.
         </p>
     </div>
-    <div class="col-md-5 col-12">
-        <iframe class="w-100" title="Omar Taher's Facebook post of founding Thanawya Helwa" src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FOmarTaherSaad%2Fposts%2F865257316855598&width=500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+    <div class="col-md-5 col-12" id="frameContainer">
+        
     </div>
 </div>
 <hr>
@@ -81,4 +81,18 @@
         </p>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script async>
+        let iframe = document.createElement('iframe');
+        iframe.src = 'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FOmarTaherSaad%2Fposts%2F865257316855598&width=500';
+        iframe.title = "Omar Taher's Facebook post of founding Thanawya Helwa";
+        iframe.classList.add('w-100');
+        iframe.scrolling = 'no';
+        iframe.style.border = 'none';
+        iframe.style.overflow = 'hidden';
+        iframe.allowTransparency = 'true';
+        document.getElementById('frameContainer').appendChild(iframe);
+    </script>
 @endsection

@@ -7,15 +7,15 @@
     .card-header button {
         font-size: 1.3em;
         color: #d24536;
+    }
 
-        &:hover {
-            text-decoration: none;
-            color: #6d65ae;
-        }
+    .card-header button:hover {
+        text-decoration: none;
+        color: #6d65ae;
+    }
 
-        &:focus {
-            text-decoration: none;
-        }
+    .card-header button:focus {
+        text-decoration: none;
     }
 
     .overlay {
@@ -27,7 +27,7 @@
         right: 0;
         height: 100%;
         width: 100%;
-        transition: .5s ease;
+        transition: 0.5s ease;
         background-color: rgba(255, 255, 255, 1);
     }
 
@@ -35,18 +35,16 @@
         border-radius: 20px;
         min-width: 20vh;
         min-height: 20vh;
+    }
 
-        &:hover {
-            .overlay {
-                background-color: rgba(210, 69, 54, 1);
-            }
+    .thumbnail:hover .overlay {
+        background-color: rgba(210, 69, 54, 1);
+    }
 
-            .thumbnail-text {
-                font-size: 150%;
-                color: black;
-                font-weight: bolder;
-            }
-        }
+    .thumbnail:hover .thumbnail-text {
+        font-size: 150%;
+        color: black;
+        font-weight: bolder;
     }
 
     .thumbnail-text {
@@ -55,72 +53,76 @@
         left: 50%;
         width: inherit;
         transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
         text-align: center;
         font-size: 130%;
         font-weight: bold;
         color: #d24536;
-        transition: .4s ease;
+        transition: 0.4s ease;
     }
 
     .thumbnail-text:hover {
         text-decoration: none;
     }
+
 </style>
 @endsection
 
 @section('content')
-    <div class="row justify-content-center" id="Newspaper">
-        <div class="col-12 text-center">
-            <h2>لقاءات وحوارات فريق ثانوية حلوة {{ $type[0] }}</h2>
-        </div>
+<div class="row justify-content-center" id="Newspaper">
+    <div class="col-12 text-center">
+        <h2>لقاءات وحوارات فريق ثانوية حلوة {{ $type[0] }}</h2>
     </div>
-    <div class="row justify-content-center">
-        @if($type[1] == 'TV')
-        <div class="col-12 col-md-10 m-md-2 m-1 text-center">
-            <div class="accordion" id="TV">
-                @foreach($Items as $name => $link)
-                <div class="card">
-                    <div class="card-header" id="TVheading{{ $loop->index }}">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                data-target="#TVcollapse{{ $loop->index }}" aria-expanded="false"
-                                aria-controls="collapse{{ $loop->index }}">
-                                {{ $name }}
-                            </button>
-                        </h5>
-                    </div>
-            
-                    <div id="TVcollapse{{ $loop->index }}" class="collapse" aria-labelledby="TVheading{{ $loop->index }}"
-                        data-parent="#TV" i-src="{{ $link }}" index="{{ $loop->index }}">
-                        <div class="card-body">
-                            <div class="i-loader">
-                                <h5 class="loading"></h5>
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
+</div>
+<div class="row justify-content-center">
+    @if($type[1] == 'TV')
+    <div class="col-12 col-md-10 m-md-2 m-1 text-center">
+        <div class="accordion" id="TV">
+            @foreach($Items as $name => $link)
+            <div class="card">
+                <div class="card-header" id="TVheading{{ $loop->index }}">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#TVcollapse{{ $loop->index }}" aria-expanded="false"
+                            aria-controls="collapse{{ $loop->index }}">
+                            {{ $name }}
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="TVcollapse{{ $loop->index }}" class="collapse" aria-labelledby="TVheading{{ $loop->index }}"
+                    data-parent="#TV" i-src="{{ $link }}" index="{{ $loop->index }}">
+                    <div class="card-body">
+                        <div class="i-loader">
+                            <h5 class="loading"></h5>
+                            <div class="lds-ellipsis">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
                             </div>
-                            <div class="embed-responsive embed-responsive-16by9 p-3" id="TV{{ $loop->index }}" hidden>
-                            </div>
+                        </div>
+                        <div class="embed-responsive embed-responsive-16by9 p-3" id="TV{{ $loop->index }}" hidden>
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
+            @endforeach
         </div>
-        @else
-        @foreach ($Items as $name => $link)
-        <div class="col-5 col-md-2 m-md-2 m-1 thumbnail text-center">
-            <div class="overlay">
-                <a href="{{ $link }}" class="thumbnail-text">{{ $name }}</a>
-            </div>
-        </div>
-        @endforeach
-        @endif
     </div>
+    @else
+    @foreach ($Items as $name => $link)
+    <div class="col-5 col-md-2 m-md-2 m-1 thumbnail text-center">
+        <div class="overlay">
+            <a href="{{ $link }}" class="thumbnail-text">{{ $name }}</a>
+        </div>
+    </div>
+    @endforeach
+    @endif
+</div>
 @endsection
 
 @section('scripts')

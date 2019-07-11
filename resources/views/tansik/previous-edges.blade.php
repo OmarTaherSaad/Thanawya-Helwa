@@ -94,18 +94,27 @@
 @endsection
 
 @section('scripts')
-<script defer src="{{ mix('js/edges.js') }}"></script>
+<script async src="{{ mix('js/edges.js') }}"></script>
 <script defer>
-    const offsetSearchBox = $("#searchBox").offset().top;
-    window.document.body.onscroll = function() {
-        if ($(window).scrollTop() >= offsetSearchBox) {
-            //Move it
-            $("#searchBox").addClass('fixIt');
-            $("#searchBox").css('top',$("nav").height() + 20);
-        } else {
-            $("#searchBox").removeClass('fixIt');
-            $("#searchBox").css('top',0);
-        }
-    }
+    var isInViewport = function (elem) {
+        var distance = elem.getBoundingClientRect();
+        return (
+            distance.top >= 0 &&
+            distance.left >= 0 &&
+            distance.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            distance.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    };
+        window.addEventListener('scroll',function() {
+            let el = document.querySelector('#searchBox');
+            if (isInViewport(el)) {
+                //Move it
+                el.classList.remove('fixIt');
+                el.style.top = 0;
+            } else {
+                el.classList.add('fixIt');
+                el.style.top = 20 + document.querySelector('nav').getBoundingClientRect().height;
+            }
+        });
 </script>
 @endsection

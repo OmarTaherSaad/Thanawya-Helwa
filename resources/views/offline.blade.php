@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('title','النت مش شغال عندك')
-
+@section('head')
+    <script>
+        if (navigator.onLine) {
+            window.location.href = '/';
+        }
+    </script>
+@endsection
 @section('content')
 <div class="jumbotron text-right">
     <h1 class="display-4">أهلًا بيك في موقع ثانوية حلوة</h1>

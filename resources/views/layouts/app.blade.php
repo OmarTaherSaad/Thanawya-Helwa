@@ -18,124 +18,13 @@
         {{--Splash Screen--}}
         <link rel="stylesheet" href="{{ mix('css/splash-screen.css') }}">
         {{--Scripts--}}
-        <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="{{ mix('js/app.js') }}" async></script>
         <script defer>
-            let func = function() {
-                //Load additional scripts after page loads
-                src = new Array(2);
-                src[0] = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-                src.forEach(s => {
-                    var tag = document.createElement("script");
-                    tag.src = s;
-                    document.getElementsByTagName("head")[0].appendChild(tag);
-                });
-                //Load css files
-                src = new Array(3);
-                src[0] = "{{ mix('css/app.css') }}";
-                src.forEach(s => {
-                    var tag = document.createElement("link");
-                    tag.href = s;
-                    tag.setAttribute('rel','stylesheet');
-                    document.getElementsByTagName("head")[0].appendChild(tag);
-                });
-                //Facebook Messenger Plugin
-                window.fbAsyncInit = function() {
-                    FB.init({
-                        xfbml : true,
-                        version : 'v3.3'
-                    });
-                };
-                (function(d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = 'https://connect.facebook.net/ar_AR/sdk/xfbml.customerchat.js';
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-                //PWA Notifications
-                function askPermission() {
-                    return new Promise(function(resolve, reject) {
-                        const permissionResult = Notification.requestPermission(function(result) {
-                        resolve(result);
-                        });
-
-                        if (permissionResult) {
-                        permissionResult.then(resolve, reject);
-                        }
-                    })
-                    .then(function(permissionResult) {
-                        if (permissionResult == 'granted') {
-                            //Subscribe user to notifications
-                            return navigator.serviceWorker.register('/service-worker.js')
-                                .then(function(registration) {
-                                    const subscribeOptions = {
-                                    userVisibleOnly: true,
-                                    applicationServerKey: urlBase64ToUint8Array(
-                                        'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8U'
-                                    )
-                                    };
-
-                                    return registration.pushManager.subscribe(subscribeOptions);
-                                })
-                                .then(function(pushSubscription) {
-                                    console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
-                                    return pushSubscription;
-                                });
-                        }
-                    });
-                }
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('/service-worker.js').then(function (registration) 
-                    {
-                        // Registration was successful
-                        /*Tell the user that we work offline!*/
-                        document.querySelector('main').innerHTML += "<div class='alert alert-warning offline-ready alert-dismissible fade show' role='alert'>النت بيقطع كتير .. بس الموقع ده بيشتغل حتى لو إنت مش فاتح النت! مفيش حاجة هتوقف تجربتك على موقع ثانوية حلوة :)</div>";
-                        setTimeout(() => {
-                            let el = document.querySelector('.offline-ready');
-                            el.parentNode.removeChild(el);
-                        }, 5000);
-
-                        //Request notifications
-                        /*setTimeout(() => {
-                            if (confirm('تقدر تخلي ثانوية حلوة تبعتلك إشعارات (notifications) لموبايلك .. موافق؟')) {
-                                askPermission();
-                            }
-                        }, 10000);*/
-
-                        
-                        function updateOnlineStatus() {
-                            if (navigator.onLine) {
-                                document.body.classList.remove("offline");
-                            } else {
-                                /*Offline notification*/
-                                let offline_box = '<div class="offline-notification">دلوقتي النت مش شغال عندك!<strong><u>يعني إيه؟</u></strong><div class="offline-notification_explanation">الموقع هيفضل شغال عادي ;) في بس شوية الحاجات ممكن متشتغلش غير لما النت يرجع.</div></div>';
-                                document.body.innerHTML += offline_box;
-                                console.log("test");
-
-                                document.body.classList.add("offline");
-                            }
-                        }
-                        updateOnlineStatus();
-                        window.addEventListener('online', updateOnlineStatus);
-                        window.addEventListener('offline', updateOnlineStatus);
-                    }).catch(function (err) {
-                        // registration failed :(
-                    });
-                }
-                //iframe must have title
-                setTimeout(() => {
-                    if (document.querySelector("iframe[title='']") != null) {
-                    document.querySelector("iframe[title='']").title = "Iframe";
-                    }
-                },5000);
-            }
-
-            if (window.addEventListener) {
-                window.addEventListener('load',func);
-            } else {
-                window.attachEvent('onload',func);
-            }
-
+            //Load css files
+            var tag = document.createElement("link");
+            tag.href = "{{ mix('css/app.css') }}";
+            tag.setAttribute('rel', 'stylesheet');
+            document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
         @yield('head')
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
