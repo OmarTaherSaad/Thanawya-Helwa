@@ -111,7 +111,6 @@ let func = function () {
                     /*Offline notification*/
                     let offline_box = '<div class="offline-notification">دلوقتي النت مش شغال عندك!<strong><u>يعني إيه؟</u></strong><div class="offline-notification_explanation">الموقع هيفضل شغال عادي ;) في بس شوية الحاجات ممكن متشتغلش غير لما النت يرجع.</div></div>';
                     document.body.innerHTML += offline_box;
-                    console.log("test");
 
                     document.body.classList.add("offline");
                 }
