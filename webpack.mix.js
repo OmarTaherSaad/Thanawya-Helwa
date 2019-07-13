@@ -40,7 +40,8 @@ mix.webpackConfig({
                 '/Tansik/Geographic-Distribution-Information': 'resources/views/tansik/geo-dist-info.blade.php',
                 '/Tansik/Taqleel-al-eghterab': 'resources/views/tansik/reduce-alienation.blade.php',
                 '/Tansik/Tzalom': 'resources/views/tansik/tzaloom.blade.php',
-                '/offline': 'resources/views/offline.blade.php'
+                '/offline': 'resources/views/offline.blade.php',
+                '/TAS': 'resources/views/tas-countdown.blade.php'
             },
             staticFileGlobsIgnorePatterns: [/\.map$/, /mix-manifest\.json$/, /manifest\.json$/, /service-worker\.js$/],
             navigateFallback: '/offline',
