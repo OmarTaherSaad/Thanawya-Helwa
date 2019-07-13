@@ -33,6 +33,9 @@
                     <a class="dropdown-item" href="{{ route('Tansik-Tzalom') }}">معلومات عن التظلم</a>
                 </div>
             </li>
+            <li class="nav-item {{ Route::currentRouteName() == 'tas-countdown' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('tas-countdown') }}">TA Summit</a>
+            </li>
         </ul>
         <span class="connection navbar-text"></span>
     </div>

@@ -36,6 +36,9 @@ Route::get('/Tansik/Taqleel-al-eghterab','PagesController@TansikReduceAlienation
 //Offline
 Route::get('/offline','PagesController@offline')->name('offline');
 
+//TAS Routes
+Route::get('/TAS','PagesController@TAScountdown')->name('tas-countdown');
+
 
 
 //Deployment

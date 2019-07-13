@@ -163,11 +163,11 @@
         height: 100%;
         background: #000000;
         /*Decrease opacity*/
-        animation: littleFade 2s  2s forwards;
-        -o-animation: littleFade 2s 2s forwards;
-        -ms-animation: littleFade 2s 2s forwards;
-        -moz-animation: littleFade 2s 2s forwards;
-        -webkit-animation: littleFade 2s 2s forwards;
+        animation: littleFade 2s  6s forwards;
+        -o-animation: littleFade 2s 6s forwards;
+        -ms-animation: littleFade 2s 6s forwards;
+        -moz-animation: littleFade 2s 6s forwards;
+        -webkit-animation: littleFade 2s 6s forwards;
     }
     /*Left half*/
     :nth-child(2) {

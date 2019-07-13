@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center align-items-center py-1">
             <div class="col-12 col-md-6">
-                <h5 class="font-weight-bold my-1">جميع الحقوق محفوظة - فريق ثانوية حلوة&copy; {{ now()->year }}</h5>
+                <h6 class="my-1">جميع الحقوق محفوظة - فريق ثانوية حلوة&copy; {{ now()->year }}</h6>
             </div>
             <div class="col-12 col-md-6">
                 <a aria-label="Our Facebook Page" href="https://www.facebook.com/Thanawya.Helwa/" target="_blank" rel="noopener">

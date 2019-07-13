@@ -16,23 +16,23 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 mix.webpackConfig({
     plugins: [
-         new UglifyJsPlugin({
-             parallel: true,
-             sourceMap: true,
-             uglifyOptions: {
-                 output: {
-                     comments: false
-                 },
-                 compress: true,
-                 ie8: true,
-                 safari10: true
-             }
-         }),
+        new UglifyJsPlugin({
+            parallel: true,
+            sourceMap: true,
+            uglifyOptions: {
+                output: {
+                    comments: false
+                },
+                compress: true,
+                ie8: true,
+                safari10: true
+            }
+        }),
         new CompressionPlugin(),
         new SWPrecacheWebpackPlugin({
-           cacheId: 'TH',
-           globPatterns: ['public/**/*.{css,svg,ttf,js,png,jpg}'],
-           minify: true,
+            cacheId: 'TH',
+            globPatterns: ['public/**/*.{css,svg,ttf,js,png,jpg}'],
+            minify: true,
             dynamicUrlToDependencies: {
                 //you should add the path to your blade files here so they can be cached and have full support for offline first (example below)
                 '/': 'resources/views/index.blade.php',
@@ -72,5 +72,9 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/splash-screen.scss', 'public/css')
     .sass('resources/sass/forms.scss', 'public/css')
-    .copyDirectory('resources/sass/fonts','public/css/fonts');
+    .copyDirectory('resources/sass/fonts', 'public/css/fonts');
+
+//Event
+mix.sass('resources/sass/event.scss', 'public/css');
+    
 mix.version();

@@ -203,6 +203,10 @@ class PagesController extends Controller
         ]);
     }
 
+    public function TAScountdown() {
+        return view('tas-countdown');
+    }
+
     public static function CorrectName(String $s) {
         if (\Str::endsWith($s,'ه')) {
             //ه --> ة at end
