@@ -22,6 +22,15 @@ axios.interceptors.response.use(function (response) {
 import 'progressive-image.js/dist/progressive-image.js';
 import 'progressive-image.js/dist/progressive-image.css';
 
+async function wait(duration) {
+    await sleep(duration);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 let func = function () {
     $("a.progressive").click(function (e) {
         e.preventDefault();
@@ -88,12 +97,15 @@ let func = function () {
         navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
             // Registration was successful
             /*Tell the user that we work offline! (First time only)*/
-            if (navigator.serviceWorker.controller == null) {
-                document.querySelector('main').innerHTML += "<div class='alert alert-warning offline-ready alert-dismissible fade show' role='alert'>النت بيقطع كتير .. بس الموقع ده بيشتغل حتى لو إنت مش فاتح النت! مفيش حاجة هتوقف تجربتك على موقع ثانوية حلوة :)</div>";
-                setTimeout(() => {
-                    let el = document.querySelector('.offline-ready');
-                    el.parentNode.removeChild(el);
-                }, 5000);
+            if (navigator.serviceWorker.controller == null)
+            {
+                let el = document.createElement('div');
+                el.classList.add("alert", "alert-warning", "offline-ready", "alert-dismissible", "fade", "show");
+                el.setAttribute('role', 'alert');
+                el.innerHTML = "النت بيقطع كتير .. بس الموقع ده بيشتغل حتى لو إنت مش فاتح النت! مفيش حاجة هتوقف تجربتك على موقع ثانوية حلوة :)";
+                document.querySelector('main').append(el);
+                wait(5000);
+                el.parentNode.removeChild(el);
             }
 
             //Request notifications
@@ -120,12 +132,11 @@ let func = function () {
             window.addEventListener('offline', updateOnlineStatus);
         });
     }
+    sleep(5000);
     //iframe must have title
-    setTimeout(() => {
-        if (document.querySelector("iframe[title='']") != null) {
-            document.querySelector("iframe[title='']").title = "Iframe";
-        }
-    }, 5000);
+    if (document.querySelector("iframe[title='']") != null) {
+        document.querySelector("iframe[title='']").title = "Iframe";
+    }
 }
 
 if (window.addEventListener) {

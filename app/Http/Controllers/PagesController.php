@@ -118,8 +118,7 @@ class PagesController extends Controller
 
     public function TansikPrevEdges()
     {
-        return view('tansik.previous-edges')
-        ->with('Universities', University::where('type',config('enums.university_types.GOV'))->select('id','name')->get());
+        return view('tansik.previous-edges');
     }
 
     public function TansikReduceAlienation() {

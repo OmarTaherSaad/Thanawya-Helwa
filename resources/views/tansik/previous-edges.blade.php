@@ -1,7 +1,13 @@
 @extends('layouts.app')
 @section('title','تنسيق السنوات السابقة')
+@section('head')
+    <style>
+        th:first-of-type {
+            width:48%;
+        }
+    </style>
+@endsection
 @section('content')
-{{-- {{ dd($Edges) }} --}}
 <div id="edgesApp">
     <div class="row text-center">
         <div class="col m-2 p-2">
@@ -59,6 +65,10 @@
                 <div class="col-12 my-1">
                     <b-pagination v-model="currentPage" align="center" :total-rows="items.length" :per-page="perPage" class="my-0">
                     </b-pagination>
+                    <div>
+                        الجدول مُرتب طبقًا لـ <b>@{{ sortBy == 'avg' ? 'المتوسط' : sortBy == 'name' ? 'اسم الكلية' : sortBy }}</b>
+                        <b>@{{ sortDesc ? 'من الأعلى للأقل' : 'من الأقل للأعلى' }}</b>
+                    </div>
                 </div>
             </div>
             {{--Table--}}
@@ -67,6 +77,8 @@
                     <b-table dir="rtl" class="mx-0"
                     ref="table"
                     striped hover bordered small responsive foot-clone
+                    :sort-compare="compareFunc"
+                    sort-compare-locale="ar"
                     :sort-compare-options="{ numeric: true }"
                     head-variant="dark"
                     :items="items"
@@ -77,7 +89,7 @@
                     :filter="filter"
                     :filter-function="Filter"
                     :sort-by.sync="sortBy"
-                    v-on:sort-changed="sortChanged"
+                    :sort-desc.sync="sortDesc"
                     v-on:filtered="onFiltered">
                     <template slot="table-caption">جميع البيانات في هذه الجداول مأخوذة من موقع التنسيق، ووجود أخطاء إملائية في أسامي الكليات غير راجع لفريق ثانوية حلوة.</template>
                     </b-table>
@@ -96,25 +108,30 @@
 @section('scripts')
 <script async src="{{ mix('js/edges.js') }}"></script>
 <script defer>
-    var isInViewport = function (elem) {
-        var distance = elem.getBoundingClientRect();
-        return (
-            distance.top >= 0 &&
-            distance.left >= 0 &&
-            distance.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            distance.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    };
-        window.addEventListener('scroll',function() {
-            let el = document.querySelector('#searchBox');
-            if (isInViewport(el)) {
-                //Move it
-                el.classList.remove('fixIt');
-                el.style.top = 0;
-            } else {
-                el.classList.add('fixIt');
-                el.style.top = 20 + document.querySelector('nav').getBoundingClientRect().height;
-            }
-        });
+    const searchBoxPosition = document.querySelector('#searchBox').getBoundingClientRect().top;
+
+    /* Feature detection */
+    var passiveIfSupported = false;
+    try {
+    window.addEventListener("test", null, Object.defineProperty({}, "passive", {
+        get: function() {
+            passiveIfSupported = {
+                passive: true
+            };
+        }
+    }));
+    } catch(err) {}
+
+    window.addEventListener('scroll',function() {
+        let el = document.querySelector('#searchBox');
+        if (window.scrollY < searchBoxPosition) {
+            //Move it
+            el.classList.remove('fixIt');
+            el.style.top = 0;
+        } else {
+            el.classList.add('fixIt');
+            el.style.top = 20 + document.querySelector('nav').getBoundingClientRect().height + "px";
+        }
+    },passiveIfSupported);
 </script>
 @endsection

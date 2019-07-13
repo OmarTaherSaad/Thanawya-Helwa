@@ -11,28 +11,24 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.options({
-    purifyCss: {
-        purifyOptions: {
-            minify: true,
-            whitelist: ['*.loaded*', '*.loading*', '*.offline*']
-        }
-    },
-    
-});
-
+const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 mix.webpackConfig({
     plugins: [
-        new UglifyJsPlugin({
-            parallel: true,
-            sourceMap: true,
-            uglifyOptions: {
-                ie8: true,
-                safari10: true
-            }
-        }),
+         new UglifyJsPlugin({
+             parallel: true,
+             sourceMap: true,
+             uglifyOptions: {
+                 output: {
+                     comments: false
+                 },
+                 compress: true,
+                 ie8: true,
+                 safari10: true
+             }
+         }),
+        new CompressionPlugin(),
         new SWPrecacheWebpackPlugin({
            cacheId: 'TH',
            globPatterns: ['public/**/*.{css,svg,ttf,js,png,jpg}'],
@@ -70,7 +66,6 @@ mix.webpackConfig({
 
 
 mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/geoDist.js', 'public/js')
     .js('resources/js/service-worker.js', 'public/js')
     .js('resources/js/edges.js', 'public/js')
     .js('resources/js/forms.js', 'public/js')
@@ -78,6 +73,4 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/splash-screen.scss', 'public/css')
     .sass('resources/sass/forms.scss', 'public/css')
     .copyDirectory('resources/sass/fonts','public/css/fonts');
-
-mix.minify('public/js/app.js');
 mix.version();

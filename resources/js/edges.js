@@ -1,11 +1,13 @@
 //Vue
 import Vue from 'vue';
-import { TablePlugin, PaginationPlugin, FormGroupPlugin, FormSelectPlugin, FormInputPlugin } from 'bootstrap-vue';
+import { TablePlugin, PaginationPlugin, FormGroupPlugin, FormSelectPlugin, FormInputPlugin, ButtonPlugin } from 'bootstrap-vue';
+
 Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(FormGroupPlugin);
 Vue.use(FormSelectPlugin);
 Vue.use(FormInputPlugin);
+Vue.use(ButtonPlugin);
 
 import Fuse from 'fuse.js';
 
@@ -16,7 +18,7 @@ window.vueApp = new Vue({
         fields: [],
         section: 'A',
         currentPage: 1,
-        perPage: 20,
+        perPage: 50,
         pageOptions: [10, 20, 30, 50, 100, 300],
         trans: {
             name: 'flip-list'
@@ -26,6 +28,7 @@ window.vueApp = new Vue({
         search: "",
         searchValue: "",
         sortBy: 'avg',
+        sortDesc: true,
         isTyping: false,
         filter: null,
         options: {
@@ -36,6 +39,9 @@ window.vueApp = new Vue({
             maxPatternLength: 32,
             minMatchCharLength: 1,
             keys: ["name"]
+        },
+        sortOption: {
+            numeric: true
         }
     },
     mounted() {
@@ -55,7 +61,7 @@ window.vueApp = new Vue({
         }
     },
     methods: {
-        getEdges() {
+        getEdges: function () {
             axios.post('/Tansik/edges', {
                 section: this.section
             })
@@ -63,6 +69,7 @@ window.vueApp = new Vue({
                     window.vueApp.items = JSON.parse(response.data.edges);
                     window.vueApp.fields = JSON.parse(response.data.fields);
                     window.vueApp.isPercentNow = 0;
+                    this.sortBy = this.sortBy;
                     window.vueApp.GradeOrPercent();
                 })
                 .catch(function (error) {
@@ -70,7 +77,7 @@ window.vueApp = new Vue({
                     //console.log(error);
                 });
         },
-        GradeOrPercent() {
+        GradeOrPercent: function () {
             this.percent = parseInt(this.percent);
             if (!this.isPercentNow != !this.percent)
             {
@@ -93,12 +100,12 @@ window.vueApp = new Vue({
                 this.isPercentNow = this.percent;
             }
         },
-        onFiltered(filteredItems) {
+        onFiltered: function (filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
         },
-        Filter(item, filterValue) {
+        Filter: function (item, filterValue) {
             let arr = [item];
             var fuse = new Fuse(arr, this.options);
             let filter = filterValue.replace(/[أإآ]/g, "ا").replace("ى", "ي").replace("ة", "ه").replace('كليه', '');
@@ -106,16 +113,17 @@ window.vueApp = new Vue({
                 return true;
             return fuse.search(filter).length > 0;
         },
-        sortChanged() {
-            this.sortBy = 'avg';
+        compareFunc: function(row1, row2, key) {
+            switch (key) {
+                case 'name':
+                    return row1[key].localeCompare(row2[key]);
+                default:
+                    if (row1[key] == row2[key])
+                    { return 0; }
+                    else {
+                        return (row1[key] == "غير موجود") ? -1 : (row2[key] == "غير موجود") ? 1 : row1[key] < row2[key] ? -1 : 1;
+                    }
+            }
         }
     },
 });
-var options = {
-    threshold: 0.6,
-    location: 0,
-    distance: 100,
-    maxPatternLength: 32,
-    minMatchCharLength: 1,
-    keys: ["name"]
-};

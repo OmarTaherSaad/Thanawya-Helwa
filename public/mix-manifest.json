@@ -1,11 +1,9 @@
 {
-    "/js/app.js": "/js/app.js?id=7524daa564a646591297",
-    "/css/app.css": "/css/app.css?id=7b3c09b9a9b2d3099bed",
-    "/css/splash-screen.css": "/css/splash-screen.css?id=a62364338cdf326141e2",
-    "/css/forms.css": "/css/forms.css?id=cb7ad43b2cfd8fced9b1",
-    "/js/edges.js": "/js/edges.js?id=4ba6515644e9ce3e00fc",
-    "/js/forms.js": "/js/forms.js?id=72362a9900c161a791d6",
-    "/js/geoDist.js": "/js/geoDist.js?id=e9305c635f449724d6a7",
-    "/js/service-worker.js": "/js/service-worker.js?id=271a8e6d7048d6f23f96",
-    "/js/app.min.js": "/js/app.min.js?id=7524daa564a646591297"
+    "/js/app.js": "/js/app.js?id=e2701c7548b4a1c2803c",
+    "/css/app.css": "/css/app.css?id=2b6c671e7dca8b6f40df",
+    "/css/splash-screen.css": "/css/splash-screen.css?id=6ed9b1fdd68ec33724cb",
+    "/css/forms.css": "/css/forms.css?id=46f1b5b7a5f568b2257e",
+    "/js/edges.js": "/js/edges.js?id=43ff3afede3afe616d48",
+    "/js/forms.js": "/js/forms.js?id=e8fb095ec85f724be123",
+    "/js/service-worker.js": "/js/service-worker.js?id=41921556b736b205cb25"
 }

@@ -4,7 +4,6 @@
 
 @section('head')
     <link rel="stylesheet" href="{{ mix('css/forms.css') }}">
-    <script type="text/javascript" src="{{ mix('js/forms.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -84,9 +83,10 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="{{ mix('js/forms.js') }}" defer></script>
     <script defer src="https://www.google.com/recaptcha/api.js?render=6LfeSKsUAAAAAKAiHeGSYBkabpC6mh9ZmzbTKSma"></script>
     <script defer>
-        $(document).ready(function() {
+        window.addEventListener('load',function() {
             //Google reCaptcha
             grecaptcha.ready(function() {
                 grecaptcha.execute('6LfeSKsUAAAAAKAiHeGSYBkabpC6mh9ZmzbTKSma', {action: 'contact_form'}).then(function(token) {
@@ -95,6 +95,6 @@
                     $('#ContactForm').prepend('<input type="hidden" name="action" value="contact_form">');
                 });
             });
-        });
+        })
     </script>
 @endsection

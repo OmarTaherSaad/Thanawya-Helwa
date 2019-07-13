@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.26",
+    "compression-webpack-plugin": "^3.0.0",
     "fs": "0.0.1-security",
     "fuse.js": "^3.4.5",
     "net": "^1.0.2",
