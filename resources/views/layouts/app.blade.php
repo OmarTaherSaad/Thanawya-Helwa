@@ -17,13 +17,13 @@
 
         <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
-        <link rel="stylesheet" href="{{ mix('css/splash-screen.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/splash-screen.css') }}">
         {{--Scripts--}}
-        <script src="{{ mix('js/app.js') }}" async></script>
+        <script src="{{ asset('js/app.js') }}"></script>
         <script defer>
             //Load css files
             var tag = document.createElement("link");
-            tag.href = "{{ mix('css/app.css') }}";
+            tag.href = "{{ asset('css/app.css') }}";
             tag.setAttribute('rel', 'stylesheet');
             document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
@@ -37,6 +37,8 @@
             {{--Navbar --}}
             @if (Str::contains(Route::currentRouteName(),'Tansik'))
                 @include('partials.navbar-tansik')
+            @elseif(Str::contains(Route::currentRouteName(),'tas.'))
+                @include('partials.navbar-tas')
             @else
                 @include('partials.navbar')
             @endif

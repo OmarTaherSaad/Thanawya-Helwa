@@ -13,69 +13,77 @@ const mix = require('laravel-mix');
 
 const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
-mix.webpackConfig({
-    plugins: [
-        new UglifyJsPlugin({
-            parallel: true,
-            sourceMap: true,
-            uglifyOptions: {
-                output: {
-                    comments: false
-                },
-                compress: true,
-                ie8: true,
-                safari10: true
-            }
-        }),
-        new CompressionPlugin(),
-        new SWPrecacheWebpackPlugin({
-            cacheId: 'TH',
-            globPatterns: ['public/**/*.{css,svg,ttf,js,png,jpg}'],
-            minify: true,
-            dynamicUrlToDependencies: {
-                //you should add the path to your blade files here so they can be cached and have full support for offline first (example below)
-                '/': 'resources/views/index.blade.php',
-                '/about-us': 'resources/views/about-us.blade.php',
-                '/Tansik/Geographic-Distribution-Information': 'resources/views/tansik/geo-dist-info.blade.php',
-                '/Tansik/Taqleel-al-eghterab': 'resources/views/tansik/reduce-alienation.blade.php',
-                '/Tansik/Tzalom': 'resources/views/tansik/tzaloom.blade.php',
-                '/offline': 'resources/views/offline.blade.php',
-                '/TAS': 'resources/views/tas-countdown.blade.php'
-            },
-            staticFileGlobsIgnorePatterns: [/\.map$/, /mix-manifest\.json$/, /manifest\.json$/, /service-worker\.js$/],
-            navigateFallback: '/offline',
-            navigateFallbackWhitelist: [/(.+\/)((Tansik\/.+)|(contact-us)|(join-us))/],
-            runtimeCaching: [{
-                    urlPattern: /((\/Tansik\/).+(Edges|Distribution$))|contact|join-us/,
-                    handler: 'networkOnly'
-                },
-                {
-                    //JS, CSS, or Images
-                    urlPattern: /\.(?:css|js|png|jpg|jpeg|svg)$/,
-                    handler: 'cacheFirst'
-                },
-                {
-                    urlPattern: /.+/,
-                    handler: 'fastest'
+//const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const workboxPlugin = require('workbox-webpack-plugin');
+if (mix.inProduction())
+{
+    mix.webpackConfig({
+        plugins: [
+            new UglifyJsPlugin({
+                parallel: true,
+                sourceMap: true,
+                uglifyOptions: {
+                    output: {
+                        comments: false
+                    },
+                    compress: true,
+                    ie8: true,
+                    safari10: true
                 }
-            ],
-            importScripts: ['./js/service-worker.js']
-        })
-    ]
-});
+            }),
+            new CompressionPlugin(),
+            new workboxPlugin.GenerateSW({
+                swDest: 'sw.js',
+                importWorkboxFrom: 'local',
+                cacheId: 'TH',
+                cleanupOutdatedCaches: true,
+                skipWaiting: true,
+                clientsClaim: true,
+                ignoreURLParametersMatching: [/./],
+                globPatterns: ['**/*.{css,js,png,jpg,jpeg,svg,ttf}'],
+                globIgnores: ['node_modules/**/*', '**map*', '**/*manifest*', '**service-worker*/'],
+                templatedURLs: {
+                    '/offline': 'resources/views/offline.blade.php',
+                    '/': 'resources/views/index.blade.php',
+                    '/about-us': 'resources/views/about-us.blade.php',
+                    '/Tansik/Geographic-Distribution-Information': 'resources/views/tansik/geo-dist-info.blade.php',
+                    '/Tansik/Taqleel-al-eghterab': 'resources/views/tansik/reduce-alienation.blade.php',
+                    '/Tansik/Tzalom': 'resources/views/tansik/tzaloom.blade.php',
+                    '/Tansik/Stages-Information': 'resources/views/tansik/stages-info.blade.php',
+                },
+                runtimeCaching: [
+                    {
+                        //JS, CSS, or Images
+                        urlPattern: /\.(?:css|js|png|jpg|jpeg|svg)$/,
+                        handler: 'StaleWhileRevalidate'
+                    },
+                    {
+                        urlPattern: /((\/Tansik\/).+(Edges|Distribution$))|contact$|join-us$|TAS/,
+                        handler: 'NetworkOnly'
+                    }
+                ],
+                importScripts: ['./js/service-worker.js']
+            })
+        ],
+        output: {
+            publicPath: ''
+        }
+    });
+}
 
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/service-worker.js', 'public/js')
     .js('resources/js/edges.js', 'public/js')
     .js('resources/js/forms.js', 'public/js')
+    .js('resources/js/ticketsScan.js', 'public/js')
+    .js('resources/js/payment.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/splash-screen.scss', 'public/css')
     .sass('resources/sass/forms.scss', 'public/css')
+    .styles('node_modules/@fortawesome/fontawesome-free/css/all.min.css','public/css/fontawesome.css')
+    .copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
     .copyDirectory('resources/sass/fonts', 'public/css/fonts');
 
 //Event
 mix.sass('resources/sass/event.scss', 'public/css');
-    
-mix.version();

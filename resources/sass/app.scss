@@ -28,6 +28,7 @@ $enable-responsive-font-sizes: true;
 body {
     font-family: 'Tajawal', sans-serif;
     background-color: #E4E4E4;
+    text-align: right;
 }
 
 html {
@@ -42,7 +43,7 @@ html {
 #axiosModal {
     display: none;
     position: fixed;
-    z-index: 2;
+    z-index: 3;
     top: 0;
     left: 0;
     height: 100%;
@@ -130,7 +131,9 @@ html {
     top: 0;
     padding: 5px;
 }
-
+.navbar-nav {
+    padding: 0;
+}
 a.navbar-brand {
     margin-left: 10px;
     width: calc(5em + 7vw);
@@ -161,7 +164,7 @@ footer {
     bottom: 0;
     height: fit-content;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     background-color: #000000;
     a {
         &:hover {
@@ -237,7 +240,7 @@ h1 {
 .offline-ready {
     position: fixed !important;
     bottom: 30px;
-    z-index: 2;
+    z-index: 3;
 }
 
 .offline-notification {
@@ -252,7 +255,7 @@ h1 {
     color: white;
     padding: 0.5em;
     text-align: center;
-    z-index: 1;
+    z-index: 3;
     strong {
         cursor: pointer;
         color: white;

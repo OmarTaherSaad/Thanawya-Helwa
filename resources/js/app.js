@@ -22,43 +22,11 @@ axios.interceptors.response.use(function (response) {
 import 'progressive-image.js/dist/progressive-image.js';
 import 'progressive-image.js/dist/progressive-image.css';
 
-async function wait(duration) {
-    await sleep(duration);
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-
 let func = function () {
     $("a.progressive").click(function (e) {
         e.preventDefault();
     });
     document.body.classList.add('loaded');
-    //Load additional scripts after page loads
-    let src = new Array(2);
-    src[0] = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-    src.forEach(s => {
-        var tag = document.createElement("script");
-        tag.src = s;
-        document.getElementsByTagName("head")[0].appendChild(tag);
-    });
-    //Facebook Messenger Plugin
-    window.fbAsyncInit = function () {
-        FB.init({
-            xfbml: true,
-            version: 'v3.3'
-        });
-    };
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = 'https://connect.facebook.net/ar_AR/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
     //PWA Notifications
     /*
     function askPermission() {
@@ -93,8 +61,9 @@ let func = function () {
             });
     }
     */
+    //Register Service Worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+        navigator.serviceWorker.register('/sw.js').then(function (registration) {
             // Registration was successful
             /*Tell the user that we work offline! (First time only)*/
             if (navigator.serviceWorker.controller == null)
@@ -104,8 +73,9 @@ let func = function () {
                 el.setAttribute('role', 'alert');
                 el.innerHTML = "النت بيقطع كتير .. بس الموقع ده بيشتغل حتى لو إنت مش فاتح النت! مفيش حاجة هتوقف تجربتك على موقع ثانوية حلوة :)";
                 document.querySelector('main').append(el);
-                wait(5000);
-                el.parentNode.removeChild(el);
+                setTimeout(function () {
+                    el.parentNode.removeChild(el);
+                }, 5000);
             }
 
             //Request notifications
@@ -132,7 +102,6 @@ let func = function () {
             window.addEventListener('offline', updateOnlineStatus);
         });
     }
-    sleep(5000);
     //iframe must have title
     if (document.querySelector("iframe[title='']") != null) {
         document.querySelector("iframe[title='']").title = "Iframe";

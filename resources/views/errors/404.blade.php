@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title',"خطأ")
+@section('title',"خطأ! صفحة غير موجودة")
 
 @section('content')
 <div class="row justify-content-center">

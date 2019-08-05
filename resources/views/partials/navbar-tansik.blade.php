@@ -21,13 +21,16 @@
                 <a class="nav-link" href="{{ route('Tansik-Geo-Dist') }}">جدول التوزيع الجغرافي</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Geo-Dist-Info' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-Geo-Dist-Info') }}">معلومات عن القبول الجغرافي</a>
+                <a class="nav-link" href="{{ route('Tansik-Geo-Dist-Info') }}">القبول الجغرافي</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-ReduceAlienation' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-ReduceAlienation') }}">معلومات عن تقليل الاغتراب</a>
+                <a class="nav-link" href="{{ route('Tansik-ReduceAlienation') }}">تقليل الاغتراب</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Tzalom' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-Tzalom') }}">معلومات عن التظلم</a>
+                <a class="nav-link" href="{{ route('Tansik-Tzalom') }}">التظلم</a>
+            </li>
+            <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Stages-Info' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('Tansik-Stages-Info') }}">مراحل التنسيق</a>
             </li>
         </ul>
     </div>

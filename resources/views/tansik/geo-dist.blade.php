@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title','جدول التوزيع الجغرافي الخاص بيك')
 @section('head')
+    <script>
+        if (!navigator.onLine) {
+                window.location.href = '/offline';
+            }
+    </script>
     <style>
         #DistTable {
             display: none;

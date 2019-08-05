@@ -125,6 +125,8 @@ return [
 
     //GitHub Deployment
     'deploy_secret' => env('APP_DEPLOY_SECRET'),
+    'GOOGLE_RECAPTCHA_KEY' => env('GOOGLE_RECAPTCHA_KEY'),
+    'GOOGLE_RECAPTCHA_SECRET' => env('GOOGLE_RECAPTCHA_SECRET'),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,8 +178,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
+        //App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -229,6 +232,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

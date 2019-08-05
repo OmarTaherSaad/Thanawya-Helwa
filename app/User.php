@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'mobile_number', 'year', 'email', 'password', 'provider', 'provider_id', 'role'
     ];
 
     /**
@@ -36,4 +36,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function tickets() {
+        return $this->hasMany(Ticket::class);
+    }
+    public function hasTicket() {
+        return $this->tickets->count() > 0;
+    }
+
+    public function hasRole($role) {
+        return $this->role == $role;
+    }
+
+    public function canAddPayments() {
+        return $this->role == 'Ebda3team' || $this->role == 'TAteam'  || $this->role == 'admin';
+    }
+
+    public function isTeamMember() {
+        return  $this->role == 'TAteam';
+    }
+
+    public function isEdba3() {
+        return $this->role == 'Ebda3team';
+    }
+
+    public function isAdmin() {
+        return $this->role == 'admin';
+    }
 }
