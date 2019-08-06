@@ -14,6 +14,8 @@ use App\UniAdmin;
 use App\FacultyEdge;
 use PhpParser\ErrorHandler\Collecting;
 use Illuminate\Support\Collection;
+use DOMDocument;
+use DOMXPath;
 
 class PagesController extends Controller
 {
@@ -49,7 +51,7 @@ class PagesController extends Controller
         ]);
 
         // check if reCaptcha has been validated by Google      
-        $secret = env('GOOGLE_RECAPTCHA_SECRET');
+        $secret = config('app.GOOGLE_RECAPTCHA_SECRET');
         $captchaId = $request->input('g-recaptcha-response');
         
         //sends post request to the URL and tranforms response to JSON
@@ -58,9 +60,9 @@ class PagesController extends Controller
         if($responseCaptcha->success == true && $request->input('action') == 'contact_form') {
             //Valid
             //Send Mail to Admin
-            Mail::to("thanawyahelwa@gmail.com")->send(new ContactForAdminMail($request->input('name'),$request->input('email'),$request->input('phone'),$request->input('subject'),$request->input('message')));
+            Mail::to("thanawyahelwa@gmail.com")->queue(new ContactForAdminMail($request->input('name'),$request->input('email'),$request->input('phone'),$request->input('subject'),$request->input('message')));
             //Send Mail to the user himself/herself
-            Mail::to($request->input('email'))->send(new ContactMail($request->input('name'),$request->input('message')));
+            Mail::to($request->input('email'))->queue(new ContactMail($request->input('name'),$request->input('message')));
             //Flash a message to user
             $request->session()->flash('success',"تم إرسال رسالتك بنجاح");
         } else {
@@ -155,6 +157,10 @@ class PagesController extends Controller
         return view('tansik.tzaloom');
     }
 
+    public function TansikStagesInfo() {
+        return view('tansik.stages-info');
+    }
+
     public function getEdges(Request $request)
     {
         $Years = FacultyEdge::pluck('Year')->unique()->sort();
@@ -203,8 +209,8 @@ class PagesController extends Controller
         ]);
     }
 
-    public function TAScountdown() {
-        return view('tas-countdown');
+    public function privacyPolicy() {
+        return view('privacy-policy');
     }
 
     public static function CorrectName(String $s) {

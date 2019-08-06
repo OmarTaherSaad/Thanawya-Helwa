@@ -3,9 +3,9 @@
 @section('title','النت مش شغال عندك')
 @section('head')
     <script>
-        if (navigator.onLine) {
-            window.location.href = '/';
-        }
+        // if (navigator.onLine) {
+        //     window.location.href = '/';
+        // }
     </script>
 @endsection
 @section('content')

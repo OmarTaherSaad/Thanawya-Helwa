@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title','تنسيق السنوات السابقة')
 @section('head')
+    <script>
+        if (!navigator.onLine) {
+            window.location.href = '/offline';
+        }
+    </script>
     <style>
         th:first-of-type {
             width:48%;
@@ -106,7 +111,7 @@
 @endsection
 
 @section('scripts')
-<script async src="{{ mix('js/edges.js') }}"></script>
+<script async src="{{ asset('js/edges.js') }}"></script>
 <script defer>
     const searchBoxPosition = document.querySelector('#searchBox').getBoundingClientRect().top;
 

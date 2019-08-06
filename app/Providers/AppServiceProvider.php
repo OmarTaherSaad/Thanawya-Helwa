@@ -5,8 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
-use App\Providers\TelescopeServiceProvider;
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,11 +17,6 @@ class AppServiceProvider extends ServiceProvider
         //Fix migration problem
         Schema::defaultStringLength(191);
 
-
-        //Setup Telescope
-        if ($this->app->isLocal()) {
-            $this->app->register(TelescopeServiceProvider::class);
-        }
     }
 
     /**
