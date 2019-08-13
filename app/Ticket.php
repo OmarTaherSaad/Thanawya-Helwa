@@ -17,6 +17,10 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function ownerName() {
+        return $this->user()->exists() ? $this->user->name : 'لا أحد';
+    }
+
     public function serial() {
         $serial = strtoupper($this->serial);
         return substr($serial,4*0,4) . '-' . substr($serial,4*1,4) . '-' . substr($serial,4*2,4) . '-'  . substr($serial,4*3,4);
@@ -27,7 +31,7 @@ class Ticket extends Model
     }
 
     public function hasPayment() {
-        return !$this->payment()->exists() && $this->paid;
+        return $this->payment()->exists() && $this->paid;
     }
 
     public function hasNoOwner() {

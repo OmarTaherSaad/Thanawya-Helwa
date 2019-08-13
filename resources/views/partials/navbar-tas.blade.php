@@ -23,8 +23,10 @@
                 <div class="dropdown-menu" aria-labelledby="TicketsLink">
                     <a class="dropdown-item {{ Route::currentRouteName() == 'tas.tickets.register' ? 'active' : '' }}"
                         href="{{ route('tas.tickets.register') }}">تسجيل تذكرة</a>
+                    @auth
                     <a class="dropdown-item {{ Route::currentRouteName() == 'tas.tickets.view' ? 'active' : '' }}"
                         href="{{ route('tas.tickets.view') }}">تذاكري</a>
+                    @endauth
                     <a class="dropdown-item {{ Route::currentRouteName() == 'tas.buy-ticket-online' ? 'active' : '' }}"
                         href="{{ route('tas.buy-ticket-online') }}">شراء تذكرة أونلاين</a>
                 </div>
@@ -37,6 +39,11 @@
                 <a class="nav-link" href="{{ route('tas.payments.index') }}">عمليات الدفع</a>
             </li>
             @endcan
+            @if (Auth::check() && (Auth::user()->isTeamMember() || Auth::user()->isAdmin()))
+                <li class="nav-item {{ Route::currentRouteName() == 'tas.tickets.eventEntry' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('tas.tickets.eventEntry') }}">الدخول (يوم الايفينت)</a>
+                </li>
+            @endif
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="MainSiteLink" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">العودة للموقع</a>
@@ -75,6 +82,12 @@
                     {{ Auth::user()->name }} <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {{--Admin can view all users--}}
+                    @if (Auth::user()->isAdmin())
+                    <a class="dropdown-item {{ request()->is(route('allUsers')) ? 'active' : '' }}" href="{{ route('allUsers') }}">
+                        عرض جميع مستخدمي الموقع
+                    </a>
+                    @endif
                     <a class="dropdown-item {{ request()->is(route('edit-user',['user' => Auth::user()->id])) ? 'active' : '' }}"
                         href="{{ route('edit-user',['user' => Auth::user()->id]) }}">
                         تعديل بياناتك

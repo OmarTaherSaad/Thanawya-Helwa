@@ -28,9 +28,11 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.10.1",
     "bootstrap-vue": "^2.0.0-rc.26",
+    "chart.js": "^2.8.0",
     "compression-webpack-plugin": "^3.0.0",
     "fs": "0.0.1-security",
     "fuse.js": "^3.4.5",
+    "hchs-vue-charts": "^1.2.8",
     "net": "^1.0.2",
     "progressive-image.js": "^1.4.1",
     "sw-precache-webpack-plugin": "^0.11.5",
@@ -38,6 +40,7 @@
     "vue": "^2.6.10",
     "vue-qrcode-reader": "^2.0.2",
     "vue-the-mask": "^0.11.1",
+    "vuetify": "^2.0.5",
     "webpack-obfuscator": "^0.18.2"
   }
 }

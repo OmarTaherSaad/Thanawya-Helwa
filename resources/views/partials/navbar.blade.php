@@ -47,6 +47,9 @@
                     @can('viewAny', \App\Payment::class)
                     <a class="dropdown-item" href="{{ route('tas.payments.index') }}">عمليات الدفع</a>
                     @endcan
+                    @if (Auth::check() && (Auth::user()->isTeamMember() || Auth::user()->isAdmin()))
+                    <a class="dropdown-item" href="{{ route('tas.tickets.eventEntry') }}">الدخول (يوم الايفينت)</a>
+                    @endif
                 </div>
             </li>
         </ul>
@@ -60,6 +63,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">حساب جديد</a>
+                </li>
                 @else
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -67,6 +73,13 @@
                         {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {{--Admin can view all users--}}
+                        @if (Auth::user()->isAdmin())
+                        <a class="dropdown-item {{ request()->is(route('allUsers')) ? 'active' : '' }}"
+                            href="{{ route('allUsers') }}">
+                            عرض جميع مستخدمي الموقع
+                        </a>
+                        @endif
                         <a class="dropdown-item {{ request()->is(route('edit-user',['user' => Auth::user()->id])) ? 'active' : '' }}"
                             href="{{ route('edit-user',['user' => Auth::user()->id]) }}">
                             تعديل بياناتك

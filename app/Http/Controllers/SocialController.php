@@ -9,18 +9,20 @@ use App\User;
 class SocialController extends Controller
 {
     public function redirectToProvider($provider) {
-        session()->put('url.intended',url()->previous()); //to return him back
+        if(!session()->has('url.intended')) {
+            session()->put('url.intended',url()->previous()); //to return him back
+        }
         return Socialite::driver($provider)->redirect();
     }
 
     public function handleProviderCallback($provider) {
         $getInfo = Socialite::driver($provider)->user(); 
         $user = $this->createUser($getInfo,$provider); 
-        auth()->login($user); 
+        \Auth::login($user); 
         if(session()->has('url.intended')) {
             return redirect()->to(session()->get('url.intended'));
         }
-        return redirect()->route('tas-home');
+        return redirect()->route('tas.home');
     }
 
     function createUser($getInfo, $provider)

@@ -32,7 +32,7 @@
         <div class="col-6 text-center mb-1">
             @if(Auth::user()->hasTicket())
             <h4>لقد قمت بشراء تذكرة بالفعل! هنكون في انتظارك!</h4>
-            <a type="button" class="btn btn-dark rounded" title="Go to TAS homepage" href="{{ route('tas.schedule') }}">
+            <a type="button" class="btn btn-dark rounded" title="Go to TAS schedule" href="{{ route('tas.schedule') }}">
                 <h4>جدول اليوم</h4>
             </a>
             @else
@@ -45,6 +45,56 @@
             @endif
         </div>
     </div>
+
+    {{--Admin can see all tickets--}}
+    @if(Auth::user()->isAdmin())
+    <div class="row">
+        <div class="col-12 m3">
+            <h2>جميع الأرقام الخاصة بالقمة</h2>
+        </div>
+        <div class="col-12">
+            <h5 class="border bg-primary my-1 p-2">عدد التذاكر المُسجلة: {{ \App\Ticket::whereNotNull('payment_method')->count() }}</h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">عدد التذاكر المُسجلة ومُباعة من "إبداع":
+                {{ \App\Ticket::where('payment_method','offline-Ebda3')->count() }}</h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">عدد التذاكر المُسجلة ومُباعة من أعضاء الفريق:
+                {{ \App\Ticket::where('payment_method','offline-Team-members')->count() }}</h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">عدد التذاكر المُسجلة ومُباعة من فودافون كاش:
+                {{ \App\Ticket::where('payment_method','online-Vodafone-cash')->count() }}</h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">عدد التذاكر المُسجلة ومُباعة من اتصالات فلوس:
+                {{ \App\Ticket::where('payment_method','online-Etisalat-cash')->count() }}</h5>
+        </div>
+        <hr>
+        <div class="col-12">
+            <h5 class="border bg-primary my-1 p-2">إجمالي الفلوس المدفوعة: {{ \App\Payment::all()->sum('amount') }} جنية
+            </h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">إجمالي الفلوس المدفوعة من "إبداع":
+                {{ \App\Payment::all()->where('method','offline-Ebda3')->sum('amount') }} جنية</h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">إجمالي الفلوس المدفوعة من أعضاء الفريق:
+                {{ \App\Payment::all()->where('method','offline-Team-members')->sum('amount') }} جنية</h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">إجمالي الفلوس المدفوعة من فودافون كاش:
+                {{ \App\Payment::all()->where('method','online-Vodafone-cash')->sum('amount') }} جنية</h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="border bg-dark text-white my-1 p-2">إجمالي الفلوس المدفوعة من اتصالات فلوس:
+                {{ \App\Payment::all()->where('method','online-Etisalat-cash')->sum('amount') }} جنية</h5>
+        </div>
+    </div>
+    <hr>
+    @endif
     @endguest
 
 @endsection

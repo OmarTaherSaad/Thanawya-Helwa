@@ -10,12 +10,19 @@ use Illuminate\Support\Facades\Hash;
 use Image;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
+use App\User;
 
 class TicketsController extends Controller
 {
     public function index() {
-        
-        return view('tas.tickets')->with('Tickets',\Auth::user()->tickets);;
+        if (\Auth::user()->isAdmin()) {
+            return view('tas.tickets')
+            ->with('Tickets',\Auth::user()->tickets)
+            ->with('AllTickets',Ticket::all()->reject(function ($ticket) {
+                return $ticket->hasNoOwner();
+            }));
+        }
+        return view('tas.tickets')->with('Tickets',\Auth::user()->tickets);
         //Hash::check('koctw5v6f9655kpb2',$ticket->secret_token)
     }
     
@@ -224,16 +231,45 @@ class TicketsController extends Controller
         //return URL::temporarySignedRoute("tas.tickets.image",now()->addMinutes(5),['user' => \Auth::user() , 'ticket' => $ticket]);
     }
 
-    public function getImageLink(\App\User $user,String $ticket) {
-        //echo base64_decode(\Storage::disk('local')->get("tickets/$ticket.jpg"));
-        $image = base64_decode(\Storage::disk('local')->get("tickets/$ticket.jpg"));
-        //dd(\Storage::disk('local')->get("tickets/$ticket.jpg"));
-        //\Storage::put('test/test.txt', $image);
-        //$ticket = File::get(storage_path("app/tickets/$ticket.jpg"));
-        return response()->file(storage_path("app/tickets/$ticket.jpg"));
-        //$ticket = \Storage::disk('local')->get("tickets/$ticket.jpg");
-        return view('tas.tickets')->with('ticket',$ticket);
-        dd(URL::temporarySignedRoute("tas.tickets.image",now()->addMinutes(5),['user' => \Auth::user() , 'ticket' => $ticket]));
+    public function DownloadAll(User $user) {
+        $zipName = public_path("storage/app/tickets_zip/".\Str::slug($user->name) . "-tickets.zip");
+        $zip = new \ZipArchive();
+        foreach($user->tickets as $ticket) {
+            abort_unless($this->authorize('view',$ticket),\Illuminate\Http\Response::HTTP_FORBIDDEN);
+
+            $zip->open($zipName, \ZipArchive::CREATE);
+            $zip->addFile(storage_path("app/tickets/$ticket->id.jpg"),"tickets/$ticket->id.jpg");
+            dd($zip);
+            $zip->close();
+        }
+        return response()->download(storage_path("app/tickets_zip/".\Str::slug($user->name) . "-tickets.zip"));
+    }
+
+    public function eventEntered(Request $request) {
+         $ticket = Ticket::where('secret_token',$request->ticket_token);
+        if ($ticket->count() > 0) {
+            $ticket = $ticket->first();
+            if ($ticket->checked_in) {
+                //Ticket already entered
+                return response()->json([
+                    'alertClass' => 'danger',
+                    'message' => "التذكرة دي دخلت قبل كده!"
+                ]);
+            } else {
+                //Enter the ticket
+                $ticket->checked_in = true;
+                $ticket->save();
+                return response()->json([
+                    'alertClass' => 'success',
+                    'message' => 'تم تسجيل الدخول بهذه التذكرة، ابتسامة لطيفة، وقول أهلًا بيك :)'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'alertClass' => 'danger',
+                'message' => "دي مش تذكرة مُسجلة عندنا!"
+            ]);
+        }
     }
 }
 
@@ -261,3 +297,98 @@ class TicketsController extends Controller
 /*foreach($Tickets as $ticket) {
     \QrCode::format('png')->size(1000)->mergeString(\Storage::get('assets/TASlogo.png'),0.2)->generate($ticket->secret_token,'storage/QRCodes/'.$ticket->id.'.png');
 }*/
+
+//Create Tickets groups (A3 -> 12 per page)
+
+/*
+$i = 1;
+$filesArr = \Storage::files('tickets');
+natsort($filesArr);
+foreach (collect($filesArr)->chunk(12) as $ticketsGroup) {
+    $image = Image::make(\Storage::get("groupTemplate.jpg"));
+    $counterX = 0;
+    $counterY = 0;
+    foreach ($ticketsGroup as $ticket) {
+        $TicketImage = Image::make(\Storage::get($ticket))->resize(round($image->height() / 3) - 1, round($image->width() / 4) - 1)->rotate(90);
+        $image->insert($TicketImage, 'top-left', round($counterX * $image->width() / 4), round($counterY * $image->height() / 3));
+        if ($counterX < 3) {
+            //Lines
+            $image->line(
+                round($counterX * $image->width() / 4),
+                0,
+                round($counterX * $image->width() / 4),
+                $image->height()
+                , function ($draw) {
+                    $draw->color('#ffffff');
+                });
+            $counterX++;
+        } else {
+            //Lines
+            $image->line(
+                round($counterX * $image->width() / 4),
+                0,
+                round($counterX * $image->width() / 4),
+                $image->height()
+                , function ($draw) {
+                    //$draw->file(base_path('/public/css/fonts/Tajawal-Regular.ttf'));
+                    $draw->color('#ffffff');
+                });
+            $counterY++;
+            $counterX = 0;
+        }
+        $i++;
+    }
+    $i--;
+    $image->save("storage/ticketsGroup/From-" . ($i - 11) . "-To-$i.jpg");
+    echo "Done ticket Group $i <br>";
+    $i++;
+}
+dd("DONE ALL");
+*/
+
+//Create Tickets groups (A4 -> 6 per page)
+/*
+$i = 1;
+$filesArr = \Storage::files('tickets');
+natsort($filesArr);
+foreach (collect($filesArr)->chunk(6) as $ticketsGroup) {
+    $image = Image::make(\Storage::get("ticketTemplate2.jpg"));
+    $counterX = 0;
+    $counterY = 0;
+    foreach ($ticketsGroup as $ticket) {
+        $TicketImage = Image::make(\Storage::get($ticket))->resize(round($image->height() / 2) - 1, round($image->width() / 3) - 1)->rotate(90);
+        $image->insert($TicketImage, 'top-left', round($counterX * $image->width() / 3), round($counterY * $image->height() / 2));
+        if ($counterX < 2) {
+            //Lines
+            $image->line(
+                round($counterX * $image->width() / 3),
+                0,
+                round($counterX * $image->width() / 3),
+                $image->height()
+                , function ($draw) {
+                    $draw->color('#ffffff');
+                });
+            $counterX++;
+        } else {
+            //Lines
+            $image->line(
+                round($counterX * $image->width() / 3),
+                0,
+                round($counterX * $image->width() / 3),
+                $image->height()
+                , function ($draw) {
+                    //$draw->file(base_path('/public/css/fonts/Tajawal-Regular.ttf'));
+                    $draw->color('#ffffff');
+                });
+            $counterY++;
+            $counterX = 0;
+        }
+        $i++;
+    }
+    $i--;
+    $image->save("storage/ticketsGroup2/From-" . ($i - 5) . "-To-$i.jpg");
+    echo "Done ticket Group $i <br>";
+    $i++;
+}
+dd("DONE ALL");
+*/

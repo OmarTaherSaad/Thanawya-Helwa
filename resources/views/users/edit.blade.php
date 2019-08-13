@@ -6,9 +6,13 @@
 <div class="row justify-content-center">
     <div class="col-12 col-md-6">
         <div class="card">
+            @if(Auth::user()->is($user))
             <div class="card-header">تعديل بياناتك</div>
+            @else
+            <div class="card-header">تعديل بيانات "{{ $user->name }}"</div>
+            @endif
             <div class="card-body">
-                <form method="post" action="{{ route('edit-user',['user' => Auth::user()->id]) }}">
+                <form method="post" action="{{ route('edit-user',['user' => $user]) }}">
                     @csrf
                     @method('PATCH')
 
@@ -28,6 +32,18 @@
                         <small class="form-text text-muted">في خانة رقم الموبايل، لازم تكتب رقم الموبايل اللي استخدمته / هتستخدمه في
                             الدفع.</small>
                     </div>
+
+                    @if (Auth::user()->isAdmin())
+                    <div class="form-group">
+                        <label for="userRole">الدور (Role)</label>
+                        <select class="form-control" id="userRole" name="role">
+                            <option {{ $user->role == 'admin' ? 'selected' : '' }} value="admin">إدارة الموقع</option>
+                            <option {{ $user->role == 'TAteam' ? 'selected' : '' }} value="TAteam">فريق "ثانوية حلوة"</option>
+                            <option {{ $user->role == 'Ebda3team' ? 'selected' : '' }} value="Ebda3team">فريق "إبداع"</option>
+                            <option {{ $user->role == 'user' ? 'selected' : '' }} value="user">مُستخدم عادي</option>
+                        </select>
+                    </div>
+                    @endif
 
                     <div class="form-group">
                         <label>كلمة السر الجديدة</label>

@@ -21,7 +21,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        return view('users.index')->with('Users',User::all());
     }
 
     /**
@@ -83,16 +83,32 @@ class UsersController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'mobile_number' => ['required', 'numeric', 'digits:11', Rule::unique('users')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'role' => ['nullable','in:admin,TAteam,Ebda3team,user']
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
         $user->mobile_number = $request->mobile_number;
+        if (auth()->user()->isAdmin()) {
+            //Avoid being locked: if user to edit is the last admin, and we are trying to make him non-admin -> NOT ALLOWED
+            if (auth()->user()->is($user) //He is the user to edit
+                && User::where('role','admin')->count() == 1 //And he is the last admin
+                && $request->role != null //And role is sent
+                && $request->role != 'admin' //And role is not 'admin'!
+            ) {
+                session()->flash('error', 'مينفعش نخليك مش في إدارة الموقع، لأنك آخر مدير موجود دلوقتي.');
+            } else {
+                $user->role = $request->role;
+            }
+        }
         if ($request->has('password')) {
             $user->password = Hash::make($request->password);
         }
         $user->save();
         session()->flash('success','تم حفظ بياناتك بنجاح.');
+        if (auth()->user()->isAdmin() && !auth()->user()->is($user)) {
+            return redirect()->route('allUsers');
+        }
         return back();
     }
 

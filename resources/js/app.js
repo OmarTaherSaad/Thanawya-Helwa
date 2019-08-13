@@ -63,7 +63,7 @@ let func = function () {
     */
     //Register Service Worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').then(function (registration) {
+        navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
             // Registration was successful
             /*Tell the user that we work offline! (First time only)*/
             if (navigator.serviceWorker.controller == null)

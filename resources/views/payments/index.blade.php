@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="row">
-        <h4 class="d-block d-sm-none">اتحرك يمين وشمال جوا الجدول عشان تشوف باقي السنوات</h4>
+        <h4 class="d-block d-sm-none">اتحرك يمين وشمال جوا الجدول عشان تشوف باقي البيانات</h4>
         <div class="col-12 table-responsive">
             <table class="table table-light table-bordered table-hover">
                 <thead class="thead-dark">

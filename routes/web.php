@@ -46,12 +46,17 @@ Route::get('/privacy-policy-and-terms','PagesController@privacyPolicy');
 Route::get('/offline','PagesController@offline')->name('offline');
 
 //TAS Routes
-Route::prefix('TAS')->name('tas.')->group(function() {
-    Route::get('countdown','TASController@countdown')->name('countdown');
+Route::prefix('tas')->name('tas.')->group(function() {
+    Route::get('/','TASController@home');
     Route::get('home','TASController@home')->name('home');
+    Route::get('countdown','TASController@countdown')->name('countdown');
     Route::get('buy-ticket-online','TASController@buyTicketOnline')->name('buy-ticket-online');
     Route::get('schedule','TASController@schedule')->name('schedule');
-    
+    //Herman Personality Test
+    Route::get('/personality-test','TASController@hermanTest')->middleware('auth')->name('herman-test');
+    //Herman Personality Test (Shortcut)
+    Route::get('/pt','TASController@hermanTest')->middleware('auth');
+
     //Tickets Routes
     Route::prefix('tickets')->name('tickets.')->middleware('auth')->group(function() {
         //User Tickets
@@ -59,11 +64,14 @@ Route::prefix('TAS')->name('tas.')->group(function() {
         //Tickets Storage files Routes
         Route::get('image/{ticketSerial}', 'TicketsController@getImage')->name('image');
         Route::get('image/{ticketSerial}/download', 'TicketsController@DownloadImage')->name('download');
+        Route::get('image/download/{user}', 'TicketsController@DownloadAll')->name('downloadAll');
         //Get Ticket Image
         //Route::get('image/{user}/{ticket}','TicketsController@getImageLink')->middleware('signed')->name('image');
         //Verify at entry
-        Route::get('event-entry','TicketsController@eventEntry')->middleware('role:TAteam');
+        Route::get('event-entry','TicketsController@eventEntry')->middleware('role:TAteam')->name('eventEntry');
         Route::post('verify','TicketsController@verify')->middleware('role:TAteam');
+        //Ticket Entered
+        Route::post('enter','TicketsController@eventEntered')->middleware('role:TAteam');
         //Register ticket to user
         Route::get('register','TASController@registerTicket')->name('register')->middleware('ensureUserHasMobile');
         Route::post('register','TicketsController@registerToUser');
@@ -82,8 +90,11 @@ Route::post('deploy', 'DeployController@deploy');
 
 //Auth & Facebook Login
 Auth::routes();
-Route::get('users/{user}/edit','UsersController@edit')->middleware('can:update,user')->name('edit-user');
+Route::get('users/{user}/edit','UsersController@edit')->middleware(['auth','can:update,user'])->name('edit-user');
 Route::patch('users/{user}/edit','UsersController@update')->middleware('can:update,user')->name('edit-user');
+//Admin Dashboard of all users
+Route::get('users','UsersController@index')->middleware(['auth','role:admin'])->name('allUsers');
+
 //Socialite
 Route::get('auth/{provider}', 'SocialController@redirectToProvider')->name('ProviderAuth');
 Route::get('callback/{provider}', 'SocialController@handleProviderCallback');

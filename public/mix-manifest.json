@@ -6,8 +6,10 @@
     "/css/event.css": "/css/event.css",
     "/js/edges.js": "/js/edges.js",
     "/js/forms.js": "/js/forms.js",
+    "/js/herman.js": "/js/herman.js",
     "/js/payment.js": "/js/payment.js",
     "/js/service-worker.js": "/js/service-worker.js",
+    "/js/tas-schedule.js": "/js/tas-schedule.js",
     "/js/ticketsScan.js": "/js/ticketsScan.js",
     "/css/fontawesome.css": "/css/fontawesome.css"
 }

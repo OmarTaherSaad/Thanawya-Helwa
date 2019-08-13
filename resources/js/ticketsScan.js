@@ -10,6 +10,7 @@ window.vueApp = new Vue({
         'qrcode-stream': QrcodeStream,
     },
     data: {
+        camera: "auto",
         ticket_owner: null,
         ticket: null,
         ticket_serial: null,
@@ -35,6 +36,7 @@ window.vueApp = new Vue({
     },
     methods: {
         ValidateQR(value) {
+            this.camera = 'off';
             axios.post('/TAS/tickets/verify', {
                 ticket_token: value
             })
@@ -45,14 +47,17 @@ window.vueApp = new Vue({
                     window.vueApp.ticket = JSON.parse(response.data.ticket);
                     window.vueApp.ticket_owner = JSON.parse(response.data.ticket_owner);
                     window.vueApp.ticket_serial = response.data.ticket_serial;
+                    window.vueApp.register.message = null;
                 } else
                 {
                     //Failed
                     alert("حصل عطل من عندنا، ياريت تحاول في وقت تاني.");
+                    window.vueApp.camera = 'auto';
                 }
             })
             .catch(function (error) {
                 // handle error
+                this.camera = 'auto';
             });
         },
         registerTicketFromQR(value) {
@@ -133,6 +138,24 @@ window.vueApp = new Vue({
             .catch(function (error) {
                 // handle error
             });
+        },
+        Entered() {
+            axios.post('/TAS/tickets/enter', {
+                    ticket_token: this.ticket.secret_token,
+                })
+                .then(function (response) {
+                    window.vueApp.register.success = 'alert alert-';
+                    window.vueApp.register.success += response.data.alertClass;
+                    window.vueApp.register.message = response.data.message;
+                })
+                .catch(function (error) {
+                    // handle error
+                });
+            this.camera = 'auto';
+        },
+        Cancelled() {
+            this.ticket = null;
+            this.camera = 'auto';
         }
     },
 });

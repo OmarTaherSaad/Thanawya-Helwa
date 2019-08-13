@@ -63,4 +63,12 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->role == 'admin';
     }
+
+    public function hadPaidAnyPayments() {
+        return \App\Payment::all()->where('mobile_of_payment',$this->mobile_number)->count() > 0;
+    }
+    
+    public function paidPayments() {
+        return $this->hadPaidAnyPayments() ? \App\Payment::all()->where('mobile_of_payment',$this->mobile_number) : false;
+    }
 }

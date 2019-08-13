@@ -26,6 +26,8 @@ class Kernel extends HttpKernel
         \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveComments::class,
         \RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
         \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
+        //Lower-case Routes
+        \App\Http\Middleware\LowerCaseRoutes::class,
     ];
 
     /**

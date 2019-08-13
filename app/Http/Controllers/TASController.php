@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class TASController extends Controller
 {
@@ -32,6 +33,10 @@ class TASController extends Controller
     
     public function schedule()
     {
+        return view('tas.schedule');
+    }
 
+    public function hermanTest() {
+        return view('tas.herman');
     }
 }

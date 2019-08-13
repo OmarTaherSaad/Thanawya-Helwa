@@ -29,11 +29,11 @@ if (mix.inProduction())
                     compress: true,
                     ie8: true,
                     safari10: true
-                }
+                },
+                exclude: [/tas-schedule.js$/,/herman.js$/]
             }),
             new CompressionPlugin(),
             new workboxPlugin.GenerateSW({
-                swDest: 'sw.js',
                 importWorkboxFrom: 'local',
                 cacheId: 'TH',
                 cleanupOutdatedCaches: true,
@@ -78,6 +78,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/forms.js', 'public/js')
     .js('resources/js/ticketsScan.js', 'public/js')
     .js('resources/js/payment.js', 'public/js')
+    .js('resources/js/herman.js', 'public/js')
+    .js('resources/js/tas-schedule.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/splash-screen.scss', 'public/css')
     .sass('resources/sass/forms.scss', 'public/css')

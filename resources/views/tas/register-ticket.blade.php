@@ -5,7 +5,7 @@
     <div class="row justify-content-center mt-2">
         <div class="col-12 col-md-10">
             <h3>تسجيل تذكرة حضورك لقمة الثانوية العامة TAS</h3>
-            <h5>قبل ما تكمل في أي خطوة من اللي تحت، لازم تكون اشتريت التذكرة بالفعل وموجودة في إيدك (أو دفعت أونلاين وبعتلنا على الواتساب وأكدنا عليك عملية الشراء).</h5>
+            <h5>قبل ما تكمل في أي خطوة من اللي تحت، لازم تكون اشتريت التذكرة بالفعل وموجودة في إيدك (أو دفعت بـفودافون / اتصالات).</h5>
             <div class="form-group">
                 <label for="paymentMethod">برجاء اختيار الطريقة التي قمت بشراء التذكرة من خلالها</label>
                 <select class="form-control" id="paymentMethod" v-model="paymentMethod" @change="register.message = null">

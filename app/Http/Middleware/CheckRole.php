@@ -15,7 +15,7 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
-        abort_unless($request->user()->hasRole($role),401); //Unauthorized
+        abort_unless($request->user()->hasRole($role) || $request->user()->isAdmin(),401); //Unauthorized
         return $next($request);
     }
 }
