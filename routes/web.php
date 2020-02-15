@@ -24,19 +24,19 @@ Route::get('/contact','PagesController@contact')->name('contact');
 Route::post('/contact','PagesController@SubmitContact')->name('contact-submit');
 
 //Tansik routes
-Route::prefix('Tansik')->group(function() {
-    Route::get('Previous-Years-Edges', 'PagesController@TansikPrevEdges')->name('Tansik-Previous-Edges');
+Route::prefix('tansik')->group(function() {
+    Route::get('previous-years-edges', 'PagesController@TansikPrevEdges')->name('Tansik-Previous-Edges');
     //Geographic Distribution for AXIOS
     Route::post('gov', 'PagesController@getAdmin')->name('get-admin');
     Route::post('admin', 'PagesController@getDist')->name('get-dist');
     //Faculties' edges for AXIOS
     Route::post('edges', 'PagesController@getEdges')->name('get-edges');
 
-    Route::get('Geographic-Distribution', 'PagesController@TansikGeoDist')->name('Tansik-Geo-Dist');
-    Route::get('Geographic-Distribution-Information', 'PagesController@TansikGeoDistInfo')->name('Tansik-Geo-Dist-Info');
-    Route::get('Tzalom', 'PagesController@TansikTzalom')->name('Tansik-Tzalom');
-    Route::get('Stages-Information', 'PagesController@TansikStagesInfo')->name('Tansik-Stages-Info');
-    Route::get('Taqleel-al-eghterab', 'PagesController@TansikReduceAlienation')->name('Tansik-ReduceAlienation');
+    Route::get('geographic-distribution', 'PagesController@TansikGeoDist')->name('Tansik-Geo-Dist');
+    Route::get('geographic-distribution-information', 'PagesController@TansikGeoDistInfo')->name('Tansik-Geo-Dist-Info');
+    Route::get('tzalom', 'PagesController@TansikTzalom')->name('Tansik-Tzalom');
+    Route::get('stages-information', 'PagesController@TansikStagesInfo')->name('Tansik-Stages-Info');
+    Route::get('taqleel-al-eghterab', 'PagesController@TansikReduceAlienation')->name('Tansik-ReduceAlienation');
 });
 
 //Privacy Policy

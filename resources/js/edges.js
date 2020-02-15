@@ -62,7 +62,7 @@ window.vueApp = new Vue({
     },
     methods: {
         getEdges: function () {
-            axios.post('/Tansik/edges', {
+            axios.post('/tansik/edges', {
                 section: this.section
             })
                 .then(function (response) {

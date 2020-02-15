@@ -35,7 +35,12 @@ window.vueApp = new Vue({
     },
     methods: {
         ValidateQR(value) {
+<<<<<<< Updated upstream
             axios.post('/TAS/tickets/verify', {
+=======
+            this.camera = 'off';
+            axios.post('/tas/tickets/verify', {
+>>>>>>> Stashed changes
                 ticket_token: value
             })
             .then(function (response) {
@@ -56,7 +61,7 @@ window.vueApp = new Vue({
             });
         },
         registerTicketFromQR(value) {
-            axios.post('/TAS/tickets/register', {
+            axios.post('/tas/tickets/register', {
                 ticket_token: value,
                 paymentMethod: window.vueApp.paymentMethod
             })
@@ -85,7 +90,7 @@ window.vueApp = new Vue({
                 alert('برجاء إدخال السيريال كاملًا (16 حرف/رقم)');
                 return;
             }
-            axios.post('/TAS/tickets/register', {
+            axios.post('/tas/tickets/register', {
                 ticket_serial: serial,
                 paymentMethod: window.vueApp.paymentMethod
             })
@@ -123,7 +128,7 @@ window.vueApp = new Vue({
                 }
                 data.paymentMobile = this.onlinePayment.mobile;
             }
-            axios.post('/TAS/tickets/register-to-mobile', data)
+            axios.post('/tas/tickets/register-to-mobile', data)
             .then(function (response) {
                 window.vueApp.register.success = 'alert alert-';
                 window.vueApp.register.success += response.data.alertClass;
@@ -133,6 +138,27 @@ window.vueApp = new Vue({
             .catch(function (error) {
                 // handle error
             });
+<<<<<<< Updated upstream
+=======
+        },
+        Entered() {
+            axios.post('/tas/tickets/enter', {
+                    ticket_token: this.ticket.secret_token,
+                })
+                .then(function (response) {
+                    window.vueApp.register.success = 'alert alert-';
+                    window.vueApp.register.success += response.data.alertClass;
+                    window.vueApp.register.message = response.data.message;
+                })
+                .catch(function (error) {
+                    // handle error
+                });
+            this.camera = 'auto';
+        },
+        Cancelled() {
+            this.ticket = null;
+            this.camera = 'auto';
+>>>>>>> Stashed changes
         }
     },
 });
