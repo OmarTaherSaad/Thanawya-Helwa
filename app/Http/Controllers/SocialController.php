@@ -16,9 +16,10 @@ class SocialController extends Controller
     }
 
     public function handleProviderCallback($provider) {
-        $getInfo = Socialite::driver($provider)->user(); 
-        $user = $this->createUser($getInfo,$provider); 
-        \Auth::login($user); 
+        $getInfo = Socialite::driver($provider)->user();
+        abort_if($getInfo->email != 'omartahersaad@protonmail.com',401); //Only Omar Taher (for now)
+        $user = $this->createUser($getInfo,$provider);
+        auth()->login($user);
         if(session()->has('url.intended')) {
             return redirect()->to(session()->get('url.intended'));
         }

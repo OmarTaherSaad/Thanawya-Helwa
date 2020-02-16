@@ -1,6 +1,4 @@
 <?php
-use App\Http\Controllers\PagesController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,17 +43,30 @@ Route::get('/privacy-policy-and-terms','PagesController@privacyPolicy');
 //Offline
 Route::get('/offline','PagesController@offline')->name('offline');
 
+//Deployment
+Route::post('deploy', 'DeployController@deploy');
+
+//Auth & Facebook Login
+
+Auth::routes();
+Route::get('users/{user}/edit','UsersController@edit')->middleware('can:update,user')->name('edit-user');
+Route::patch('users/{user}/edit','UsersController@update')->middleware('can:update,user')->name('edit-user');
+//Socialite
+Route::get('auth/{provider}', 'SocialController@redirectToProvider')->name('ProviderAuth');
+Route::get('callback/{provider}', 'SocialController@handleProviderCallback');
+
+//Members
+Route::resource('members', 'MemberController')->middleware(['auth', 'role:TAteam']);
+Route::post('members/upload', 'MemberController@store_image')->name('members.save_image');
+
 //TAS Routes
-Route::prefix('tas')->name('tas.')->group(function() {
-    Route::get('/','TASController@home');
+/*
+Route::prefix('TAS')->name('tas.')->group(function() {
+    Route::get('countdown','TASController@countdown')->name('countdown');
     Route::get('home','TASController@home')->name('home');
     Route::get('countdown','TASController@countdown')->name('countdown');
     Route::get('buy-ticket-online','TASController@buyTicketOnline')->name('buy-ticket-online');
     Route::get('schedule','TASController@schedule')->name('schedule');
-    //Herman Personality Test
-    Route::get('/personality-test','TASController@hermanTest')->middleware('auth')->name('herman-test');
-    //Herman Personality Test (Shortcut)
-    Route::get('/pt','TASController@hermanTest')->middleware('auth');
 
     //Tickets Routes
     Route::prefix('tickets')->name('tickets.')->middleware('auth')->group(function() {
@@ -81,20 +92,7 @@ Route::prefix('tas')->name('tas.')->group(function() {
     //Payment Routes
     Route::resource('payments','PaymentController')->except(['show'])->middleware('auth');
     Route::prefix('payments')->middleware('auth')->name('payments.')->group(function() {
-        
+
     });
 });
-
-//Deployment
-Route::post('deploy', 'DeployController@deploy');
-
-//Auth & Facebook Login
-Auth::routes();
-Route::get('users/{user}/edit','UsersController@edit')->middleware(['auth','can:update,user'])->name('edit-user');
-Route::patch('users/{user}/edit','UsersController@update')->middleware('can:update,user')->name('edit-user');
-//Admin Dashboard of all users
-Route::get('users','UsersController@index')->middleware(['auth','role:admin'])->name('allUsers');
-
-//Socialite
-Route::get('auth/{provider}', 'SocialController@redirectToProvider')->name('ProviderAuth');
-Route::get('callback/{provider}', 'SocialController@handleProviderCallback');
+ */

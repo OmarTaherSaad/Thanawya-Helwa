@@ -12,26 +12,11 @@ const mix = require('laravel-mix');
  */
 
 const CompressionPlugin = require('compression-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-//const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const workboxPlugin = require('workbox-webpack-plugin');
 if (mix.inProduction())
 {
     mix.webpackConfig({
         plugins: [
-            new UglifyJsPlugin({
-                parallel: true,
-                sourceMap: true,
-                uglifyOptions: {
-                    output: {
-                        comments: false
-                    },
-                    compress: true,
-                    ie8: true,
-                    safari10: true
-                },
-                exclude: [/tas-schedule.js$/,/herman.js$/]
-            }),
             new CompressionPlugin(),
             new workboxPlugin.GenerateSW({
                 importWorkboxFrom: 'local',
@@ -72,20 +57,52 @@ if (mix.inProduction())
 }
 
 
-mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/service-worker.js', 'public/js')
-    .js('resources/js/edges.js', 'public/js')
-    .js('resources/js/forms.js', 'public/js')
-    .js('resources/js/ticketsScan.js', 'public/js')
-    .js('resources/js/payment.js', 'public/js')
-    .js('resources/js/herman.js', 'public/js')
-    .js('resources/js/tas-schedule.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/splash-screen.scss', 'public/css')
-    .sass('resources/sass/forms.scss', 'public/css')
-    .styles('node_modules/@fortawesome/fontawesome-free/css/all.min.css','public/css/fontawesome.css')
-    .copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
-    .copyDirectory('resources/sass/fonts', 'public/css/fonts');
+mix.js("resources/js/app.js", "public/js")
+    .js("resources/js/service-worker.js", "public/js")
+    .js("resources/js/edges.js", "public/js")
+    .js("resources/js/forms.js", "public/js")
+    .js("resources/js/members.js", "public/js")
+    .scripts(
+        [
+            "resources/summernote/summernote.min.js",
+            "resources/summernote/summernote-bs4.min.js"
+        ],
+        "public/js/texteditor.js"
+    )
+    .sass("resources/sass/app.scss", "public/css")
+    .sass("resources/sass/splash-screen.scss", "public/css")
+    .sass("resources/sass/forms.scss", "public/css")
+    .styles(
+        "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+        "public/css/fontawesome.css"
+    )
+    .copy(
+        "resources/summernote/font/summernote.woff",
+        "public/css/font/summernote.woff"
+    )
+    .copy(
+        "resources/summernote/font/summernote.ttf",
+        "public/css/font/summernote.ttf"
+    )
+    .copy(
+        "resources/summernote/font/summernote.eot",
+        "public/css/font/summernote.eot"
+    )
+    .styles(
+        [
+            "resources/summernote/summernote.css",
+            "resources/summernote/summernote-bs4.css"
+        ],
+        "public/css/texteditor.css"
+    )
+    .copyDirectory(
+        "node_modules/@fortawesome/fontawesome-free/webfonts",
+        "public/webfonts"
+    )
+    .copyDirectory("resources/sass/fonts", "public/css/fonts");
 
 //Event
-mix.sass('resources/sass/event.scss', 'public/css');
+/*mix.sass('resources/sass/event.scss', 'public/css')
+    .js('resources/js/ticketsScan.js', 'public/js')
+    .js('resources/js/payment.js', 'public/js');
+*/

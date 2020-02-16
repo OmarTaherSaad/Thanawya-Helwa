@@ -24,7 +24,10 @@ class PagesController extends Controller
     }
 
     public function about() {
-        return view('about-us');
+        return view('about-us')
+        ->with('members_founder',\App\Member::hasStatus('founder'))
+        ->with('members_current',\App\Member::hasStatus('current'))
+        ->with('members_old',\App\Member::hasStatus('old'));
     }
 
     public function join() {
@@ -50,13 +53,13 @@ class PagesController extends Controller
             "message" => "required|min:10,1000"
         ]);
 
-        // check if reCaptcha has been validated by Google      
+        // check if reCaptcha has been validated by Google
         $secret = config('app.GOOGLE_RECAPTCHA_SECRET');
         $captchaId = $request->input('g-recaptcha-response');
-        
+
         //sends post request to the URL and tranforms response to JSON
         $responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$captchaId));
-        
+
         if($responseCaptcha->success == true && $request->input('action') == 'contact_form') {
             //Valid
             //Send Mail to Admin
@@ -108,7 +111,7 @@ class PagesController extends Controller
                 'شبابيك' => 'https://shbabbek.com/show/125076',
                 'مصراوي (خبر آخر)' => 'https://www.masrawy.com/news/news_various/details/2019/6/18/1586588/',
                 //'' => '',
-                
+
             ];
         }
         return view('media')->with(compact('Items'))->with('type',$MediaType);
@@ -238,7 +241,7 @@ class PagesController extends Controller
         }
         // if (\Str::contains($s,' ا')) {
         //     //ا --> أ In middle
-            
+
         //     //TODO - Ensure it's not ال
         // }
         return $s;

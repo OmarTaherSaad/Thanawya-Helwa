@@ -34,38 +34,17 @@
                     <a class="dropdown-item" href="{{ route('Tansik-Stages-Info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="TASDropdown" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">TA Summit &nbsp;</a>
-                <div class="dropdown-menu" aria-labelledby="TASDropdown">
-                    <a class="dropdown-item" href="{{ route('tas.home') }}">رئيسية القمة</a>
-                    <a class="dropdown-item" href="{{ route('tas.tickets.register') }}">تسجيل تذكرة</a>
-                    <a class="dropdown-item" href="{{ route('tas.buy-ticket-online') }}">شراء تذكرة أونلاين</a>
-                    <a class="dropdown-item" href="{{ route('tas.schedule') }}">جدول اليوم</a>
-                    <a class="dropdown-item" href="{{ route('tas.countdown') }}">العد التنازلي</a>
-                    @can('viewAny', \App\Payment::class)
-                    <a class="dropdown-item" href="{{ route('tas.payments.index') }}">عمليات الدفع</a>
-                    @endcan
-                    @if (Auth::check() && (Auth::user()->isTeamMember() || Auth::user()->isAdmin()))
-                    <a class="dropdown-item" href="{{ route('tas.tickets.eventEntry') }}">الدخول (يوم الايفينت)</a>
-                    @endif
-                </div>
-            </li>
         </ul>
-        
+
             {{--End Right--}}
             <div class="mx-md-auto"></div>
             {{--Left--}}
             <ul class="navbar-nav">
                 <!-- Authentication Links -->
                 @guest
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">حساب جديد</a>
-                </li>
+                </li> --}}
                 @else
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -74,15 +53,19 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {{--Admin can view all users--}}
-                        @if (Auth::user()->isAdmin())
+                        {{-- @if (Auth::user()->isAdmin())
                         <a class="dropdown-item {{ request()->is(route('allUsers')) ? 'active' : '' }}"
-                            href="{{ route('allUsers') }}">
+                            href="">
                             عرض جميع مستخدمي الموقع
                         </a>
-                        @endif
+                        @endif --}}
                         <a class="dropdown-item {{ request()->is(route('edit-user',['user' => Auth::user()->id])) ? 'active' : '' }}"
                             href="{{ route('edit-user',['user' => Auth::user()->id]) }}">
                             تعديل بياناتك
+                        </a>
+                        <a class="dropdown-item {{ request()->is(route('members.index')) ? 'active' : '' }}"
+                            href="{{ route('members.index') }}">
+                            تعديل أعضاء الفريق
                         </a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
@@ -95,6 +78,6 @@
                 </li>
                 @endguest
             </ul>
-        
+
     </div>
 </nav>

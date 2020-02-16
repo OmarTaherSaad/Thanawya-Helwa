@@ -51,7 +51,7 @@
         </p>
     </div>
     <div class="col-md-5 col-12" id="frameContainer">
-        
+
     </div>
 </div>
 <hr>
@@ -80,6 +80,93 @@
             شرح للمناهج متاح على النت وعلى أرض الواقع، وبأسلوب هيفهمهم مش يحفظهم كلام وخلاص.
         </p>
     </div>
+</div>
+<div dir="ltr">
+    @if($members_founder->count() > 0)
+    {{-- Founders --}}
+    <div class="row">
+        <div class="col-12 px-0">
+            <!-- Header -->
+            <div class="bg-success text-center py-5 mb-4">
+                <div class="container">
+                    <h1 class="font-weight-light text-white">Meet Our Founders</h1>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="container">
+                <div class="row justify-content-center">
+                    @foreach ($members_founder as $member)
+                    <div class="col-xl-4 col-6 mb-4">
+                        @include('containers.member',$member)
+                    </div>
+                    @endforeach
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+    </div>
+    {{-- Founders END --}}
+    @endif
+    @if($members_current->count() > 0)
+    {{-- Current --}}
+    <div class="row">
+        <div class="col-12 px-0">
+            <!-- Header -->
+            <div class="bg-primary text-center py-5 mb-4">
+                <div class="container">
+                    <h1 class="font-weight-light text-white">and Here is our Current Team!</h1>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="container">
+                <div class="row justify-content-center">
+                    @foreach ($members_current as $member)
+                    <div class="col-xl-4 col-6 mb-4">
+                        @include('containers.member',$member)
+                    </div>
+                    @endforeach
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+    </div>
+    @endif
+    {{-- Current END --}}
+
+    {{-- Old --}}
+    @if($members_old->count() > 0)
+    <div class="row">
+        <div class="col-12 px-0">
+            <!-- Header -->
+            <div class="bg-secondary text-center py-5 mb-4">
+                <div class="container">
+                    <h1 class="font-weight-light text-white">Also, we would love to thank our former members :)</h1>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="container">
+                <div class="row justify-content-center">
+                    @foreach ($members_old as $member)
+                    <div class="col-xl-4 col-6 mb-4">
+                        @include('containers.member',$member)
+                    </div>
+                    @endforeach
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+    </div>
+    {{-- Old END --}}
+    @endif
 </div>
 @endsection
 
