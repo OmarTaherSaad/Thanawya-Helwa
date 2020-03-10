@@ -49,8 +49,6 @@
 
                         <div class="col-md-6">
                             <input id="mobile_number" type="text" class="form-control @error('mobile_number') is-invalid @enderror" name="mobile_number" value="{{ old('mobile_number') }}" required autocomplete="mobile-number" placeholder="بدون علامة + .. فقط 11 رقم يبدأوا بـ01.." pattern="[0-9]{11}">
-                            <small class="form-text text-muted">في خانة رقم الموبايل، لازم تكتب رقم الموبايل اللي استخدمته / هتستخدمه في الدفع.</small>
-
                             @error('mobile_number')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

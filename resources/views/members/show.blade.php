@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('layouts.app-members')
 @section('title',$member->name)
 
 @section('head')
@@ -17,7 +16,7 @@
             <div class="col-12 col-md-10 content">
                 <h2 class="text-center">{{ $member->name }}</h2>
                 <h4 class="text-center text-black-50">{{ $member->title }}</h4>
-                <h6 class="text-center text-black-50">{{ $member->education }}</h6>
+                <h6 class="text-center text-black-50">{{ $member->title_personal }}</h6>
                 <div class="row justify-content-center">
                         <div class="col-8 col-md-6 my-1">
                             {!! $member->getFirstMedia('profile-photo')->img('',['class'=>'img-fluid rounded','alt'=>$member->name]) !!}

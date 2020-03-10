@@ -1,8 +1,12 @@
-@extends('layouts.app')
-@section('title',"Products | Edit ".$product->name)
+@extends('layouts.app-members')
+@section('title',"Members | Edit ".$member->name)
 @section('head')
-<link rel="stylesheet" href="{{ asset('css/products.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/texteditor.css') }}" />
+<style>
+    .note-toolbar {
+        z-index: 1 !important;
+    }
+</style>
 @endsection
 @section('content')
 <div class="row">
@@ -11,43 +15,59 @@
 </div>
 <div class="row my-1">
     <div class="col-12 col-md-auto">
-        <a href="{{ route('products.index') }}" class="btn btn-primary">
-            <i class="fas fa-arrow-alt-circle-left"></i>&nbsp; All Products
+        <a href="{{ route('members.index') }}" class="btn btn-primary">
+            <i class="fas fa-arrow-alt-circle-left"></i>&nbsp; All Members
         </a>
     </div>
 </div>
 <div class="row">
     <div class="col-12 col-md-auto">
-        <h2>Edit {{ $product->name }}</h2>
+        <h2>Edit {{ $member->name }}</h2>
     </div>
 </div>
 <h5>Current Photo</h5>
 <div class="row justify-content-center">
     <div class="col-6">
-        {!! $product->getFirstMedia('products')->img('',['class'=>'img-fluid','alt'=> htmlspecialchars($product->name)]) !!}
+        @if (is_null($member->getFirstMedia('members/profile-photos')))
+        <img src="{{ $member->getFirstMediaUrl('members/profile-photos') }}" class="img-fluid"
+            alt="{!! htmlspecialchars($member->name) !!}">
+        @else
+        {!! $member->getFirstMedia('members/profile-photos')->img('',['class'=>'img-fluid','alt'=> htmlspecialchars($member->name)])
+        !!}
+        @endif
     </div>
 </div>
 
-<form action="{{ $product->getLinkToEdit() }}" method="POST" id="editForm">
-    @csrf
-    @method('PATCH')
+<form action="{{ route('members.update',['member' => $member]) }}" method="POST" enctype="multipart/form-data" id="createForm"
+    class="text-left" dir="ltr">
     <div class="row justify-content-center mt-2">
         <div class="col-12 col-md-6">
+            @csrf
+            @method('PATCH')
             <div class="form-group">
-                <label for="name">Product Name</label>
-                <input type="text" name="name" maxlength="200" class="form-control" value="{{ $product->name }}" required>
+                <label for="name">Name</label>
+                <input type="text" name="name" maxlength="200" class="form-control" value="{{ $member->name }}" required>
             </div>
-
             <div class="form-group">
-                <label for="id">Product ID on "Jan Drozd"</label>
-                <input type="number" min="0" name="id" class="form-control" value="{{ $product->id }}" required>
+                <label for="title_on_team">Title on team</label>
+                <input type="text" name="title_on_team" maxlength="200" class="form-control" value="{{ $member->title_on_team }}">
             </div>
-
-
+            <div class="form-group">
+                <label for="title_personal">Personal Title</label>
+                <input type="text" name="title_personal" maxlength="200" class="form-control" value="{{ $member->title_personal }}"
+                    required>
+            </div>
+            @if(auth()->user()->isAdmin())
+            <div class="form-group">
+                <label for="status">Status (comma separated for multi values).</label>
+                <input type="text" name="status" maxlength="200" class="form-control" value="{{ $member->status_csv }}"
+                    required>
+            </div>
+            @endif
             <div class="form-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="image" id="productImage" accept="image/*">
-                    <label class="custom-file-label" for="productImage">Choose Product Image</label>
+                    <input type="file" class="custom-file-input" name="image" id="memberImage" accept="image/*">
+                    <label class="custom-file-label" for="memberImage">Choose Member Image</label>
                 </div>
                 <small class="form-text text-muted">It must be a valid image,with square dimensions (width = height) and
                     with maximum size of 10MB.</small>
@@ -60,10 +80,10 @@
             </div>
 
             <div class="form-group">
-                <textarea id="textEditor" name="description">{!! $product->description !!}</textarea>
+                <textarea id="textEditor" name="text"></textarea>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Edit" />
+                <input type="submit" class="btn btn-primary" value="Add" />
             </div>
         </div>
     </div>
@@ -73,7 +93,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/products.js') }}"></script>
+<script src="{{ asset('js/members.js') }}"></script>
 <script src="{{ asset('js/texteditor.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/forms.js') }}" defer></script>
 <script defer>
@@ -90,7 +110,7 @@
                 let imgNode = document.createElement('img');
                 let data = new FormData();
                 data.append('image',files[0])
-                window.axios.post("{{ route('products.save_image') }}",data,{
+                window.axios.post("{{ route('members.save_image') }}",data,{
                 headers: {
                 'Content-Type': 'multipart/form-data'
                 }
@@ -104,40 +124,12 @@
                     }
                 }).catch(error => {
                     alert("Sorry, an error occured!");
-                    // console.log('error');
-                    // console.log(error);
                 });
             }
         }
     });
-    $("#editForm").submit(e => {
-        e.preventDefault();
-        let data = new FormData(e.target);
-        let alerts = "";
-        let alertsList = null;
-        window.axios.post("{{ $product->getLinkToUpdate() }}",data,{
-            headers: {
-            'Content-Type': 'multipart/form-data'
-            }
-        }).then(response => {
-            if (response.data.success == undefined) {
-                alerts = '<div class="alert alert-danger"><ul>';
-                alertsList = response.data;
-            } else {
-                alerts = '<div class="alert alert-success"><ul>';
-                alertsList = {Done: response.data.message};
-            }
-        }).catch(error => {
-            alertsList = error.errors;
-            alerts = '<div class="alert alert-danger"><ul>';
-        }).finally(function() {
-            $.each(alertsList,function (k,v) {
-                    alerts += '<li>'+ v + '</li>';
-            });
-            alerts += '</ul></di>';
-            $( '#response_alert' ).html( alerts );
-            window.scrollTo(0,0);
-        });
+    $("#createForm").submit(e => {
+        document.body.classList.add('loading');
     });
 </script>
 @endsection

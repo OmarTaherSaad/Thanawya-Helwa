@@ -13,6 +13,7 @@
 Route::get('/','PagesController@index')->name('home');
 Route::get('/home','PagesController@index')->name('home');
 Route::get('/about-us','PagesController@about')->name('about-us');
+Route::get('get-members','PagesController@get_members');
 Route::get('/join-us','PagesController@join')->name('join-us');
 Route::get('/media/TV','PagesController@TV')->name('media-TV');
 Route::get('/media/Newspaper','PagesController@Newspaper')->name('media-newspaper');
@@ -55,9 +56,25 @@ Route::patch('users/{user}/edit','UsersController@update')->middleware('can:upda
 Route::get('auth/{provider}', 'SocialController@redirectToProvider')->name('ProviderAuth');
 Route::get('callback/{provider}', 'SocialController@handleProviderCallback');
 
-//Members
-Route::resource('members', 'MemberController')->middleware(['auth', 'role:TAteam']);
-Route::post('members/upload', 'MemberController@store_image')->name('members.save_image');
+Route::prefix('team')->group(function() {
+    //Members
+    Route::resource('members', 'MemberController')->middleware(['auth', 'role:THteam']);
+    Route::post('members/upload', 'MemberController@store_image')->name('members.save_image');
+    //Tags
+    Route::resource('tags', 'TagController');
+    //Posts
+    Route::resource('posts', 'PostController');
+    Route::prefix('posts')->name('posts.')->middleware('auth')->group(function () {
+        Route::get('member/{member}', 'PostController@view_user_posts')->name('view-member-posts');
+    });
+    //Admin Board
+    Route::prefix('admins')->name('admins.')->middleware(['auth','role:admin'])->group(function() {
+        //Posts
+        Route::get('approve-post/{post}','PostController@approve_post')->name('approve-post');
+        Route::post('approve-post/{post}','PostController@approve');
+        Route::get('all-post','PostController@all_post_for_admin')->name('all-post');
+    });
+});
 
 //TAS Routes
 /*
@@ -79,10 +96,10 @@ Route::prefix('TAS')->name('tas.')->group(function() {
         //Get Ticket Image
         //Route::get('image/{user}/{ticket}','TicketsController@getImageLink')->middleware('signed')->name('image');
         //Verify at entry
-        Route::get('event-entry','TicketsController@eventEntry')->middleware('role:TAteam')->name('eventEntry');
-        Route::post('verify','TicketsController@verify')->middleware('role:TAteam');
+        Route::get('event-entry','TicketsController@eventEntry')->middleware('role:THteam')->name('eventEntry');
+        Route::post('verify','TicketsController@verify')->middleware('role:THteam');
         //Ticket Entered
-        Route::post('enter','TicketsController@eventEntered')->middleware('role:TAteam');
+        Route::post('enter','TicketsController@eventEntered')->middleware('role:THteam');
         //Register ticket to user
         Route::get('register','TASController@registerTicket')->name('register')->middleware('ensureUserHasMobile');
         Route::post('register','TicketsController@registerToUser');

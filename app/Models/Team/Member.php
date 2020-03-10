@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Models\Team;
+
+use App\User;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Member extends User implements HasMedia
+{
+    use HasMediaTrait;
+
+
+    protected $fillable = ['title_on_team','title_personal','text','name','status'];
+
+    protected $casts = [
+        'status' => 'array'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Team\Post','written_by');
+    }
+
+    public function getLinkToView()
+    {
+        return route('members.show', ['member' => $this->id]);
+    }
+
+    public function getLinkToEdit()
+    {
+        return route('members.edit', ['member' => $this->id]);
+    }
+
+    public function getLinkToUpdate()
+    {
+        return route('members.update', ['member' => $this->id]);
+    }
+    public function getLinkToDelete()
+    {
+        return route('members.destroy', ['member' => $this->id]);
+    }
+
+    public function registerMediaCollections()
+    {
+        $this->addMediaCollection('members/profile-photos')
+            ->useFallbackUrl(asset('storage/members/profile-photos/default.jpg'))
+            ->useFallbackPath(asset('storage/members/profile-photos/default.jpg'))
+            ->singleFile();
+    }
+
+    public function getStatusCsvAttribute() {
+        $str = '';
+        foreach ($this->status as $s) {
+            $str .= ',' . $s;
+        }
+        return substr($str,1);
+    }
+
+    public static function hasStatus($status)
+    {
+        return Member::all()->filter(function($value) use ($status) {
+            $condition = in_array($status, $value->status) && ($status == 'founder' || !in_array('founder', $value->status));
+            return $condition;
+        });
+    }
+}

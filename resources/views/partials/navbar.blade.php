@@ -4,12 +4,61 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="{{ route('home') }}">
-        <img src="{{ Storage::url('assets/images/logo.svg') }}" onerror="this.src='../assets/images/logo.png'; this.onerror=null;" class="img-fluid" alt="فريق ثانوية حلوة">
+        <img src="{{ Storage::url('assets/images/logo.svg') }}"
+            onerror="this.src='../assets/images/logo.png'; this.onerror=null;" class="img-fluid" alt="فريق ثانوية حلوة">
     </a>
-
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            @if(auth()->check() && auth()->user()->isTeamMember())
+            @if(auth()->user()->isAdmin())
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="AdminDropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Admin Tools &nbsp;</a>
+                <div class="dropdown-menu" aria-labelledby="AdminDropdown">
+                    <a class="dropdown-item" href="{{ route('admins.all-post') }}">View All Posts</a>
+                    <a class="dropdown-item" href="{{ route('posts.create') }}">Create Post</a>
+                    <a class="dropdown-item" href="{{ route('posts.index') }}">View All Posts</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="TagsDropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Tags &nbsp;</a>
+                <div class="dropdown-menu" aria-labelledby="TagsDropdown">
+                    <a class="dropdown-item" href="{{ route('tags.index') }}">All Tags</a>
+                    <a class="dropdown-item" href="{{ route('tags.create') }}">Create New Tag</a>
+                </div>
+            </li>
+            @endif
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="PostsDropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Posts &nbsp;</a>
+                <div class="dropdown-menu" aria-labelledby="PostsDropdown">
+                    <a class="dropdown-item"
+                        href="{{ route('posts.view-member-posts',['member' => auth()->user()->member ]) }}">View & Edit
+                        My Posts</a>
+                    <a class="dropdown-item" href="{{ route('posts.create') }}">Create Post</a>
+                    <a class="dropdown-item" href="{{ route('posts.index') }}">View All Posts</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="MainWebsiteDropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Main Website &nbsp;</a>
+                <div class="dropdown-menu" aria-labelledby="MainWebsiteDropdown">
+                    <a class="dropdown-item" href="{{ route('home') }}">الرئيسية</a>
+                    <a class="dropdown-item" href="{{ route('about-us') }}">عن الفريق</a>
+                    <a class="dropdown-item" href="{{ route('contact') }}">تواصل معنا</a>
+                    <a class="dropdown-item" href="{{ route('join-us') }}">انضم إلينا</a>
+                    <hr>
+                    <a class="dropdown-item" href="{{ route('Tansik-Previous-Edges') }}">تنسيق السنوات السابقة</a>
+                    <a class="dropdown-item" href="{{ route('Tansik-Geo-Dist') }}">جدول التوزيع الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('Tansik-Geo-Dist-Info') }}">معلومات عن القبول الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('Tansik-ReduceAlienation') }}">معلومات عن تقليل الاغتراب</a>
+                    <a class="dropdown-item" href="{{ route('Tansik-Tzalom') }}">معلومات عن التظلم</a>
+                    <a class="dropdown-item" href="{{ route('Tansik-Stages-Info') }}">معلومات عن مراحل التنسيق</a>
+                </div>
+            </li>
+            @else
             <li class="nav-item {{ Route::currentRouteName() == 'home' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('home') }}">الرئيسية</a>
             </li>
@@ -23,8 +72,8 @@
                 <a class="nav-link" href="{{ route('join-us') }}">انضم إلينا</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="TansikDropdown" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">دليلك في التنسيق &nbsp;</a>
+                <a class="nav-link dropdown-toggle" id="TansikDropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">دليلك في التنسيق &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="TansikDropdown">
                     <a class="dropdown-item" href="{{ route('Tansik-Previous-Edges') }}">تنسيق السنوات السابقة</a>
                     <a class="dropdown-item" href="{{ route('Tansik-Geo-Dist') }}">جدول التوزيع الجغرافي</a>
@@ -34,50 +83,59 @@
                     <a class="dropdown-item" href="{{ route('Tansik-Stages-Info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
+            @endif
         </ul>
 
-            {{--End Right--}}
-            <div class="mx-md-auto"></div>
-            {{--Left--}}
-            <ul class="navbar-nav">
-                <!-- Authentication Links -->
-                @guest
-                {{-- <li class="nav-item">
+        {{--End Right--}}
+        <div class="mx-md-auto"></div>
+        {{--Left--}}
+        <ul class="navbar-nav">
+            <!-- Authentication Links -->
+            @guest
+            {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
-                </li> --}}
-                @else
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        {{ Auth::user()->name }} <span class="caret"></span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {{--Admin can view all users--}}
-                        {{-- @if (Auth::user()->isAdmin())
+            </li> --}}
+            @else
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {{--Admin can view all users--}}
+                    {{-- @if (Auth::user()->isAdmin())
                         <a class="dropdown-item {{ request()->is(route('allUsers')) ? 'active' : '' }}"
-                            href="">
-                            عرض جميع مستخدمي الموقع
-                        </a>
-                        @endif --}}
-                        <a class="dropdown-item {{ request()->is(route('edit-user',['user' => Auth::user()->id])) ? 'active' : '' }}"
-                            href="{{ route('edit-user',['user' => Auth::user()->id]) }}">
-                            تعديل بياناتك
-                        </a>
-                        <a class="dropdown-item {{ request()->is(route('members.index')) ? 'active' : '' }}"
-                            href="{{ route('members.index') }}">
-                            تعديل أعضاء الفريق
-                        </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    href="">
+                    عرض جميع مستخدمي الموقع
+                    </a>
+                    @endif --}}
+                    <a class="dropdown-item {{ request()->is(route('edit-user',['user' => Auth::user()])) ? 'active' : '' }}"
+                        href="{{ route('edit-user',['user' => Auth::user()]) }}">
+                        تعديل بياناتك الشخصية
+                    </a>
+                    @if(auth()->user()->isTeamMember() && !is_null(auth()->user()->member))
+                    <a class="dropdown-item {{ request()->is(route('members.edit',['member' => auth()->user()->member])) ? 'active' : '' }}"
+                        href="{{ route('members.edit',['member' => auth()->user()->member]) }}">
+                        تعديل بياناتك مع الفريق
+                    </a>
+                    @endif
+                    @can('create',\App\Models\Team\Member::class)
+                    <a class="dropdown-item {{ request()->is(route('members.index')) ? 'active' : '' }}"
+                        href="{{ route('members.index') }}">
+                        تعديل أعضاء الفريق
+                    </a>
+                    @endcan
+                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
-                            تسجيل خروج
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
-                @endguest
-            </ul>
+                        تسجيل خروج
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+            </li>
+            @endguest
+        </ul>
 
     </div>
 </nav>

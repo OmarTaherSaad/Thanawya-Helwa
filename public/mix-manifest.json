@@ -6,11 +6,6 @@
     "/js/edges.js": "/js/edges.js",
     "/js/forms.js": "/js/forms.js",
     "/js/members.js": "/js/members.js",
-    "/js/service-worker.js": "/js/service-worker.js",
-    "/js/texteditor.js": "/js/texteditor.js",
-    "/css/fontawesome.css": "/css/fontawesome.css",
-    "/css/font/summernote.woff": "/css/font/summernote.woff",
-    "/css/font/summernote.ttf": "/css/font/summernote.ttf",
-    "/css/font/summernote.eot": "/css/font/summernote.eot",
-    "/css/texteditor.css": "/css/texteditor.css"
+    "/js/post.js": "/js/post.js",
+    "/js/service-worker.js": "/js/service-worker.js"
 }

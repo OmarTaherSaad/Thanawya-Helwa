@@ -19,3 +19,6 @@ $(document).on("blur", "input:not([type=submit]), textarea", function () {
         $(this).removeClass('invalid');
     }
 });
+$("form").submit(e => {
+    document.body.classList.add('loading');
+});

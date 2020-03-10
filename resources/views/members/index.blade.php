@@ -1,9 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.app-members')
 @section('title','All Members')
 @section('content')
 <div class="row justify-content-center text-center mt-5">
     <div class="col-12 col-6">
+        @can('create',\App\Models\Team\Member::class)
         <a class="btn btn-primary" href="{{ route('members.create') }}">Add Member</a>
+        @endcan
     </div>
 </div>
 <div class="row justify-content-center text-center mt-5">

@@ -27,7 +27,7 @@ class Kernel extends HttpKernel
         \RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
         \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
         //Lower-case Routes
-        \App\Http\Middleware\LowerCaseRoutes::class,
+        //\App\Http\Middleware\LowerCaseRoutes::class,
     ];
 
     /**
@@ -71,7 +71,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'ensureUserHasMobile' => \App\Http\Middleware\ensureUserHasMobile::class,
-        
+
     ];
 
     /**

@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="Keywords" content="thanawya,ثانوية,ثانوية عامة,ثانوية حلوة">
         <meta name="Description" content="Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).">
-        
+
         {{--PWA--}}
         <link rel="manifest" href="{{ Storage::url('manifest.json') }}">
         <meta name="theme-color" content="#E6DCE7">
@@ -29,6 +29,8 @@
         </script>
         @yield('head')
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
+        <script data-ad-client="ca-pub-8176502663524074" async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     </head>
 
     <body>
@@ -47,12 +49,12 @@
             {{-- Facebook Chat Plugin --}}
             <!-- Load Facebook SDK for JavaScript -->
             <div id="fb-root"></div>
-            
+
             <!-- Your customer chat code -->
             <div class="fb-customerchat" attribution=setup_tool page_id="1050652325008867" theme_color="#6D65AE"
                 logged_in_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك"
                 logged_out_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك">
-            </div>    
+            </div>
             <div class="container-fluid">
                 @include('partials.show-alerts')
                 {{-- Content --}}

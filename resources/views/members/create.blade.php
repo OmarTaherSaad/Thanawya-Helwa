@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-members')
 @section('title','Members | Add a New Member')
 @section('head')
 <link rel="stylesheet" href="{{ asset('css/texteditor.css') }}" />
@@ -6,6 +6,7 @@
     .note-toolbar {
         z-index: 1 !important;
     }
+
 </style>
 @endsection
 @section('content')
@@ -18,31 +19,43 @@
         <h2>Add a New Member</h2>
     </div>
 </div>
-<form action="{{ route('members.store') }}" method="POST" id="createForm" class="text-left" dir="ltr">
+<form action="{{ route('members.store') }}" method="POST" enctype="multipart/form-data" id="createForm" class="text-left" dir="ltr">
     <div class="row justify-content-center mt-2">
         <div class="col-12 col-md-6">
             @csrf
             <div class="form-group">
+                <label for="user_id">Select Member Account (if exist)</label>
+                <select name="user_id" class="custom-select">
+                    <option disabled selected>Select Account email</option>
+                    @foreach ($users as $userId => $userEmail)
+                        <option value="{{ $userId }}">{{ $userEmail }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" name="name" maxlength="200" class="form-control" value="{{ old('name') }}" required>
+                <input type="text" name="name" maxlength="200" class="form-control" value="{{ old('name') }}"
+                    required>
             </div>
             <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" name="title" maxlength="200" class="form-control" value="{{ old('title') }}" required>
+                <label for="title_on_team">Title on team</label>
+                <input type="text" name="title_on_team" maxlength="200" class="form-control" value="{{ old('title_on_team') }}"
+                    required>
             </div>
             <div class="form-group">
-                <label for="education">Education</label>
-                <input type="text" name="education" maxlength="200" class="form-control" value="{{ old('education') }}" required>
+                <label for="title_personal">Personal Title</label>
+                <input type="text" name="title_personal" maxlength="200" class="form-control" value="{{ old('title_personal') }}"
+                    required>
             </div>
             <div class="form-group">
                 <label for="status">Status (comma separated for multi values).</label>
-                <input type="text" name="status" maxlength="200" class="form-control" value="{{ old('status') }}" required>
+                <input type="text" name="status" maxlength="200" class="form-control" value="{{ old('status') }}"
+                    required>
             </div>
 
             <div class="form-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="image" id="memberImage" accept="image/*"
-                        required>
+                    <input type="file" class="custom-file-input" name="image" id="memberImage" accept="image/*">
                     <label class="custom-file-label" for="memberImage">Choose Member Image</label>
                 </div>
                 <small class="form-text text-muted">It must be a valid image,with square dimensions (width = height) and
@@ -105,36 +118,7 @@
         }
     });
     $("#createForm").submit(e => {
-        e.preventDefault();
-        let data = new FormData(e.target);
-        let alerts = "";
-        let alertsList = null;
-        window.axios.post("{{ route('members.store') }}",data,{
-            headers: {
-            'Content-Type': 'multipart/form-data'
-            }
-        }).then(response => {
-            if (response.data.success == undefined) {
-                alerts = '<div class="alert alert-danger"><ul>';
-                alertsList = response.data;
-            } else {
-                alerts = '<div class="alert alert-success"><ul>';
-                alertsList = {Done: response.data.message};
-                $('#createForm')[0].reset();
-                $("#textEditor").summernote('code', '');
-                document.getElementById("file-list").innerHTML = '';
-            }
-        }).catch(error => {
-            alertsList = error.errors;
-            alerts = '<div class="alert alert-danger"><ul>';
-        }).finally(function() {
-            $.each(alertsList,function (k,v) {
-                    alerts += '<li>'+ v + '</li>';
-            });
-            alerts += '</ul></di>';
-            $( '#response_alert' ).html( alerts );
-            window.scrollTo(0,0);
-        });
+        document.body.classList.add('loading');
     });
 </script>
 @endsection

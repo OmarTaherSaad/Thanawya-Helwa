@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class TicketPolicy
 {
     use HandlesAuthorization;
-    
+
     public function before($ticket, $ability)
     {
         if (\Auth::check() && \Auth::user()->isAdmin()) {

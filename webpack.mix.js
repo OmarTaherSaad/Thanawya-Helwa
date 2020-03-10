@@ -25,8 +25,7 @@ if (mix.inProduction())
                 skipWaiting: true,
                 clientsClaim: true,
                 ignoreURLParametersMatching: [/./],
-                globPatterns: ['**/*.{css,js,png,jpg,jpeg,svg,ttf}'],
-                globIgnores: ['node_modules/**/*', '**map*', '**/*manifest*', '**service-worker*/'],
+                exclude: ['node_modules/**/*', '**map*', '**/*manifest*', '**service-worker*/'],
                 templatedURLs: {
                     '/offline': 'resources/views/offline.blade.php',
                     '/': 'resources/views/index.blade.php',
@@ -43,7 +42,7 @@ if (mix.inProduction())
                         handler: 'StaleWhileRevalidate'
                     },
                     {
-                        urlPattern: /((\/Tansik\/).+(Edges|Distribution$))|contact$|join-us$|TAS/,
+                        urlPattern: /((\/Tansik\/).+(Edges|Distribution$))|contact$|join-us$|TAS|\/team\//,
                         handler: 'NetworkOnly'
                     }
                 ],
@@ -62,6 +61,7 @@ mix.js("resources/js/app.js", "public/js")
     .js("resources/js/edges.js", "public/js")
     .js("resources/js/forms.js", "public/js")
     .js("resources/js/members.js", "public/js")
+    .js("resources/js/post.js", "public/js")
     .scripts(
         [
             "resources/summernote/summernote.min.js",

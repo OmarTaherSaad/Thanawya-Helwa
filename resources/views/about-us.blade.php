@@ -2,6 +2,16 @@
 
 @section('title','عن الفريق')
 
+@section('head')
+<style type="text/css">
+    .ajax-load {
+        background: #e1e1e1;
+        padding: 10px 0px;
+        width: 100%;
+    }
+
+</style>
+@endsection
 @section('content')
 <div class="row align-items-center my-3 my-3">
     <div class="col text-center">
@@ -11,7 +21,8 @@
 <div class="row text-right my-2 py-2 align-items-center">
     <div class="col-12 col-md-3">
         <a href="{{ Storage::url('assets/images/logo_bg.jpg') }}" class="progressive replace">
-            <img src="{{ Storage::url('assets/images/logo_bg-sm.jpg') }}" alt="Thanawya Helwa Team" class="preview img-fluid" style="border-radius: 10%">
+            <img src="{{ Storage::url('assets/images/logo_bg-sm.jpg') }}" alt="Thanawya Helwa Team"
+                class="preview img-fluid" style="border-radius: 10%">
         </a>
     </div>
     <div class="col">
@@ -58,7 +69,8 @@
 <div class="row text-right my-2 py-2 align-items-center">
     <div class="col-12 col-md-3">
         <a href="{{ Storage::url('assets/images/shantet_elthanawya.jpg') }}" class="progressive replace">
-            <img src="{{ Storage::url('assets/images/shantet_elthanawya-sm.jpg') }}" alt="Thanawya Helwa Team" class="preview img-fluid" style="border-radius: 5%">
+            <img src="{{ Storage::url('assets/images/shantet_elthanawya-sm.jpg') }}" alt="Thanawya Helwa Team"
+                class="preview img-fluid" style="border-radius: 5%">
         </a>
     </div>
     <div class="col">
@@ -95,12 +107,11 @@
 
             <!-- Page Content -->
             <div class="container">
-                <div class="row justify-content-center">
-                    @foreach ($members_founder as $member)
-                    <div class="col-xl-4 col-6 mb-4">
-                        @include('containers.member',$member)
-                    </div>
-                    @endforeach
+                <div class="row justify-content-center members-data" id="founders-data" data-role="founder">
+                    @include('containers.members-list',['members' => $members_founder])
+                </div>
+                <div class="ajax-load text-center" style="display:none">
+                    <p><img src="{{ Storage::url('assets/loader.gif') }}">Loading More members</p>
                 </div>
                 <!-- /.row -->
 
@@ -123,12 +134,11 @@
 
             <!-- Page Content -->
             <div class="container">
-                <div class="row justify-content-center">
-                    @foreach ($members_current as $member)
-                    <div class="col-xl-4 col-6 mb-4">
-                        @include('containers.member',$member)
-                    </div>
-                    @endforeach
+                <div class="row justify-content-center members-data" id="member-current-data" data-role="current">
+                    @include('containers.members-list',['members' => $members_current])
+                </div>
+                <div class="ajax-load text-center" style="display:none">
+                    <p><img src="{{ Storage::url('assets/loader.gif') }}">Loading More members</p>
                 </div>
                 <!-- /.row -->
 
@@ -152,12 +162,11 @@
 
             <!-- Page Content -->
             <div class="container">
-                <div class="row justify-content-center">
-                    @foreach ($members_old as $member)
-                    <div class="col-xl-4 col-6 mb-4">
-                        @include('containers.member',$member)
-                    </div>
-                    @endforeach
+                <div class="row justify-content-center members-data" id="member-old-data" data-role="old">
+                    @include('containers.members-list',['members' => $members_old])
+                </div>
+                <div class="ajax-load text-center" style="display:none">
+                    <p><img src="{{ Storage::url('assets/loader.gif') }}">Loading More members</p>
                 </div>
                 <!-- /.row -->
 
@@ -171,8 +180,8 @@
 @endsection
 
 @section('scripts')
-    <script async>
-        let iframe = document.createElement('iframe');
+<script async>
+    let iframe = document.createElement('iframe');
         iframe.src = 'https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FOmarTaherSaad%2Fposts%2F865257316855598&width=500';
         iframe.title = "Omar Taher's Facebook post of founding Thanawya Helwa";
         iframe.classList.add('w-100');
@@ -181,5 +190,70 @@
         iframe.style.overflow = 'hidden';
         iframe.allowTransparency = 'true';
         document.getElementById('frameContainer').appendChild(iframe);
-    </script>
+</script>
+<script defer>
+    $(document).scrollTop(0);
+    var page = Array(3);
+    page[0] = 1;
+    page[1] = 1;
+    page[2] = 1;
+    window.onCall = true;
+    currentPage = 0;
+    window.onload = function() {
+        window.onCall = false;
+    }
+
+
+    $(window).scroll(function() {
+            if(!window.onCall && $('.members-data').length > 0 && $(window).scrollTop() >= $('.members-data').offset().top + $('.members-data').outerHeight() - window.innerHeight) {
+                $(".members-data").each(function(i,el) {
+                    if ( $(el).offset().top < ($(window).scrollTop() + $(window).height()) ) {
+                        window.onCall = true;
+                        //Nearest element
+                        role = $(el).data('role');
+                        switch (role) {
+                            case 'founder':
+                                page[0]++;
+                                currentPage = page[0];
+                                break;
+                            case 'current':
+                                page[1]++;
+                                currentPage = page[1];
+                                break;
+                            case 'old':
+                                page[2]++;
+                                currentPage = page[2];
+                                break;
+                        }
+                        loadMoreData(currentPage,role);
+                    }
+                });
+            }
+        });
+
+	function loadMoreData(page,role){
+	  $.ajax(
+	        {
+	            url: '/get-members?page=' + page + '&role='+ role,
+	            type: "get",
+	            beforeSend: function()
+	            {
+	                $('.ajax-load').show();
+	            }
+	        })
+	        .done(function(data)
+	        {
+	            $('.ajax-load').hide();
+                if (data.html == '') {
+                    $(".members-data[data-role='"+role+"']").removeClass('members-data');
+                }
+	            $("#member-"+role+"-data").append(data.html);
+                window.onCall = false;
+	        })
+	        .fail(function(jqXHR, ajaxOptions, thrownError)
+	        {
+	              alert('server not responding...');
+	        });
+	}
+</script>
 @endsection

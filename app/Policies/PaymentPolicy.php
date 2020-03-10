@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class PaymentPolicy
 {
     use HandlesAuthorization;
-    
+
      public function before($payment, $ability)
     {
         if (\Auth::check() && \Auth::user()->isAdmin()) {

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Memberable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    use Memberable;
 
     /**
      * The attributes that are mass assignable.
@@ -37,23 +39,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function tickets() {
-        return $this->hasMany(Ticket::class);
-    }
-    public function hasTicket() {
-        return $this->tickets->count() > 0;
-    }
-
     public function hasRole($role) {
         return $this->role == $role;
     }
 
-    public function canAddPayments() {
-        return $this->role == 'Ebda3team' || $this->role == 'TAteam'  || $this->role == 'admin';
-    }
-
     public function isTeamMember() {
-        return  $this->role == 'TAteam';
+        return  $this->role == 'THteam' || $this->role == 'admin';
     }
 
     public function isEdba3() {
@@ -62,13 +53,5 @@ class User extends Authenticatable
 
     public function isAdmin() {
         return $this->role == 'admin';
-    }
-
-    public function hadPaidAnyPayments() {
-        return \App\Payment::all()->where('mobile_of_payment',$this->mobile_number)->count() > 0;
-    }
-    
-    public function paidPayments() {
-        return $this->hadPaidAnyPayments() ? \App\Payment::all()->where('mobile_of_payment',$this->mobile_number) : false;
     }
 }

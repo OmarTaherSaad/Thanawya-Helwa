@@ -34,6 +34,7 @@
     "progressive-image.js": "^1.4.1",
     "sw-precache-webpack-plugin": "^0.11.5",
     "vue": "^2.6.11",
+    "vue-multiselect": "^2.1.6",
     "vue-qrcode-reader": "^2.1.1",
     "vue-the-mask": "^0.11.1",
     "webpack-obfuscator": "^0.18.8"

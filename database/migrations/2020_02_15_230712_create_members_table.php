@@ -15,13 +15,16 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 100); //Temp. until linked with "User".
-            $table->string('education', 200)->default('Student');
-            $table->string('title', 100)->default('Team Member');
+            $table->string('name', 100);
+            $table->string('title_personal', 200)->default('Student');
+            $table->string('title_on_team', 100)->default('Team Member');
+            $table->string('status', 100)->default('current');
             $table->mediumText('text')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

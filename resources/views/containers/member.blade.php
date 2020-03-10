@@ -1,13 +1,17 @@
-<div class="card text-center">
-    @if (is_null($member->getFirstMedia('profile-photo')))
-    <img src="{{ $member->getFirstMediaUrl('profile-photo') }}" class="card-img-top" alt="{!! htmlspecialchars($member->name) !!}">
+<div class="card text-center h-100 shadow">
+    @if (is_null($member->getFirstMedia('members/profile-photos')))
+    <img src="{{ $member->getFirstMediaUrl('members/profile-photos') }}" class="card-img-top"
+        alt="{!! htmlspecialchars($member->name) !!}">
     @else
-    {!! $member->getFirstMedia('profile-photo')->img('',['class'=>'card-img-top','alt'=> htmlspecialchars($member->name)]) !!}
+    {!! $member->getFirstMedia('members/profile-photos')->img('',['class'=>'card-img-top','alt'=>
+    htmlspecialchars($member->name)]) !!}
     @endif
-    <div class="card-body">
-        <h5 class="card-title">{{$member->name}}</h5>
+    <div class="card-body p-1 p-md-2">
+        <h5 class="card-title mb-1">{{$member->name}}</h5>
         <p class="card-text text-black-50">
-            {{ $member->title }}
+            {{ $member->title_on_team }}
+            <hr class="my-2">
+            <span class="font-italic">{{ $member->title_personal }}</span>
         </p>
         @if ($member->text != '')
             <a href="{{ $member->getLinkToView() }}" class="btn btn-primary">View</a>
@@ -17,7 +21,8 @@
                 <a href="{{ $member->getLinkToEdit() }}" class="btn btn-secondary">Edit</a>
             @endcan
             @can('delete', $member)
-                <a href="#deleteModal" data-id="{{ $member->getLinkToDelete() }}" data-name="{{ $member->name }}" data-toggle="modal" class=" deleteBtn btn btn-danger">Delete</a>
+                <a href="#deleteModal" data-id="{{ $member->getLinkToDelete() }}" data-name="{{ $member->name }}"
+                data-toggle="modal" class=" deleteBtn btn btn-danger">Delete</a>
             @endcan
         @endauth
     </div>

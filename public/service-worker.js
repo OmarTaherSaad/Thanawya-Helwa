@@ -16,7 +16,7 @@ workbox.setConfig({modulePathPrefix: "workbox-v4.3.1"});
 
 importScripts(
   "./js/service-worker.js",
-  "precache-manifest.ee78bbe6a8a5e46f32b4dc86cd8adefc.js"
+  "precache-manifest.bccfc9b35cad4b6f960e07bfe3b40398.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "TH"});
@@ -67,4 +67,4 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {
 workbox.precaching.cleanupOutdatedCaches();
 
 workbox.routing.registerRoute(/\.(?:css|js|png|jpg|jpeg|svg)$/, new workbox.strategies.StaleWhileRevalidate(), 'GET');
-workbox.routing.registerRoute(/((\/Tansik\/).+(Edges|Distribution$))|contact$|join-us$|TAS/, new workbox.strategies.NetworkOnly(), 'GET');
+workbox.routing.registerRoute(/((\/Tansik\/).+(Edges|Distribution$))|contact$|join-us$|TAS|\/team\//, new workbox.strategies.NetworkOnly(), 'GET');

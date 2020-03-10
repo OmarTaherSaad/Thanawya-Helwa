@@ -29,8 +29,6 @@
                     <div class="form-group">
                         <label>رقم الموبايل</label>
                         <input class="form-control" type="text" pattern="[0-9]{11}" name="mobile_number" value="{{ $user->mobile_number ? $user->mobile_number : old('mobile_number') }}" required />
-                        <small class="form-text text-muted">في خانة رقم الموبايل، لازم تكتب رقم الموبايل اللي استخدمته / هتستخدمه في
-                            الدفع.</small>
                     </div>
 
                     @if (Auth::user()->isAdmin())

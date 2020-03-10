@@ -96,7 +96,7 @@
 	<script defer>
 		 //Thumbnail as a whole link
         document.querySelector('.thumbnail').addEventListener('click', function (e) {
-            let targetLink = e.target.querySelector('.thumbnail-text').href;
+            let targetLink = e.target.querySelector('.overlay').href;
             if (targetLink.indexOf("thanawyahelwa.org") != -1 || targetLink.indexOf("localhost") != -1) {
                 window.open(targetLink, "_self");
             } else {

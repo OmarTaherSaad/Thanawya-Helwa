@@ -7,42 +7,75 @@ use App\Mail\ContactForAdminMail;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Http\Request;
-use App\Governorate;
-use App\University;
-use App\Administration;
-use App\UniAdmin;
-use App\FacultyEdge;
-use PhpParser\ErrorHandler\Collecting;
+use App\Models\Team\Member;
+use App\Models\Tansik\Governorate;
+use App\Models\Tansik\Administration;
+use App\Models\Tansik\FacultyEdge;
 use Illuminate\Support\Collection;
-use DOMDocument;
-use DOMXPath;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class PagesController extends Controller
 {
-    public function index() {
+    private $founder_members, $current_members, $old_members, $pageSize;
+
+    public function __construct()
+    {
+        $this->pageSize = 5;
+        $this->founder_members = Member::hasStatus('founder');
+        $this->current_members = Member::hasStatus('current')->sortBy('name');
+        $this->old_members = Member::hasStatus('old')->sortBy('name');
+    }
+
+    public function index()
+    {
         return view('index');
     }
 
-    public function about() {
+    public function about()
+    {
         return view('about-us')
-        ->with('members_founder',\App\Member::hasStatus('founder'))
-        ->with('members_current',\App\Member::hasStatus('current'))
-        ->with('members_old',\App\Member::hasStatus('old'));
+            ->with('members_founder', $this->founder_members)
+            ->with('members_current', $this->current_members->take($this->pageSize))
+            ->with('members_old', $this->old_members->take($this->pageSize));
     }
 
-    public function join() {
+    public function get_members(Request $request)
+    {
+        $varName = $request->role . '_members';
+        $members = $this->paginate($this->$varName, $this->pageSize, $request->page);
+        if ($request->ajax()) {
+            $view = view('containers.members-list', compact('members'))->render();
+            return response()->json(['html' => $view]);
+        }
+        return view('containers.members-list', compact('members'));
+    }
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
+    public function join()
+    {
         return view('join-us');
     }
 
-    public function offline() {
+    public function offline()
+    {
         return view('offline');
     }
 
-    public function contact() {
+    public function contact()
+    {
         return view('contact');
     }
 
-    public function SubmitContact(Request $request) {
+    public function SubmitContact(Request $request)
+    {
         $request->validate([
             "action" => "required",
             "g-recaptcha-response" => "required",
@@ -58,34 +91,37 @@ class PagesController extends Controller
         $captchaId = $request->input('g-recaptcha-response');
 
         //sends post request to the URL and tranforms response to JSON
-        $responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$captchaId));
+        $responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captchaId));
 
-        if($responseCaptcha->success == true && $request->input('action') == 'contact_form') {
+        if ($responseCaptcha->success == true && $request->input('action') == 'contact_form') {
             //Valid
             //Send Mail to Admin
-            Mail::to("thanawyahelwa@gmail.com")->queue(new ContactForAdminMail($request->input('name'),$request->input('email'),$request->input('phone'),$request->input('subject'),$request->input('message')));
+            Mail::to("thanawyahelwa@gmail.com")->queue(new ContactForAdminMail($request->input('name'), $request->input('email'), $request->input('phone'), $request->input('subject'), $request->input('message')));
             //Send Mail to the user himself/herself
-            Mail::to($request->input('email'))->queue(new ContactMail($request->input('name'),$request->input('message')));
+            Mail::to($request->input('email'))->queue(new ContactMail($request->input('name'), $request->input('message')));
             //Flash a message to user
-            $request->session()->flash('success',"تم إرسال رسالتك بنجاح");
+            $request->session()->flash('success', "تم إرسال رسالتك بنجاح");
         } else {
             //Robot!
-            $request->session()->flash('error','للأسف واضح إنك روبوت مش إنسان! لو دي جملة غريبة بالنسبالك، حاول مرة تانية يمكن العيب من عندنا.');
+            $request->session()->flash('error', 'للأسف واضح إنك روبوت مش إنسان! لو دي جملة غريبة بالنسبالك، حاول مرة تانية يمكن العيب من عندنا.');
         }
         return back();
     }
 
-    public function Newspaper() {
+    public function Newspaper()
+    {
         return $this->media('Newspaper');
     }
 
-    public function TV() {
+    public function TV()
+    {
         return $this->media('TV');
     }
 
-    public function media(string $type) {
+    public function media(string $type)
+    {
         if ($type == 'TV') {
-            $MediaType[0]= 'المصورة والمسموعة';
+            $MediaType[0] = 'المصورة والمسموعة';
             $MediaType[1] = 'TV';
             $Items = [
                 //Poster image is named after the index here (0,1,2...etc)
@@ -114,10 +150,11 @@ class PagesController extends Controller
 
             ];
         }
-        return view('media')->with(compact('Items'))->with('type',$MediaType);
+        return view('media')->with(compact('Items'))->with('type', $MediaType);
     }
 
-    public function feedback() {
+    public function feedback()
+    {
         return redirect('https://www.facebook.com/Thanawya.Helwa/reviews/');
     }
 
@@ -126,17 +163,19 @@ class PagesController extends Controller
         return view('tansik.previous-edges');
     }
 
-    public function TansikReduceAlienation() {
+    public function TansikReduceAlienation()
+    {
         return view('tansik.reduce-alienation');
     }
-    public function TansikGeoDist() {
-        return view('tansik.geo-dist')->with('govs',Governorate::orderBy('name')->pluck('name','id'));
+    public function TansikGeoDist()
+    {
+        return view('tansik.geo-dist')->with('govs', Governorate::orderBy('name')->pluck('name', 'id'));
     }
 
-    public function getAdmin(Request $request) {
+    public function getAdmin(Request $request)
+    {
         $gov = Governorate::find($request->input('gov'));
-        if ($gov->hasAdmins())
-        {
+        if ($gov->hasAdmins()) {
             return response()->json($gov->administrations->toJson());
         }
         return response()->json([
@@ -145,22 +184,26 @@ class PagesController extends Controller
         ]);
     }
 
-    public function getDist(Request $request) {
+    public function getDist(Request $request)
+    {
         $admin = Administration::find($request->input('admin'));
         return response()->json([
             $admin->getDist()
         ]);
     }
 
-    public function TansikGeoDistInfo() {
+    public function TansikGeoDistInfo()
+    {
         return view('tansik.geo-dist-info');
     }
 
-    public function TansikTzalom() {
+    public function TansikTzalom()
+    {
         return view('tansik.tzaloom');
     }
 
-    public function TansikStagesInfo() {
+    public function TansikStagesInfo()
+    {
         return view('tansik.stages-info');
     }
 
@@ -169,18 +212,17 @@ class PagesController extends Controller
         $Years = FacultyEdge::pluck('Year')->unique()->sort();
         //Prepare edges for view
         $AllEdges = [];
-        foreach(FacultyEdge::all()->where('section',$request->input('section'))->sortByDesc('edge')->groupBy('TempName') as $name => $edgesOfName)
-        {
+        foreach (FacultyEdge::all()->where('section', $request->input('section'))->sortByDesc('edge')->groupBy('TempName') as $name => $edgesOfName) {
             $Edges = [];
-            foreach($edgesOfName as $edge) {
+            foreach ($edgesOfName as $edge) {
                 $Edges[$edge->year] = number_format($edge->edge, 2) + 0; //To remove .00
             }
-            $Edges['avg'] = number_format(array_sum($Edges)/count($Edges), 2) + 0;
+            $Edges['avg'] = number_format(array_sum($Edges) / count($Edges), 2) + 0;
             $Edges['name'] = $name;
             $AllEdges[] = $Edges;
         }
-        foreach($AllEdges as $key => $edge) {
-            foreach($Years as $year) {
+        foreach ($AllEdges as $key => $edge) {
+            foreach ($Years as $year) {
                 if (!\Arr::has($edge, $year)) {
                     $AllEdges[$key][$year] = 'غير موجود';
                 }
@@ -194,12 +236,12 @@ class PagesController extends Controller
             'label' => 'اسم الكلية',
             'sortable' => true
         ];
-        foreach($Years as $year) {
-                $Fields[] = [
-                    'key' => (string)$year,
-                    'label' => (string)$year,
-                    'sortable' => true
-                ];
+        foreach ($Years as $year) {
+            $Fields[] = [
+                'key' => (string) $year,
+                'label' => (string) $year,
+                'sortable' => true
+            ];
         }
         $Fields[] = [
             'key' => 'avg',
@@ -212,32 +254,34 @@ class PagesController extends Controller
         ]);
     }
 
-    public function privacyPolicy() {
+    public function privacyPolicy()
+    {
         return view('privacy-policy');
     }
 
-    public static function CorrectName(String $s) {
-        if (\Str::endsWith($s,'ه')) {
+    public static function CorrectName(String $s)
+    {
+        if (\Str::endsWith($s, 'ه')) {
             //ه --> ة at end
-            $s = mb_substr($s,0,-1) . 'ة';
+            $s = mb_substr($s, 0, -1) . 'ة';
         }
-        if (\Str::contains($s,'ه ')) {
+        if (\Str::contains($s, 'ه ')) {
             //ه --> ة at middle
-            $s = str_replace('ه ','ة ',$s);
+            $s = str_replace('ه ', 'ة ', $s);
         }
-        if (\Str::contains($s,'ه/')) {
+        if (\Str::contains($s, 'ه/')) {
             //ه --> ة at middle
-            $s = str_replace('ه/','ة/',$s);
+            $s = str_replace('ه/', 'ة/', $s);
         }
-        if (\Str::startsWith($s,'ا') && !\Str::startsWith($s,'ال')) {
+        if (\Str::startsWith($s, 'ا') && !\Str::startsWith($s, 'ال')) {
             //ا --> أ at start
-            $s = "أ" . mb_substr($s,1);
+            $s = "أ" . mb_substr($s, 1);
         }
-        if (\Str::contains($s,'الإ')) {
-            $s = str_replace('الإ','الا',$s);
+        if (\Str::contains($s, 'الإ')) {
+            $s = str_replace('الإ', 'الا', $s);
         }
-        if (\Str::contains($s,'الأ')) {
-            $s = str_replace('الأ','الا',$s);
+        if (\Str::contains($s, 'الأ')) {
+            $s = str_replace('الأ', 'الا', $s);
         }
         // if (\Str::contains($s,' ا')) {
         //     //ا --> أ In middle
@@ -246,16 +290,17 @@ class PagesController extends Controller
         // }
         return $s;
     }
-     public static function UnifyName(String $s) {
-        $s = str_replace('ة','ه',$s);
-        $s = str_replace('ال','',$s);
-        if (\Str::startsWith($s,'ال')) {
-            $s = mb_substr($s,2);
+    public static function UnifyName(String $s)
+    {
+        $s = str_replace('ة', 'ه', $s);
+        $s = str_replace('ال', '', $s);
+        if (\Str::startsWith($s, 'ال')) {
+            $s = mb_substr($s, 2);
         }
-        $s = str_replace('ى','ي',$s);
-        $s = str_replace('أ','ا',$s);
-        $s = str_replace('إ','ا',$s);
-        $s = str_replace('آ','ا',$s);
+        $s = str_replace('ى', 'ي', $s);
+        $s = str_replace('أ', 'ا', $s);
+        $s = str_replace('إ', 'ا', $s);
+        $s = str_replace('آ', 'ا', $s);
         $s = trim($s);
         return $s;
     }

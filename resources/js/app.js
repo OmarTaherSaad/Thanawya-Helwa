@@ -69,7 +69,7 @@ let func = function () {
             if (navigator.serviceWorker.controller == null)
             {
                 let el = document.createElement('div');
-                el.classList.add("alert", "alert-warning", "offline-ready", "alert-dismissible", "fade", "show");
+                el.classList.add("alert", "alert-info", "offline-ready", "alert-dismissible", "fade", "show");
                 el.setAttribute('role', 'alert');
                 el.innerHTML = "النت بيقطع كتير .. بس الموقع ده بيشتغل حتى لو إنت مش فاتح النت! مفيش حاجة هتوقف تجربتك على موقع ثانوية حلوة :)";
                 document.querySelector('main').append(el);
