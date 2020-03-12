@@ -9,5 +9,11 @@ return [
             'APPROVED' =>  3,
             'POSTED' => 4,
         ],
+    ],
+    'users' => [
+        'roles' => [
+            'THteam' => 'TH Member',
+            'admin' => 'Admin'
+        ]
     ]
 ];

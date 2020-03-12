@@ -16,9 +16,9 @@
                 <a class="nav-link dropdown-toggle" id="AdminDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Admin Tools &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="AdminDropdown">
-                    <a class="dropdown-item" href="{{ route('admins.all-post') }}">View All Posts</a>
-                    <a class="dropdown-item" href="{{ route('posts.create') }}">Create Post</a>
-                    <a class="dropdown-item" href="{{ route('posts.index') }}">View All Posts</a>
+                    <a class="dropdown-item" href="{{ route('admins.all-posts') }}">View All Posts</a>
+                    <a class="dropdown-item" href="{{ route('users.index') }}">View All Users</a>
+                    <a class="dropdown-item" href="{{ route('admins.all-members') }}">View All Members</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -92,9 +92,9 @@
         <ul class="navbar-nav">
             <!-- Authentication Links -->
             @guest
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
-            </li> --}}
+            </li>
             @else
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -109,8 +109,8 @@
                     عرض جميع مستخدمي الموقع
                     </a>
                     @endif --}}
-                    <a class="dropdown-item {{ request()->is(route('edit-user',['user' => Auth::user()])) ? 'active' : '' }}"
-                        href="{{ route('edit-user',['user' => Auth::user()]) }}">
+                    <a class="dropdown-item {{ request()->is(route('users.edit',['user' => Auth::user()])) ? 'active' : '' }}"
+                        href="{{ route('users.edit',['user' => Auth::user()]) }}">
                         تعديل بياناتك الشخصية
                     </a>
                     @if(auth()->user()->isTeamMember() && !is_null(auth()->user()->member))

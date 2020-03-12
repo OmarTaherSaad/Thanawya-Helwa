@@ -15,8 +15,8 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('content_before_review');
-            $table->string('content')->nullable();
+            $table->longText('content_before_review');
+            $table->longText('content')->nullable();
             $table->string('fb_link')->nullable();
             $table->string('state')->default('draft');
             $table->float('rate')->nullable();

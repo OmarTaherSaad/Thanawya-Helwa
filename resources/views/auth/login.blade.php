@@ -55,7 +55,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     تسجيل دخول
                                 </button>
-                                <a target="_blank" role="button" href="{{ route('ProviderAuth',['provider' => 'facebook']) }}" class="btn btn-light">
+                                <a role="button" href="{{ route('ProviderAuth',['provider' => 'facebook']) }}" class="btn btn-light">
                                     <span style="font-size: 1em;" class="icon icon-facebook2"></span>
                                     <span> الدخول باستخدام الفيسبوك</span>
                                 </a>

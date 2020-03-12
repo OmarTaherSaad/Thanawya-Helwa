@@ -65,7 +65,8 @@ class MemberController extends Controller
 
     public function edit(Member $member)
     {
-        return view('members.edit')->with(compact('member'));
+        $users = User::pluck('name','id');
+        return view('members.edit')->with(compact('member'))->with(compact('users'));
     }
 
     public function update(Request $request, Member $member)
@@ -76,12 +77,16 @@ class MemberController extends Controller
             'title_personal' => 'required|string',
             'title_on_team' => 'nullable|string',
             'text' => 'nullable|string|min:10',
-            'status' => 'required|string',
+            'status' => 'sometimes|string',
+            'user_id' => 'sometimes|integer|exists:users,id',
             'image' => 'sometimes|file|mimes:jpeg,jpg,png,gif|max:10000|dimensions:ratio=1/1',
         ]);
         //Store Image
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $member->addMediaFromRequest('image')->withResponsiveImages()->toMediaCollection('members/profile-photos');
+        }
+        if ($request->has('user_id')) {
+            $member->user()->associate($request->user_id);
         }
         $member->save();
         //Store Member
@@ -90,8 +95,10 @@ class MemberController extends Controller
             'title_personal' => $request->title_personal,
             'title_on_team' => $request->title_on_team,
             'text' => $request->text,
-            'status' => str_getcsv($request->status)
         ];
+        if ($request->has('status')) {
+            $update['status'] = str_getcsv($request->status);
+        }
         if(!$request->user()->isAdmin()) {
             unset($update['status']);
         }

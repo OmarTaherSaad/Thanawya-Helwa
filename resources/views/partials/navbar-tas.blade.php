@@ -84,12 +84,12 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {{--Admin can view all users--}}
                     @if (Auth::user()->isAdmin())
-                    <a class="dropdown-item {{ request()->is(route('allUsers')) ? 'active' : '' }}" href="{{ route('allUsers') }}">
+                    <a class="dropdown-item {{ request()->is(route('users.index')) ? 'active' : '' }}" href="{{ route('allUsers') }}">
                         عرض جميع مستخدمي الموقع
                     </a>
                     @endif
-                    <a class="dropdown-item {{ request()->is(route('edit-user',['user' => Auth::user()->id])) ? 'active' : '' }}"
-                        href="{{ route('edit-user',['user' => Auth::user()->id]) }}">
+                    <a class="dropdown-item {{ request()->is(route('users.edit',['user' => Auth::user()->id])) ? 'active' : '' }}"
+                        href="{{ route('users.edit',['user' => Auth::user()->id]) }}">
                         تعديل بياناتك
                     </a>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

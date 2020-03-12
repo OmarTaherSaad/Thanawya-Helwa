@@ -40,7 +40,7 @@ class TagController extends Controller
         ]);
         Tag::create($request->all());
         session()->flash('success','Tag Created Successfully!');
-        return redirect()->route('tags.index');
+        return back();
     }
 
     /**

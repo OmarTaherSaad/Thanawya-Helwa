@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -21,7 +22,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('users.index')->with('Users',User::all());
+        return view('users.index')->with('users',User::paginate(config('app.pagination_max')));
     }
 
     /**
@@ -78,17 +79,26 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         //abort_unless(auth()->user()->is($user),\Illuminate\Http\Response::HTTP_FORBIDDEN);
-        $request->validate([
+        $v = Validator::make($request->all(),[
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'mobile_number' => ['required', 'numeric', 'digits:11', Rule::unique('users')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'role' => ['nullable','in:admin,TAteam,Ebda3team,user']
+            'role' => ['nullable','in:admin,THteam,Ebda3team,user']
         ]);
+        $v->sometimes('email','required|string|email|max:255|unique:users,email,'.$user->id,function() use ($user) {
+            return !is_null($user->email);
+        });
+        $v->sometimes('mobile_number', 'required|numeric|digits:11|unique:users,mobile_number,'.$user->id,function() use ($user) {
+            return !is_null($user->mobile_number);
+        });
+        $v->validate();
 
         $user->name = $request->name;
-        $user->email = $request->email;
-        $user->mobile_number = $request->mobile_number;
+        if ($request->has('email')) {
+            $user->email = $request->email;
+        }
+        if ($request->has('mobile_number')) {
+            $user->mobile_number = $request->mobile_number;
+        }
         if (auth()->user()->isAdmin()) {
             //Avoid being locked: if user to edit is the last admin, and we are trying to make him non-admin -> NOT ALLOWED
             if (auth()->user()->is($user) //He is the user to edit
@@ -105,10 +115,11 @@ class UsersController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
-        session()->flash('success','تم حفظ بياناتك بنجاح.');
         if (auth()->user()->isAdmin() && !auth()->user()->is($user)) {
-            return redirect()->route('allUsers');
+            session()->flash('success','تم حفظ بيانات العضو بنجاح.');
+            return redirect()->route('users.index');
         }
+        session()->flash('success','تم حفظ بياناتك بنجاح.');
         return back();
     }
 
@@ -120,6 +131,16 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $logged_out = false;
+        if (auth()->user()->is($user)) {
+            $logged_out = true;
+        }
+        $user->delete();
+        if ($logged_out) {
+            session()->flash('warning','We are sad to see you going. Account deleted successfully.');
+            return redirect()->route('home');
+        }
+        session()->flash('success','Account deleted successfully.');
+        return redirect()->route('users.index');
     }
 }

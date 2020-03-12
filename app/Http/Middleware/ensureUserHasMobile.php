@@ -20,7 +20,7 @@ class ensureUserHasMobile
         }
         if (!is_numeric(\Auth::user()->mobile_number)) {
             session()->flash('warning', 'محتاجين تكون مسجل رقم الموبايل. لازم تكتب رقم الموبايل اللي استخدمته / هتستخدمه في الدفع.');
-            return redirect()->route('edit-user',[
+            return redirect()->route('users.edit',[
                 'user' => \Auth::user()
             ]);
         }

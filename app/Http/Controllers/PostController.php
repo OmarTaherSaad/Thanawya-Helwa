@@ -123,7 +123,6 @@ class PostController extends Controller
             'tags' => 'nullable|array',
             'content' => 'required|string|min:10',
             'is_draft' => 'required|boolean',
-            'new_state' => 'required|boolean'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -174,11 +173,17 @@ class PostController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tags' => 'nullable|array',
-            'content' => 'required|string|min:10',
             'state' => 'required|integer',
-            'fb_link' => [ Rule::RequiredIf($request->state == config('team.posts.status.POSTED')), 'url'],
             'rate' => [ Rule::RequiredIf($request->state >= config('team.posts.status.APPROVED')), 'numeric','max:5','min:0'],
         ]);
+        $isPosted = $request->state == config('team.posts.status.POSTED');
+        $validator->sometimes('fb_link','url|required',function() use ($isPosted) {
+            return $isPosted;
+        });
+        $isApproved = $request->state == config('team.posts.status.APPROVED');
+        $validator->sometimes('content', 'required|string|min:10',function() use ($isApproved) {
+            return $isApproved;
+        });
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }

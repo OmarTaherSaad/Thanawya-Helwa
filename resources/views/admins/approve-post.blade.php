@@ -77,6 +77,6 @@
     window.vueApp.$data.fb_link = 'https\:{{ $post->fb_link }}';
     window.vueApp.$data.rate = {{ $post->rate ?? 0 }};
     window.vueApp.$data.submitURL = $("#postForm").attr('action');
-    window.vueApp.$data.redirectURL = "{{ route('admins.all-post') }}";
+    window.vueApp.$data.redirectURL = "{{ route('admins.all-posts') }}";
 </script>
 @endsection

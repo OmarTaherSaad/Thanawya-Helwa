@@ -50,8 +50,8 @@ Route::post('deploy', 'DeployController@deploy');
 //Auth & Facebook Login
 
 Auth::routes();
-Route::get('users/{user}/edit','UsersController@edit')->middleware('can:update,user')->name('edit-user');
-Route::patch('users/{user}/edit','UsersController@update')->middleware('can:update,user')->name('edit-user');
+//Users
+Route::resource('users', 'UsersController');
 //Socialite
 Route::get('auth/{provider}', 'SocialController@redirectToProvider')->name('ProviderAuth');
 Route::get('callback/{provider}', 'SocialController@handleProviderCallback');
@@ -72,7 +72,8 @@ Route::prefix('team')->group(function() {
         //Posts
         Route::get('approve-post/{post}','PostController@approve_post')->name('approve-post');
         Route::post('approve-post/{post}','PostController@approve');
-        Route::get('all-post','PostController@all_post_for_admin')->name('all-post');
+        Route::get('all-post','PostController@all_post_for_admin')->name('all-posts');
+        Route::get('members','MemberController@index')->name('all-members');
     });
 });
 

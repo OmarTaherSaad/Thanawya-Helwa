@@ -1,8 +1,17 @@
 @extends('layouts.app')
 
+@if(Auth::user()->is($user))
 @section('title','تعديل بياناتك')
+@else
+@section('title','تعديل بيانات "' . $user->name . '"')
+@endif
 
 @section('content')
+<div class="row my-2">
+    <div class="col-12">
+        <a href="{{ url()->previous() }}" class="btn btn-primary">الرجوع</a>
+    </div>
+</div>
 <div class="row justify-content-center">
     <div class="col-12 col-md-6">
         <div class="card">
@@ -12,7 +21,7 @@
             <div class="card-header">تعديل بيانات "{{ $user->name }}"</div>
             @endif
             <div class="card-body">
-                <form method="post" action="{{ route('edit-user',['user' => $user]) }}">
+                <form method="post" action="{{ route('users.update',['user' => $user]) }}" autocomplete="off">
                     @csrf
                     @method('PATCH')
 
@@ -23,12 +32,12 @@
 
                     <div class="form-group">
                         <label>البريد الالكتروني (الايميل)</label>
-                        <input class="form-control" type="email" name="email" value="{{ $user->email }}" required />
+                        <input class="form-control" type="email" name="email" value="{{ $user->email }}" @if(!is_null($user->email)) required @endif />
                     </div>
 
                     <div class="form-group">
                         <label>رقم الموبايل</label>
-                        <input class="form-control" type="text" pattern="[0-9]{11}" name="mobile_number" value="{{ $user->mobile_number ? $user->mobile_number : old('mobile_number') }}" required />
+                        <input class="form-control" type="text" pattern="[0-9]{11}" name="mobile_number" value="{{ $user->mobile_number ? $user->mobile_number : old('mobile_number') }}" @if(!is_null($user->mobile_number)) required @endif/>
                     </div>
 
                     @if (Auth::user()->isAdmin())
@@ -36,8 +45,7 @@
                         <label for="userRole">الدور (Role)</label>
                         <select class="form-control" id="userRole" name="role">
                             <option {{ $user->role == 'admin' ? 'selected' : '' }} value="admin">إدارة الموقع</option>
-                            <option {{ $user->role == 'TAteam' ? 'selected' : '' }} value="TAteam">فريق "ثانوية حلوة"</option>
-                            <option {{ $user->role == 'Ebda3team' ? 'selected' : '' }} value="Ebda3team">فريق "إبداع"</option>
+                            <option {{ $user->role == 'THteam' ? 'selected' : '' }} value="THteam">فريق "ثانوية حلوة"</option>
                             <option {{ $user->role == 'user' ? 'selected' : '' }} value="user">مُستخدم عادي</option>
                         </select>
                     </div>

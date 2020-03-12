@@ -63,6 +63,16 @@
                 <input type="text" name="status" maxlength="200" class="form-control" value="{{ $member->status_csv }}"
                     required>
             </div>
+
+            <div class="form-group">
+              <label for="user_id">Associated User Account</label>
+              <select class="form-control" name="user_id" id="user_id">
+                  <option selected disabled>Select Account</option>
+                @foreach($users as $id => $name)
+                <option value="{{ $id }}" @if($member->user_id == $id) selected @endif>{{ $name }}</option>
+                @endforeach
+              </select>
+            </div>
             @endif
             <div class="form-group">
                 <div class="custom-file">

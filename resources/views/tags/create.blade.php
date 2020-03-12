@@ -5,6 +5,11 @@
 @section('content')
 <div class="row">
     <div class="col-12 col-md-auto">
+        <a href="{{ route('tags.index') }}" class="btn btn-primary">All Tags</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-auto">
         <h2>Add a New Tag</h2>
     </div>
 </div>
