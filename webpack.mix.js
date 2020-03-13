@@ -62,6 +62,7 @@ mix.js("resources/js/app.js", "public/js")
     .js("resources/js/forms.js", "public/js")
     .js("resources/js/members.js", "public/js")
     .js("resources/js/post.js", "public/js")
+    .js("resources/js/notifications.js", "public/js")
     .scripts(
         [
             "resources/summernote/summernote.min.js",

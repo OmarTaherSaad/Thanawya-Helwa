@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewPostUnderReviewAdded;
 use App\Models\Team\Member;
 use App\Models\Team\Post;
 use App\Models\Team\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -77,6 +79,10 @@ class PostController extends Controller
             }
         }
 
+        if (!$request->is_draft) {
+            Notification::send(\App\User::teamMembers()->except([$post->writer(), auth()->user()]), new NewPostUnderReviewAdded($post));
+        }
+
         return response()->json([
             'success' => true,
             'message' => "Post Saved Successfully!",
@@ -133,6 +139,10 @@ class PostController extends Controller
         ]);
         $post->tags()->sync($request->tags);
 
+        if (!$request->is_draft) {
+            Notification::send(\App\User::teamMembers()->except([$post->writer(),auth()->user()]), new NewPostUnderReviewAdded($post));
+        }
+
         session()->flash('success','Post Updated Successfully!');
         return response()->json([
             'success' => true,
@@ -150,7 +160,30 @@ class PostController extends Controller
     {
         $post->delete();
         session()->flash('success', 'Post Deleted Successfully!');
-        return redirect()->route('posts.index');
+        return back();
+    }
+
+    public function forceDelete($post)
+    {
+        $post = Post::withTrashed()->find($post);
+        if (is_null($post)) {
+            session()->flash('error', 'The Post doesn\'t exist!');
+        } else {
+            $post->forceDelete();
+            session()->flash('success', 'Post Deleted Successfully!');
+        }
+        return redirect()->route('admins.all-posts');
+    }
+    public function restore($post)
+    {
+        $post = Post::withTrashed()->find($post);
+        if(is_null($post)) {
+            session()->flash('error', 'The Post doesn\'t exist!');
+        } else {
+            $post->restore();
+            session()->flash('success', 'Post restored Successfully!');
+        }
+        return redirect()->route('admins.all-posts');
     }
 
     public function approve_post(Post $post)

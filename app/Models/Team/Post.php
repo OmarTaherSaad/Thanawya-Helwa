@@ -65,6 +65,16 @@ class Post extends Model implements HasMedia
         return route('posts.destroy', ['post' => $this]);
     }
 
+    public function getLinkToForceDelete()
+    {
+        return route('posts.forceDelete', ['post' => $this]);
+    }
+
+    public function getLinkToRestore()
+    {
+        return route('posts.restore', ['post' => $this]);
+    }
+
 
     public function small_part()
     {

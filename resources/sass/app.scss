@@ -18,7 +18,11 @@
 @import 'variables';
 
 @import 'style.css';
-
+//Fontawesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap.scss';
 //Bootstrap-vue
@@ -135,6 +139,12 @@ a.navbar-brand {
 .nav-link {
     width: auto;
 }
+#NotifDropdown {
+    &.unread {
+        color: rgba(255, 255, 255);
+    }
+}
+
 main {
     margin-bottom: 20vh;
 }

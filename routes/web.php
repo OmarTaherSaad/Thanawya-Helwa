@@ -48,8 +48,14 @@ Route::get('/offline','PagesController@offline')->name('offline');
 Route::post('deploy', 'DeployController@deploy');
 
 //Auth & Facebook Login
-
 Auth::routes();
+//Notifications
+Route::get('user/{user}/notifications', 'UsersController@notifications')->name('users.notifications');
+//Mark Notifications as read via AXIOS
+Route::post('user/{user}/notifications/mark-as-read', 'UsersController@markNotificationsAsRead')->name('users.notifications.mark-as-read');
+
+Route::get('notify','NotificationController@notify');
+Route::get('notify-view','NotificationController@view');
 //Users
 Route::resource('users', 'UsersController');
 //Socialite
@@ -66,6 +72,8 @@ Route::prefix('team')->group(function() {
     Route::resource('posts', 'PostController');
     Route::prefix('posts')->name('posts.')->middleware('auth')->group(function () {
         Route::get('member/{member}', 'PostController@view_user_posts')->name('view-member-posts');
+        Route::post('{post}/force-delete', 'PostController@forceDelete')->name('forceDelete');
+        Route::post('{post}/restore', 'PostController@restore')->name('restore');
     });
     //Admin Board
     Route::prefix('admins')->name('admins.')->middleware(['auth','role:admin'])->group(function() {

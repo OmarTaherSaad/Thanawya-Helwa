@@ -67,4 +67,44 @@ class User extends Authenticatable
     {
         $this->notify(new VerifyEmail);
     }
+
+    public function readNotificationsData()
+    {
+        $notifications = collect();
+        foreach ($this->readNotifications as $notif) {
+            $notif = $notif->data;
+            $notif['read'] = true;
+            $notifications->push($notif);
+        }
+        return $notifications;
+    }
+    public function unreadNotificationsData()
+    {
+        $notifications = collect();
+        foreach ($this->unreadNotifications as $notif) {
+            $notif = $notif->data;
+            $notif['read'] = false;
+            $notifications->push($notif);
+        }
+        return $notifications;
+    }
+
+    public function notificationsData()
+    {
+        return $this->unreadNotificationsData()->merge($this->readNotificationsData());
+    }
+
+    public function latestNotificationsData()
+    {
+        $takeRead = max(10 - $this->unreadNotificationsData()->take(10)->count(),0);
+        return $this->unreadNotificationsData()->merge($this->readNotificationsData()->take($takeRead));
+    }
+
+    public static function teamMembers()
+    {
+        return User::all()->filter(function($user) {
+            return $user->isTeamMember();
+        });
+    }
+
 }

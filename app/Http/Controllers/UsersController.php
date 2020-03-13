@@ -143,4 +143,17 @@ class UsersController extends Controller
         session()->flash('success','Account deleted successfully.');
         return redirect()->route('users.index');
     }
+
+    public function notifications(User $user)
+    {
+        return view('users.notifications')->with(compact('user'));
+    }
+
+    public function markNotificationsAsRead(User $user)
+    {
+        $user->unreadNotifications->markAsRead();
+        return response()->json([
+            'success' => true
+        ]);
+    }
 }

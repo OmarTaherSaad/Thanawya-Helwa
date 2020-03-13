@@ -1,3 +1,4 @@
+workbox.setConfig({ debug: false });
 //Default handler is to State while revalidate
 workbox.routing.setDefaultHandler(new workbox.strategies.NetworkFirst());
 //Fallback when offline to offline page

@@ -95,6 +95,16 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        //
+
+    }
+
+    public function markNotificationsAsRead(User $user, User $model)
+    {
+        return $user->is($model);
+    }
+
+    public function notifications(User $user, User $model)
+    {
+        return $user->is($model);
     }
 }

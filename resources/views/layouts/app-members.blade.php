@@ -61,6 +61,9 @@
         {{-- <script src="js/manifest.js"></script>
         <script src="js/vendor.js"></script>
         <script src="js/app.js"></script> --}}
+        {{-- Notification & Chat START--}}
+        @include('partials.notification-setup')
+        {{-- Notification & Chat END--}}
     </body>
 
 </html>

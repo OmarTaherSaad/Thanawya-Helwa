@@ -40,20 +40,36 @@ $class = 'bordered border-';
             <a href="{{ $post->fb_link }}" rel="noreferrer" target="_blank" class="btn btn-primary">FB Link</a>
         @endif
         @auth
-        @if(auth()->user()->isAdmin())
-            <a href="{{ $post->getLinkToApprove() }}" class="btn btn-success">Edit/Approve</a>
-        @else
-            @can('update', $post)
-            <a href="{{ $post->getLinkToEdit() }}" class="btn btn-secondary">Edit</a>
+        @if($post->trashed())
+            @can('restore', $post)
+            <form action="{{ $post->getLinkToRestore() }}" method="POST" onsubmit="return confirm('Are you sure you want to restore this post?')">
+                @csrf
+                <button type="submit" class="btn btn-info">Restore</button>
+            </form>
             @endcan
-            @can('approve', $post)
-            <a href="{{ $post->getLinkToApprove() }}" class="btn btn-success">Approve</a>
+            @can('forceDelete', $post)
+            <form action="{{ $post->getLinkToForceDelete() }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to force delete this post? this action is irreversible')">
+                @csrf
+                <button type="submit" class="btn btn-danger">Force Delete</button>
+            </form>
+            @endcan
+        @else
+            @if(auth()->user()->isAdmin())
+                <a href="{{ $post->getLinkToApprove() }}" class="btn btn-success">Edit/Approve</a>
+            @else
+                @can('update', $post)
+                <a href="{{ $post->getLinkToEdit() }}" class="btn btn-secondary">Edit</a>
+                @endcan
+                @can('approve', $post)
+                <a href="{{ $post->getLinkToApprove() }}" class="btn btn-success">Approve</a>
+                @endcan
+            @endif
+            @can('delete', $post)
+            <a href="#deleteModal" data-id="{{ $post->getLinkToDelete() }}" data-name="{{ $post->name }}" data-toggle="modal"
+                class=" deleteBtn btn btn-danger">Delete</a>
             @endcan
         @endif
-        @can('delete', $post)
-        <a href="#deleteModal" data-id="{{ $post->getLinkToDelete() }}" data-name="{{ $post->name }}"
-            data-toggle="modal" class=" deleteBtn btn btn-danger">Delete</a>
-        @endcan
         @endauth
     </div>
 </div>

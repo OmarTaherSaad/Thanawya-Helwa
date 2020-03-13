@@ -96,6 +96,25 @@
                     <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
             </li>
             @else
+
+            {{-- Notifications --}}
+            <li class="nav-item dropdown" id="NotifApp" dir="ltr">
+                <a v-bind:class="[newNotifications.length ? 'unread nav-link dropdown-toggle' : 'nav-link dropdown-toggle']" id="NotifDropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="fas fa-bell" aria-hidden="true"></i>
+                    <span class="d-inline d-md-none">Notifications</span> <span class="badge badge-pill badge-secondary" v-html="newNotifications.length"></span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="NotifDropdown">
+                    <h6 class="dropdown-header" style="cursor: pointer" @click="markAsRead">Mark As Read</h6>
+                    <a class="dropdown-item bg-primary text-light" v-if="newNotifications.length" v-for="notif in newNotifications" :href="notif.link" v-html="notif.text"></a>
+                    <a class="dropdown-item bg-secondary text-light" v-if="oldNotifications.length && newNotifications.length < 10" v-for="notif in oldNotifications" :href="notif.link" v-html="notif.text"></a>
+                    <p v-else="notifications" class="m-2">No Notifications</p>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('users.notifications',['user' => Auth::user()]) }}">View All Notifications</a>
+
+                </div>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
