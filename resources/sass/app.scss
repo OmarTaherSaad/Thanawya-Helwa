@@ -1,179 +1,221 @@
 // Fonts
 @font-face {
-  font-family: 'Tajawal';
-  font-display: fallback;
-  src: url('fonts/Tajawal-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
+    font-family: "Tajawal";
+    font-display: fallback;
+    src: url("fonts/Tajawal-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
 }
 @font-face {
-    font-family: 'Tajawal';
+    font-family: "Tajawal";
     font-display: fallback;
-    src: url('fonts/Tajawal-Bold.ttf') format('truetype');
+    src: url("fonts/Tajawal-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }
 
 // Variables
-@import 'variables';
+@import "variables";
 
-@import 'style.css';
+@import "style.css";
 //Fontawesome
-@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
-@import '~@fortawesome/fontawesome-free/scss/regular.scss';
-@import '~@fortawesome/fontawesome-free/scss/brands.scss';
-@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
 // Bootstrap
-@import '~bootstrap/scss/bootstrap.scss';
-//Bootstrap-vue
-@import '~bootstrap-vue/src/index.scss';
+@import "~bootstrap/scss/bootstrap.scss";
 $enable-responsive-font-sizes: true;
-
-body {
-    font-family: 'Tajawal', sans-serif;
-    background-color: #E4E4E4;
-    text-align: right;
-}
-
+//Font
 html {
     font-size: 1.2em;
-    scroll-behavior: smooth;
 }
-
-.collapsing {
-    transition: height .35s ease !important;
+body {
+    font-family: "Tajawal", sans-serif;
+    background-color: #e4e4e4;
+    text-align: right;
 }
-
-/*AXIOS Modal styling*/
-#axiosModal {
-    display: none;
-    position: fixed;
-    z-index: 3;
-    top: 0;
-    left: 0;
+//Parallax effect
+.parallax {
+    width: 100%;
     height: 100%;
-    width: 100%;
-    background: rgba(255, 255, 255, .8) url('images/ajax-loader.gif') 50% 50% no-repeat;
+    position: inherit;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-attachment: fixed;
 }
-
-/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
-/* Anytime the body has the loading class, our modal element will be visible */
-body.loading #axiosModal {
-    overflow: hidden;
-    display: block;
-}
-
-/*Table styling*/
-tbody {
-  background-color: cornsilk;
-}
-table {
-  &.flip-list-move {
-      transition: transform 1s;
-  }
-}
-#searchBox {
-  z-index: 1;
-  position: initial;
-  top: 0;
-  transition: all 1s ease;
-  &.fixIt {
+//Navbar START
+.navbar.scrolled {
     position: fixed;
-    border-radius: 20px;
-    border: 2px solid black;
-    background-color: cornsilk;
-    padding: 10px;
-  }
-}
-
-.card-header button {
-    font-size: 1.1em;
-    color: #d24536;
-
-    &:hover {
-        text-decoration: none;
-        color: #6d65ae;
-    }
-
-    &:focus {
-        text-decoration: none;
-    }
-}
-
-/*Captcha Style*/
-.grecaptcha-badge {
-    opacity: 0.4;
-}
-
-.grecaptcha-badge:hover {
-    opacity: 1;
-}
-
-
-.navbar {
-    width: auto;
+    right: 0;
+    left: 0;
     top: 0;
-    padding: 5px;
-}
-.navbar-nav {
+    z-index: 10;
+    margin-top: -130px;
+    background: #fff !important;
+    -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     padding: 0;
-}
-a.navbar-brand {
-    margin-left: 10px;
-    width: calc(5em + 7vw);
-}
-
-.navbar-brand>img {
-    width: 90%;
-}
-
-.nav-item {
-    padding: 0;
-    border-left: 1px solid white;
-    text-align: center;
-    &:last-child {
-        border-left: 0;
-    }
-}
-
-.nav-link {
-    width: auto;
-}
-#NotifDropdown {
-    &.unread {
-        color: rgba(255, 255, 255);
-    }
-}
-
-main {
-    margin-bottom: 20vh;
-}
-footer {
-    clear: both;
-    position: fixed;
-    bottom: 0;
-    height: fit-content;
-    width: 100%;
-    z-index: 2;
-    background-color: #000000;
-    font-size: 0.8rem;
-    a {
-        &:hover {
-            color: whitesmoke;
-            text-decoration: none;
+    .nav-item.active {
+        > a {
+            color: #f9ab30 !important;
         }
+    }
+    .nav-item.cta {
+        > a {
+            color: #fff !important;
+            background: #f9ab30;
+            border: none !important;
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+            margin-top: 6px !important;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            border-radius: 5px;
+            span {
+                display: inline-block;
+                color: #fff !important;
+            }
+        }
+    }
+    .nav-item.cta.cta-colored {
         span {
-        color: whitesmoke;
+            border-color: #f9ab30;
+        }
+    }
+    .navbar-toggler {
+        border: none;
+        color: rgba(0, 0, 0, 0.5) !important;
+        border-color: rgba(0, 0, 0, 0.5) !important;
+        cursor: pointer;
+        margin-right: 15px !important;
+        text-transform: uppercase;
+        font-size: 16px;
+        letter-spacing: 0.1em;
+    }
+    .nav-link {
+        color: #000000 !important;
+    }
+    .nav-link.active {
+        color: #f9ab30 !important;
+    }
+    .navbar-brand {
+        color: #fff;
+    }
+}
+.navbar.scrolled.awake {
+    margin-top: 0px;
+    -webkit-transition: 0.3s all ease-out;
+    -o-transition: 0.3s all ease-out;
+    transition: 0.3s all ease-out;
+}
+.navbar.scrolled.sleep {
+    -webkit-transition: 0.3s all ease-out;
+    -o-transition: 0.3s all ease-out;
+    transition: 0.3s all ease-out;
+}
+@media (max-width: 991.98px) {
+    .navbar {
+        background: #000000 !important;
+        position: relative;
+        top: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        .navbar-brand {
+            color: #fff;
+        }
+        .navbar-nav {
+            padding-bottom: 20px;
+            margin-left: 20px !important;
+            margin-right: 0;
+            > .nav-item {
+                > .nav-link {
+                    padding-left: 0;
+                    padding-right: 0;
+                    padding-bottom: 0;
+                    color: #fff;
+                }
+            }
+            > .nav-item.th-seperator {
+                padding-left: 0;
+                margin-left: 0;
+                &:before {
+                    display: none;
+                }
+            }
+            > .nav-item.active {
+                > a {
+                    color: #f9ab30;
+                }
+            }
+        }
+    }
+    .navbar.scrolled {
+        .nav-item {
+            > .nav-link {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                padding-bottom: 0 !important;
+            }
+        }
+        .navbar-nav {
+            background: none;
+            border-radius: 0px;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            margin-left: 0 !important;
         }
     }
 }
-.icon {
-    font-size: 1.5em;
-    margin: 0.3em;
+.navbar-brand {
+    background: unset;
+    img {
+        height: 2.5rem;
+    }
 }
 
+//Navbar END
+//Footer START
+footer {
+    color: white;
+    text-align: center;
+    li {
+        list-style: none;
+        margin: 0 10px 0 0;
+        display: inline-block;
+        a {
+            height: 50px;
+            width: 50px;
+            display: block;
+            float: left;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            position: relative;
+            span {
+                position: absolute;
+                font-size: 26px;
+                top: 50%;
+                left: 50%;
+                -webkit-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}
+.social {
+    list-style: none;
+    margin: 0 10px 0 0;
+    display: inline-block;
+    & span {
+        color: white;
+    }
+}
 .icon-instagram:hover {
-    color: mediumpurple;
+    color: mediumpurple !important;
 }
 
 .icon-messenger {
@@ -188,44 +230,13 @@ footer {
 }
 
 .icon-youtube:hover {
-    color: red;
+    color: red !important;
 }
 
 .icon-facebook2:hover {
-    color: dodgerblue;
+    color: dodgerblue !important;
 }
-
-a:not([href]) {
-    cursor: pointer;
-}
-
-/*the "x" button should float left not right*/
-.close {
-    position: absolute;
-    left: 5px;
-}
-
-/*Styling for Tables*/
-table {
-    margin: 0.5rem;
-}
-
-.thumbnail {
-    min-height: 20vh;
-    border: 0.5px #d24536 solid;
-}
-
-.thumbnail:hover {
-    cursor: pointer;
-}
-
-.btn {
-    white-space: normal !important;
-}
-
-h1 {
-  color: #222222;
-}
+//Footer END
 
 //Offline-ready part
 .offline-ready {
@@ -278,4 +289,81 @@ h1 {
     footer, main {
         padding-bottom: 100px;
     }
+}
+
+//Collection
+#NotifDropdown {
+    &.unread {
+        color: rgba(255, 255, 255);
+    }
+}
+
+/*Captcha Style*/
+.grecaptcha-badge {
+    opacity: 0.4;
+}
+
+.grecaptcha-badge:hover {
+    opacity: 1;
+}
+
+
+.card-header button {
+    font-size: 1.1em;
+    color: #d24536;
+
+    &:hover {
+        text-decoration: none;
+        color: #6d65ae;
+    }
+
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+.collapsing {
+    transition: height .35s ease !important;
+}
+
+/*AXIOS Modal styling*/
+#axiosModal {
+    display: none;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, .8) url('images/ajax-loader.gif') 50% 50% no-repeat;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loading #axiosModal {
+    overflow: hidden;
+    display: block;
+}
+
+/*Table styling*/
+tbody {
+  background-color: cornsilk;
+}
+table {
+  &.flip-list-move {
+      transition: transform 1s;
+  }
+}
+#searchBox {
+  z-index: 1;
+  position: initial;
+  top: 0;
+  transition: all 1s ease;
+  &.fixIt {
+    position: fixed;
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: cornsilk;
+    padding: 10px;
+  }
 }

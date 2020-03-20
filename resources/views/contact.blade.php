@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<div class="row justify-content-center">
+<div class="row justify-content-center mb-5">
     <!--Contact Form START-->
     <div class="col-12 col-xl-8 text-right">
         <form action="{{ route('contact-submit') }}" method="POST" id="ContactForm">

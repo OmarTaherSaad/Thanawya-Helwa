@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team\Tag;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -14,7 +15,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        return view('tags.index')->with('tags',Tag::paginate(config('app.pagination_max')));
+        return view('tags.index')->with('tags',Tag::paginate(config('app.pagination_max') * 2));
     }
 
     /**
@@ -53,7 +54,13 @@ class TagController extends Controller
     {
         session()->forget('member');
         session()->flash('tag',$tag->name);
-        return view('posts.index')->with('posts',$tag->posts()->paginate(config('app.pagination_max')));
+        if (auth()->check() && auth()->user()->isTeamMember()) {
+            if (auth()->user()->isAdmin()) {
+                return view('posts.index')->with('posts', $tag->posts()->paginate(config('app.pagination_max')));
+            }
+            return view('posts.index')->with('posts', $tag->posts()->where('state', '>', config('team.posts.status.DRAFT'))->paginate(config('app.pagination_max')));
+        }
+        return view('posts.index')->with('posts',$tag->posts()->where('state', config('team.posts.status.POSTED'))->paginate(config('app.pagination_max')));
     }
 
     /**

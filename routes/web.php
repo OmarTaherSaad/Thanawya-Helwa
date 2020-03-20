@@ -11,31 +11,32 @@
 */
 
 Route::get('/','PagesController@index')->name('home');
+Route::get('/home2','PagesController@index2')->name('home2');
 Route::get('/home','PagesController@index')->name('home');
 Route::get('/about-us','PagesController@about')->name('about-us');
 Route::get('get-members','PagesController@get_members');
 Route::get('/join-us','PagesController@join')->name('join-us');
-Route::get('/media/TV','PagesController@TV')->name('media-TV');
-Route::get('/media/Newspaper','PagesController@Newspaper')->name('media-newspaper');
+Route::get('/media/tv','PagesController@TV')->name('media.tv');
+Route::get('/media/newspaper','PagesController@Newspaper')->name('media.newspaper');
 Route::get('/feedback','PagesController@feedback')->name('feedback');
 //Contact
 Route::get('/contact','PagesController@contact')->name('contact');
-Route::post('/contact','PagesController@SubmitContact')->name('contact-submit');
+Route::post('/contact','PagesController@SubmitContact')->name('contact.submit');
 
 //Tansik routes
-Route::prefix('Tansik')->group(function() {
-    Route::get('Previous-Years-Edges', 'PagesController@TansikPrevEdges')->name('Tansik-Previous-Edges');
+Route::prefix('tansik')->name('tansik.')->group(function() {
+    Route::get('previous-years-edges', 'PagesController@TansikPrevEdges')->name('previous_edges');
     //Geographic Distribution for AXIOS
-    Route::post('gov', 'PagesController@getAdmin')->name('get-admin');
-    Route::post('admin', 'PagesController@getDist')->name('get-dist');
+    Route::post('gov', 'PagesController@getAdmin')->name('get_admin');
+    Route::post('admin', 'PagesController@getDist')->name('get_dist');
     //Faculties' edges for AXIOS
-    Route::post('edges', 'PagesController@getEdges')->name('get-edges');
+    Route::post('edges', 'PagesController@getEdges')->name('get_edges');
 
-    Route::get('Geographic-Distribution', 'PagesController@TansikGeoDist')->name('Tansik-Geo-Dist');
-    Route::get('Geographic-Distribution-Information', 'PagesController@TansikGeoDistInfo')->name('Tansik-Geo-Dist-Info');
-    Route::get('Tzalom', 'PagesController@TansikTzalom')->name('Tansik-Tzalom');
-    Route::get('Stages-Information', 'PagesController@TansikStagesInfo')->name('Tansik-Stages-Info');
-    Route::get('Taqleel-al-eghterab', 'PagesController@TansikReduceAlienation')->name('Tansik-ReduceAlienation');
+    Route::get('geographic-distribution', 'PagesController@TansikGeoDist')->name('geo_dist');
+    Route::get('geographic-distribution-information', 'PagesController@TansikGeoDistInfo')->name('geo_dist_info');
+    Route::get('tzalom', 'PagesController@TansikTzalom')->name('tzalom');
+    Route::get('stages-information', 'PagesController@TansikStagesInfo')->name('stages_info');
+    Route::get('taqleel-al-eghterab', 'PagesController@TansikReduceAlienation')->name('reduce_alienation');
 });
 
 //Privacy Policy
@@ -84,6 +85,11 @@ Route::prefix('team')->group(function() {
         Route::get('members','MemberController@index')->name('all-members');
     });
 });
+//Quizzes
+Route::prefix('quiz')->name('quiz.')->group(function() {
+    Route::get('{quiz}/revise','QuizController@revise_view')->name('revise');
+});
+Route::resource('quiz', 'QuizController');
 
 //TAS Routes
 /*

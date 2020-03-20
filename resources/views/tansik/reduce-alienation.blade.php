@@ -10,7 +10,7 @@
             <hr class="my-4">
             <p>لو عايز تعرف الجامعات المتاحة لمحافظتك والمجموعات (أ،ب،ج) دوس هنا</p>
             <p class="lead">
-                <a class="btn btn-primary btn-lg" href="{{ route('Tansik-Geo-Dist') }}" role="button">دوس هنا</a>
+                <a class="btn btn-primary btn-lg" href="{{ route('tansik.geo_dist') }}" role="button">دوس هنا</a>
             </p>
         </div>
     </div>
@@ -105,7 +105,7 @@
                 <div id="collapse2" class="collapse" aria-labelledby="heading2"
                     data-parent="#ReduceAlienationQuestions">
                     <div class="card-body">
-                        <p><a href="{{ route('Tansik-Geo-Dist') }}" target="_blank" rel="noopener">دوس هنا</a> واختار محافظتك والإدارة
+                        <p><a href="{{ route('tansik.geo_dist') }}" target="_blank" rel="noopener">دوس هنا</a> واختار محافظتك والإدارة
                             التعليمية اللي تابع ليها وإحنا هنقولك إيه الجامعات اللي في مجموعة (أ) ليك.</p>
                     </div>
                 </div>

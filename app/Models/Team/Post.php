@@ -98,6 +98,11 @@ class Post extends Model implements HasMedia
         $posts = $posts->union($member_posts);
         return $posts->orderBy('updated_at', 'desc')->paginate(config('app.pagination_max'));
     }
+    public static function all_for_public()
+    {
+        $posts = Post::where('state',config('team.posts.status.POSTED'));
+        return $posts->orderBy('updated_at', 'desc')->paginate(config('app.pagination_max'));
+    }
 
     public function getStatusAttribute()
     {
@@ -121,6 +126,6 @@ class Post extends Model implements HasMedia
 
     public function with_link()
     {
-        return !is_null($this->fb_link);
+        return isset($this->fb_link);
     }
 }

@@ -6,7 +6,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="Keywords" content="thanawya,ثانوية,ثانوية عامة,ثانوية حلوة">
-        <meta name="Description" content="Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).">
+        <meta name="Description"
+            content="Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).">
 
         {{--PWA--}}
         <link rel="manifest" href="{{ Storage::url('manifest.json') }}">
@@ -20,32 +21,27 @@
         <link rel="stylesheet" href="{{ asset('css/splash-screen.css') }}">
         {{--Scripts--}}
         <script src="{{ asset('js/app.js') }}"></script>
+
+        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
         <script defer>
             //Load css files
-            var tag = document.createElement("link");
-            tag.href = "{{ asset('css/app.css') }}";
-            tag.setAttribute('rel', 'stylesheet');
-            document.getElementsByTagName("head")[0].appendChild(tag);
+                    var tag = document.createElement("link");
+                    tag.href = "{{ asset('css/app.css') }}";
+                    tag.setAttribute('rel', 'stylesheet');
+                    document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
         @yield('head')
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
         <script data-ad-client="ca-pub-8176502663524074" async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
     </head>
 
     <body>
+        {{-- Splash Screen --}}
         @include('partials.splash-screen')
-        <header class="sticky-top">
-            {{--Navbar --}}
-            @if (Str::contains(Route::currentRouteName(),'Tansik'))
-                @include('partials.navbar-tansik')
-            @elseif(Str::contains(Route::currentRouteName(),'tas.'))
-                @include('partials.navbar-tas')
-            @else
-                @include('partials.navbar')
-            @endif
-        </header>
-        <main role="main">
+        @include('partials.navbar')
+
+        <main role="main ">
             {{-- Facebook Chat Plugin --}}
             <!-- Load Facebook SDK for JavaScript -->
             <div id="fb-root"></div>
@@ -55,7 +51,7 @@
                 logged_in_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك"
                 logged_out_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك">
             </div>
-            <div class="container-fluid">
+            <div class="container-fluid px-0">
                 @include('partials.show-alerts')
                 {{-- Content --}}
                 @yield('content')
@@ -63,15 +59,12 @@
             {{--AXIOS loading effect--}}
             <div class="modal" id="axiosModal"></div>
         </main>
-        {{-- Footer --}}
-        @include('partials.footer')
 
-        @yield('scripts')
-        {{--Laravel Mix (code splitting)--}}
-        {{-- <script src="js/manifest.js"></script>
-        <script src="js/vendor.js"></script>
-        <script src="js/app.js"></script> --}}
+        @include('partials.footer')
         @include('partials.notification-setup')
+        <script src="{{ asset('js/effects.js') }}" sync></script>
+        @yield('scripts')
+
     </body>
 
 </html>

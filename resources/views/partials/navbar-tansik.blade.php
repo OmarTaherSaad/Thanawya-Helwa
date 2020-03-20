@@ -15,22 +15,22 @@
                 <a class="nav-link" href="{{ route('home') }}">الرئيسية</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Previous-Edges' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-Previous-Edges') }}">تنسيق السنوات السابقة</a>
+                <a class="nav-link" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Geo-Dist' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-Geo-Dist') }}">جدول التوزيع الجغرافي</a>
+                <a class="nav-link" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Geo-Dist-Info' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-Geo-Dist-Info') }}">القبول الجغرافي</a>
+                <a class="nav-link" href="{{ route('tansik.geo_dist_info') }}">القبول الجغرافي</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-ReduceAlienation' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-ReduceAlienation') }}">تقليل الاغتراب</a>
+                <a class="nav-link" href="{{ route('tansik.reduce_alienation') }}">تقليل الاغتراب</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Tzalom' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-Tzalom') }}">التظلم</a>
+                <a class="nav-link" href="{{ route('tansik.tzalom') }}">التظلم</a>
             </li>
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Stages-Info' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('Tansik-Stages-Info') }}">مراحل التنسيق</a>
+                <a class="nav-link" href="{{ route('tansik.stages_info') }}">مراحل التنسيق</a>
             </li>
         </ul>
     </div>

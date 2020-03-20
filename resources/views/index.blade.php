@@ -3,108 +3,196 @@
 @section('title','الرئيسية')
 
 @section('head')
-<style>
-	main {
-		margin-bottom: 9vh !important;
-	}
-	.overlay {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		height: 100%;
-		width: 100%;
-		transition: 0.5s ease;
-		background-color: rgba(255, 255, 255, 0.8);
-		border: 1px solid rgba(210, 69, 54, );
-	}
-	.thumbnail:hover .overlay {
-		background-color: rgba(210, 69, 54, 0.8);
-	}
-	.thumbnail:hover .thumbnail-text {
-		font-size: 150%;
-		color: black;
-		font-weight: bolder;
-	}
-	.thumbnail-text {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: inherit;
-		transform: translate(-50%, -50%);
-		-ms-transform: translate(-50%, -50%);
-		text-align: center;
-		font-size: 130%;
-		font-weight: bold;
-		color: #d24536;
-		transition: 0.4s ease;
-		margin: 0;
-	}
-	.thumbnail-text:hover {
-		text-decoration: none;
-	}
-
-</style>
+<script defer>
+    //Load css files
+    var tag = document.createElement("link");
+    tag.href = "{{ asset('css/home.css') }}";
+    tag.setAttribute('rel', 'stylesheet');
+    document.getElementsByTagName("head")[0].appendChild(tag);
+</script>
 @endsection
-
-@php
-	$Items = [
-		//[0 => image, 1 => text, 2 => link]
-		[[Storage::url('assets/images/tv-sm.jpg'),Storage::url('assets/images/tv.jpg')], 'ثانوية حلوة على التليفزيون', route('media-TV')],
-		[[Storage::url('assets/images/newspaper-sm.jpg'),Storage::url('assets/images/newspaper.jpg')], 'ثانوية حلوة على الصحافة', route('media-newspaper')],
-		[[Storage::url('assets/images/about_team-sm.jpg'),Storage::url('assets/images/about_team.jpg')], 'اعرف أكتر عن الفريق', route('about-us')],
-		[[Storage::url('assets/images/feedback-sm.jpg'),Storage::url('assets/images/feedback.jpg')], 'آراء الطلبة عننا', route('feedback')],
-		[[Storage::url('assets/images/faculties-sm.jpg'),Storage::url('assets/images/faculties.jpg')], 'تنسيق السنين اللي فاتت', route('Tansik-Previous-Edges')],
-		[[Storage::url('assets/images/faculties-sm.jpg'),Storage::url('assets/images/faculties.jpg')], 'يعني إيه قبول جغرافي؟', route('Tansik-Geo-Dist-Info')],
-		[[Storage::url('assets/images/faculties-sm.jpg'),Storage::url('assets/images/faculties.jpg')], 'يعني إيه تقليل اغتراب؟', route('Tansik-ReduceAlienation')],
-		[[Storage::url('assets/images/faculties-sm.jpg'),Storage::url('assets/images/faculties.jpg')], 'إيه هو التظلم وبيتعمل ازاي؟', route('Tansik-Tzalom')]
-		//[Storage::url('assets/images/.jpg'), '', route('')],
-	];
-@endphp
-
 @section('content')
-		<div class="row">
-			<div class="col p-0" style="margin-top:-20px; border-bottom: 3px solid #d24536;">
-				<a href="{{ Storage::url('assets/images/Header.jpg') }}" class="progressive replace" width="100%">
-					<img src="{{ Storage::url('assets/images/Header-sm.jpg') }}" class="preview img-fluid" alt="Welcome to Thanawya Helwa Website"/>
-				</a>
-			</div>
-    	</div>
-		<div class="row">
-			@foreach ($Items as $item)
-			@if ($loop->count%4 != 0 && $loop->index >= $loop->count - 3)
-			<div class="col-6 col-md-4 p-0 thumbnail text-center">
-			@else
-			<div class="col-6 col-md-3 p-0 thumbnail text-center">
-			@endif
-				<a href="{{ $item[0][1] }}" class="progressive replace">
-					<img src="{{ $item[0][0] }}" alt="{{ $item[1] }}" class="preview">
-				</a>
-				<a href="{{ $item[2] }}" class="overlay">
-					<span class="thumbnail-text">
-						{{ $item[1] }}
-					</span>
-				</a>
-			</div>
-			@endforeach
-			</div>
-    	</div>
-@endsection
+<div class="header-wrap parallax" style="background-image: url('{{ Storage::url('assets/header.jpg') }}');">
+    <div class="container-fluid h-100 w-100" style="background: rgba(57, 41, 121, 0.82);">
+        <div class="row slider-text js-fullheight align-items-center justify-content-center">
+            <div class="col-md-9 text-center">
+                <h4 class="text-light">أهلًا بيك في موقع فريق ثانوية حلوة .. فريق كامل من المتطوعين بنساعد طلبة الثانوية
+                    العامة المصرية </h4>
+                <h1 class="text-light">هدفنا نساعدكم توصلوا</h1>
+            </div>
+        </div>
+    </div>
+</div>
 
+<section class="bg-light">
+    <div class="container-fluid">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6 order-md-last heading-section pl-md-5 th-animate">
+                <h2 class="mb-4">بنساعد الطالب بكل الأشكال الممكنة</h2>
+                <p>
+                    في ثانوية عامة بيكون مهم إنك تحدد هدفك وتعرف عايز تعمل إيه بالظبط، وبعدها تشتغل على تحقيق الهدف ده
+                    بتركيز وثبات وتمشي خطوات صحيحة في الطريق إليه.
+                </p>
+                <p>
+                    المشكلة إنك وإنت في الطريق ده ساعات بتزهق أو بتتعب، وبتحس إنك مش قادر تكمله، أو بتحصل حاجة تحبطك
+                    وتحس إنك ماشي غلط! وعشان كده "ثانوية حلوة" دورها إنها تساعدك في تحديد الطريق وتكون معاك من أوله
+                    لآخره؛ ترشدك وتدلك على الأخطاء اللي تتجنبها والحاجات الصح اللي تعملها.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <div class="row text-center section1">
+                    <div class="col-md-6">
+                        <i class="fas fa-crosshairs fa-3x my-3" aria-hidden="true"></i>
+                        <div class="media-body">
+                            <h3 class="heading mb-3">تحديد الهدف</h3>
+                            <p>
+                                بنساعدك تحدد هدفك وبنتكلم سوا كتير لحد ما نحدد سوا إيه أنسب كلية ليك، وده لأنك لازم
+                                تختار الطريق المناسب عشان تقدر تبدع فيه.
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <i class="fas fa-question-circle fa-3x my-3"></i>
+                        <div class="media-body">
+                            <h3 class="heading mb-3">نصائح عامة</h3>
+                            <p>
+                                "أذاكر ازاي؟"، "أنظم وقتي ازاي؟"، وغيرهم من الأسئلة اللي بتدور في بال كل طالب ثانوية
+                                عامة، وإحنا بنكون معاك وبننزل نصائح في كل الحاجات اللي بتواجهك في فترة الثانوية العامة.
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <i class="fas fa-comments fa-2x my-3"></i>
+                        <h3 class="heading mb-3">تواصل شخصي</h3>
+                        <p>
+                            زي ما في مشاكل بتحصل لكل الطلبة، في مشاكل خاصة بيك لوحدك وظروف لحياتك، وعلشان كده بنستقبل
+                            رسايلك ونتكلم معاك في كل مشاكلك دي ونحاول نحلها معاك عشان ترتاح نفسيًا وتقدر تذاكر وتركز قدر
+                            الإمكان.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <i class="fas fa-user-friends fa-2x my-3"></i>
+                        <h3 class="heading mb-3">مش مجرد صفحة</h3>
+                        <p>
+                            مع الوقت هتلاقي إننا مش مجرد صفحة بتبعتلهم مشكلة ويردوا عليك، هنتحول لأصدقاء وهتلاقي نفسك مع
+                            كل حاجة بتحصل في ثانوي سواء حلوة أو وحشة بتيجي تحكيلنا وبتلاقي مننا نفس الحماس نسمعك كل مرة،
+                            وهتعرف ليه إحنا مقتنعين إن "ثانوية حلوة".
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="th-counter img" id="eventCounters">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-md-6 d-flex">
+                <div class="img d-flex align-self-stretch"
+                    style="background-image:url({{ Storage::url('assets/events.jpg') }});"></div>
+            </div>
+            <div class="col-md-6 pl-md-5 py-5">
+                <div class="row justify-content-start pb-3">
+                    <div class="col-md-12 heading-section th-animate">
+                        <h2 class="mb-4">فعاليات غير ربحية</h2>
+                        <p>
+                            إحنا مش بس بنتكلم عن طريق الفيسبوك، لكن كمان بنعمل events وفعاليات (غير هادفة للربح) بنتكلم
+                            مع طلبة ثانوي وأولياء أمورهم كمان، وبيكون فيها جزء ترفيهي عشان يغيروا جو.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 justify-content-center counter-wrap">
+                        <div class="block-18 text-center mb-4">
+                            <div class="text">
+                                <strong class="number" data-number="5">0</strong>
+                                <span>فعاليات</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 justify-content-center counter-wrap">
+                        <div class="block-18 text-center mb-4">
+                            <div class="text">
+                                <strong class="number" data-number="+1000">0</strong>
+                                <span>طالب استفادوا من فعالياتنا</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 justify-content-center counter-wrap">
+                        <div class="block-18 text-center mb-4">
+                            <div class="text">
+                                <strong class="number" data-number="+58000">30000</strong>
+                                <span>متابع على صفحتنا</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row justify-content-center pb-4">
+            <div class="col-md-12 heading-section text-center th-animate">
+                <h2 class="mb-4">إجابة لكل أسئلتك في فترة التنسيق</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 th-animate">
+                <div class="tansik-part">
+                    <a href="{{ route('tansik.reduce_alienation') }}" class="img"
+                        style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
+                        <div class="text">
+                            <div class="question-card-overlay"></div>
+                            <span>تقليل الاغتراب</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3 th-animate">
+                <div class="tansik-part">
+                    <a href="{{ route('tansik.geo_dist') }}" class="img"
+                        style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
+                        <div class="text">
+                            <div class="question-card-overlay"></div>
+                            <span>توزيعك الجغرافي</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 th-animate">
+                <div class="tansik-part">
+                    <a href="{{ route('tansik.previous_edges') }}" class="img"
+                        style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
+                        <div class="text">
+                            <div class="question-card-overlay"></div>
+                            <span>تنسيق السنوات الماضية</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 th-animate">
+                <div class="tansik-part">
+                    <a href="{{ route('tansik.tzalom') }}" class="img"
+                        style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
+                        <div class="text">
+                            <div class="question-card-overlay"></div>
+                            <span>التظلم</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
 @section('scripts')
-	<script defer>
-		 //Thumbnail as a whole link
-        document.querySelector('.thumbnail').addEventListener('click', function (e) {
-            let targetLink = e.target.querySelector('.overlay').href;
-            if (targetLink.indexOf("thanawyahelwa.org") != -1 || targetLink.indexOf("localhost") != -1) {
-                window.open(targetLink, "_self");
-            } else {
-                window.open(targetLink, "_blank");
-            }
-        });
-        document.querySelector('.thumbnail-text').addEventListener('click', function (e) {
-            e.preventDefault();
-        });
-	</script>
+<script src="{{ asset('js/home.js') }}"></script>
 @endsection

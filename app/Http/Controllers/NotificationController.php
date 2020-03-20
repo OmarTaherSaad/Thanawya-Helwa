@@ -11,6 +11,8 @@ class NotificationController extends Controller
     public function notify()
     {
         $post = \App\Models\Team\Post::find(2);
+        dd(\App\User::teamMembers([$post->writer->id, auth()->user()->id]));
+        return;
         auth()->user()->notify(new NewPostAddedNotification($post));
         //dd($post);
         //NewPostUnderReviewAdded::dispatch($post);

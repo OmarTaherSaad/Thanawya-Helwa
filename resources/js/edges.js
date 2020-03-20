@@ -1,129 +1,128 @@
-//Vue
-import Vue from 'vue';
-import { TablePlugin, PaginationPlugin, FormGroupPlugin, FormSelectPlugin, FormInputPlugin, ButtonPlugin } from 'bootstrap-vue';
-
-Vue.use(TablePlugin);
-Vue.use(PaginationPlugin);
-Vue.use(FormGroupPlugin);
-Vue.use(FormSelectPlugin);
-Vue.use(FormInputPlugin);
-Vue.use(ButtonPlugin);
-
-import Fuse from 'fuse.js';
+import Vuetable from 'vuetable-2';
+import VuetablePaginationBootstrap from "./components/VuetablePaginationBootstrap";
+import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo";
 
 window.vueApp = new Vue({
-    el: '#edgesApp',
+    el: "#edgesApp",
+    components: {
+        Vuetable,
+        VuetablePaginationInfo,
+        VuetablePaginationBootstrap
+    },
     data: {
-        items: [],
-        fields: [],
-        section: 'A',
-        currentPage: 1,
-        perPage: 50,
+        edges: null,
+        fields: ["avg", "name"],
+        section: "E",
+        sectionForTable: "E",
         pageOptions: [10, 20, 30, 50, 100, 300],
-        trans: {
-            name: 'flip-list'
-        },
+        perPage: 50,
         percent: 0,
-        isPercentNow: 0,
-        search: "",
-        searchValue: "",
-        sortBy: 'avg',
-        sortDesc: true,
         isTyping: false,
-        filter: null,
-        options: {
-            shouldSort: true,
-            threshold: 0.4,
-            location: 0,
-            distance: 100,
-            maxPatternLength: 32,
-            minMatchCharLength: 1,
-            keys: ["name"]
-        },
-        sortOption: {
-            numeric: true
+        filterInput: "",
+        sort: [],
+        tableCss: {
+            table: {
+                tableWrapper: "",
+                tableHeaderClass: "thead-dark mb-0",
+                tableBodyClass: "mb-0",
+                tableClass: "table table-bordered table-hover table-striped",
+                loadingClass: "loading",
+                ascendingIcon: "fas fa-chevron-up",
+                descendingIcon: "fas fa-chevron-down",
+                ascendingClass: "sorted-asc",
+                descendingClass: "sorted-desc",
+                sortableIcon: "fas fa-sort",
+                detailRowClass: "vuetable-detail-row",
+                handleIcon: "fas fa-bars text-secondary",
+                renderIcon(classes, options) {
+                    return `<i class="${classes.join(" ")}"></span>`;
+                }
+            }
         }
     },
+    created() {
+        this.fields = window.fields;
+        window.fields = null;
+    },
     mounted() {
-         window.addEventListener("load", function (event) {
-             window.vueApp.getEdges();
-         });
+        //this.getData();
+    },
+    computed: {
+        sortText() {
+            if (this.sort.length == 0) return "";
+            let sort = this.sort[0];
+            let text =
+                "الجدول مُرتب طبقًا لـ <b>" +
+                (sort.field == "avg"
+                    ? "المتوسط"
+                    : sort.field == "name"
+                    ? "اسم الكلية"
+                    : sort.field) +
+                " ";
+            if (sort.field == "name") {
+                text +=
+                    sort.direction == "desc" ? "أبجديًا بشكل عكسي" : "أبجديًا";
+            } else {
+                text +=
+                    sort.direction == "desc"
+                        ? "من الأعلى للأقل"
+                        : "من الأقل للأعلى";
+            }
+            text += "</b>";
+            return text;
+        }
     },
     watch: {
-        search: _.debounce(function () {
-            this.isTyping = false;
-        }, 800),
-        isTyping: function (value) {
-            if (!value)
-            {
+        isTyping: function(value) {
+            if (!value) {
                 this.searchValue = this.search;
             }
+        },
+        section() {
+            this.$nextTick(function() {
+                window.vueApp.$refs.vuetable.refresh();
+            });
+        },
+        perPage() {
+            this.$nextTick(function() {
+                window.vueApp.$refs.vuetable.refresh();
+            });
         }
     },
     methods: {
-        getEdges: function () {
-            axios.post('/Tansik/edges', {
-                section: this.section
-            })
-                .then(function (response) {
-                    window.vueApp.items = JSON.parse(response.data.edges);
-                    window.vueApp.fields = JSON.parse(response.data.fields);
-                    window.vueApp.isPercentNow = 0;
-                    this.sortBy = this.sortBy;
-                    window.vueApp.GradeOrPercent();
-                })
-                .catch(function (error) {
-                    // handle error
-                    //console.log(error);
-                });
+        loading() {
+            document.body.classList.add("loading");
         },
-        GradeOrPercent: function () {
-            this.percent = parseInt(this.percent);
-            if (!this.isPercentNow != !this.percent)
-            {
-                //Different Value!
-                //If need to return to grades-> retrieve them again (because of percision)
-                if (!this.percent)
-                {
-                    this.getEdges();
-                    return;
-                }
-                this.items.forEach(edge => {
-                    Object.keys(edge).forEach(key => {
-                        if (!isNaN(edge[key]))
-                        {
-                            //This needs to be modified
-                            edge[key] = (edge[key] * 10 / 41).toFixed(2) + '%';
-                        }
-                    });
-                });
-                this.isPercentNow = this.percent;
-            }
+        loaded() {
+            document.body.classList.remove("loading");
         },
-        onFiltered: function (filteredItems) {
-            // Trigger pagination to update the number of buttons/pages due to filtering
-            this.totalRows = filteredItems.length;
-            this.currentPage = 1;
+        onPaginationData(paginationData) {
+            this.$refs.pagination.setPaginationData(paginationData);
+            this.$refs.paginationInfo.setPaginationData(paginationData);
+            this.$refs.paginationTop.setPaginationData(paginationData);
+            this.$refs.paginationInfoTop.setPaginationData(paginationData);
         },
-        Filter: function (item, filterValue) {
-            let arr = [item];
-            var fuse = new Fuse(arr, this.options);
-            let filter = filterValue.replace(/[أإآ]/g, "ا").replace("ى", "ي").replace("ة", "ه").replace('كليه', '');
-            if (filter == '')
-                return true;
-            return fuse.search(filter).length > 0;
+        onChangePage(page) {
+            this.$refs.vuetable.changePage(page);
         },
-        compareFunc: function(row1, row2, key) {
-            switch (key) {
-                case 'name':
-                    return row1[key].localeCompare(row2[key]);
-                default:
-                    if (row1[key] == row2[key])
-                    { return 0; }
-                    else {
-                        return (row1[key] == "غير موجود") ? -1 : (row2[key] == "غير موجود") ? 1 : row1[key] < row2[key] ? -1 : 1;
-                    }
-            }
+        edgeView(value) {
+            return this.percent == "1"
+                ? ((value * 10) / 41).toFixed(2) + "%"
+                : value;
+        },
+        filter() {
+            let filter = this.filterInput
+                .replace(/[أإآ]/g, "ا")
+                .replace("ى", "ي")
+                .replace("ة", "ه")
+                .replace("كليه", "");
+            if (filter == "")
+                return;
+            this.filterInput = filter;
+
+            this.$nextTick(function() {
+                window.vueApp.$refs.vuetable.refresh();
+            });
         }
-    },
+    }
 });

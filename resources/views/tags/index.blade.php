@@ -13,7 +13,7 @@
 </div>
 <div class="row">
     @foreach( $tags as $tag )
-    <div class="col-4 col-md-2">
+    <div class="col-4 col-md-2 my-2">
         @include('containers.tag')
     </div>
     @endforeach

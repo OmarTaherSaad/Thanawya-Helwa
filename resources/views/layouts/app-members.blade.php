@@ -28,6 +28,8 @@
             tag.setAttribute('rel', 'stylesheet');
             document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
+        <script data-ad-client="ca-pub-8176502663524074" async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
         @yield('head')
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
     </head>

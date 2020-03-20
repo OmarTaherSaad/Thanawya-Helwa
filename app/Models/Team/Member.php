@@ -27,6 +27,18 @@ class Member extends User implements HasMedia
     {
         return $this->hasMany('App\Models\Team\Post','written_by');
     }
+    public function quizzes_made()
+    {
+        return $this->hasMany('App\Quiz','made_by');
+    }
+    public function quizzes_revised()
+    {
+        return $this->hasMany('App\Quiz','revised_by');
+    }
+    public function quizzes_inserted()
+    {
+        return $this->hasMany('App\Quiz','inserted_by');
+    }
 
     public function getLinkToView()
     {
@@ -66,7 +78,7 @@ class Member extends User implements HasMedia
     public static function hasStatus($status)
     {
         return Member::all()->filter(function($value) use ($status) {
-            $condition = in_array($status, $value->status) && ($status == 'founder' || !in_array('founder', $value->status));
+            $condition = in_array($status, $value->status);
             return $condition;
         });
     }

@@ -31,6 +31,10 @@ class PagesController extends Controller
     {
         return view('index');
     }
+    public function index2()
+    {
+        return view('index2');
+    }
 
     public function about()
     {
@@ -160,7 +164,28 @@ class PagesController extends Controller
 
     public function TansikPrevEdges()
     {
-        return view('tansik.previous-edges');
+        //Fields
+        $fields = collect();
+        $fields->push([
+            'title' => 'اسم الكلية',
+            'name' => 'name',
+            'sortField' => 'name'
+        ]);
+        $fields->push([
+            'title' => 'المتوسط',
+            'name' => 'avg',
+            'sortField' => 'avg',
+            'callback' => 'edgeView'
+        ]);
+        foreach (FacultyEdge::pluck('Year')->unique()->sort() as $year) {
+            $fields->push([
+                'name' => (string) $year,
+                'sortField' => (string) $year,
+                'callback' => 'edgeView'
+
+            ]);
+        }
+        return view('tansik.previous-edges')->with(compact('fields'));
     }
 
     public function TansikReduceAlienation()
@@ -209,49 +234,62 @@ class PagesController extends Controller
 
     public function getEdges(Request $request)
     {
+        $data = $request->params;
         $Years = FacultyEdge::pluck('Year')->unique()->sort();
-        //Prepare edges for view
-        $AllEdges = [];
-        foreach (FacultyEdge::all()->where('section', $request->input('section'))->sortByDesc('edge')->groupBy('TempName') as $name => $edgesOfName) {
-            $Edges = [];
+
+        //Edges
+        $AllEdges = collect();
+        $RawData = FacultyEdge::all()->where('section',$request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+        foreach ($RawData as $name => $edgesOfName) {
+            $Edges = collect();
             foreach ($edgesOfName as $edge) {
-                $Edges[$edge->year] = number_format($edge->edge, 2) + 0; //To remove .00
+                $Edges->put($edge->year, number_format($edge->edge, 2) + 0); //To remove .00
             }
-            $Edges['avg'] = number_format(array_sum($Edges) / count($Edges), 2) + 0;
-            $Edges['name'] = $name;
-            $AllEdges[] = $Edges;
+            $Edges->put('avg',number_format($Edges->sum() / $Edges->count(), 2) + 0);
+            $Edges->put('name',$name);
+            $Edges->put('section', $edgesOfName[0]->section);
+            $AllEdges->push($Edges);
         }
-        foreach ($AllEdges as $key => $edge) {
+        //Filter
+        if($data['filter']) {
+            $AllEdges = $AllEdges->filter(function($edge) use ($data) {
+                similar_text($edge['name'], $data['filter'],$percent);
+                return $percent > 10;
+                return \Str::contains($edge['name'], $data['filter']);
+            });
+        }
+        //Add Missing Years
+        foreach ($AllEdges as $edge) {
             foreach ($Years as $year) {
                 if (!\Arr::has($edge, $year)) {
-                    $AllEdges[$key][$year] = 'غير موجود';
+                    $edge->put($year,'غير موجود');
                 }
             }
         }
-
-        //Fields
-        $Fields = [];
-        $Fields[] = [
-            'key' => 'name',
-            'label' => 'اسم الكلية',
-            'sortable' => true
-        ];
-        foreach ($Years as $year) {
-            $Fields[] = [
-                'key' => (string) $year,
-                'label' => (string) $year,
-                'sortable' => true
-            ];
+        //Sort if existing
+        if ($data['sort']) {
+            $sort = explode('|', $data['sort']);
+            if ($sort[1] == 'asc') {
+                if (is_numeric($sort[0])) {
+                    $field = $sort[0];
+                    $AllEdges = $AllEdges->sortBy(function($edge) use ($field) {
+                        return is_numeric($edge[$field]) ? $edge[$field] : 500;
+                    });
+                } else {
+                    $AllEdges = $AllEdges->sortBy($sort[0]);
+                }
+            } else {
+                if (is_numeric($sort[0])) {
+                    $field = $sort[0];
+                    $AllEdges = $AllEdges->sortByDesc(function ($edge) use ($field) {
+                        return is_numeric($edge[$field]) ? $edge[$field] : -1;
+                    });
+                } else {
+                    $AllEdges = $AllEdges->sortByDesc($sort[0]);
+                }
+            }
         }
-        $Fields[] = [
-            'key' => 'avg',
-            'label' => 'المتوسط',
-            'sortable' => true
-        ];
-        return response()->json([
-            'edges' => collect(collect($AllEdges)->sortByDesc('avg')->values()->all())->toJson(),
-            'fields' => collect($Fields)->toJson()
-        ]);
+        return response()->json($this->paginate($AllEdges, $request->params['per_page'] ?? 100, $request->params['page'] ?? 1));
     }
 
     public function privacyPolicy()

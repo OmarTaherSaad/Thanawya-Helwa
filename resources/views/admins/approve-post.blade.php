@@ -21,7 +21,7 @@
         </div>
     </div>
     <form action="{{ route('admins.approve-post',['post' => $post]) }}" method="POST" id="postForm"
-        v-on:submit.prevent="approvePost">
+        v-on:submit.prevent="approvePost" dir="rtl">
         @csrf
         <div class="row justify-content-center">
             <div class="col-12 col-md-6">

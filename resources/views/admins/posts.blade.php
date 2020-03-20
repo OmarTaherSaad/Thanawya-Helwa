@@ -8,6 +8,31 @@
 </div>
 <div class="row justify-content-center text-center mt-5">
     <div class="col-12 col-6">
+        <form class="form-inline" {{ route('admins.all-posts') }} id="filterForm">
+            <div class="form-group m-2">
+                <label for="state">Filter By Status</label>
+                <select class="form-control" name="state" id="state" onchange="this.form.submit()">
+                    <option value="0" disabled selected>No Filter</option>
+                    @foreach ($states as $key => $state)
+                    <option value="{{ $key }}" @if(Request::get('state') == $key) selected  @endif>{{ $state }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group m-2">
+                <label for="member">Filter By Member</label>
+                <select class="form-control" name="member" id="member" onchange="this.form.submit()">
+                    <option value="0" disabled selected>No Filter</option>
+                    @foreach ($members as $key => $member)
+                    <option value="{{ $key }}" @if(Request::get('member') == $key) selected  @endif>{{ $member }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="button" onclick="resetFilters();this.form.submit();" class="btn btn-danger m-2">Reset</button>
+        </form>
+    </div>
+</div>
+<div class="row justify-content-center text-center mt-5">
+    <div class="col-12 col-6">
         <h1>All Posts of TH</h1>
     </div>
 </div>
@@ -73,9 +98,12 @@
 @section('scripts')
 <script>
     $(".deleteBtn").on('click',(e) => {
-            e.preventDefault;
-            $("#deletePost").attr('action',$(e.target).data('id'));
-            $("#DeletePostName").html($(e.target).data('name'));
-        });
+        e.preventDefault;
+        $("#deletePost").attr('action',$(e.target).data('id'));
+        $("#DeletePostName").html($(e.target).data('name'));
+    });
+    function resetFilters() {
+        $("#filterForm select").prop('selectedIndex',0);
+    }
 </script>
 @endsection

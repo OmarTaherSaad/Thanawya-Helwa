@@ -22,7 +22,7 @@
         <div class="jumbotron jumbotron-fluid">
             <h2>توزيع القبول الجغرافي لجميع محافظات مصر</h2>
             <p class="lead">هنا تقدر تشوف الجامعات كلها هتكون في أنهي مجموعة بالنسبالك .. لمعلومات أكتر عن المجموعات
-                وتأثيرها في التنسيق <a href="{{ route('Tansik-Geo-Dist-Info') }}">دوس هنا</a>.</p>
+                وتأثيرها في التنسيق <a href="{{ route('tansik.geo_dist_info') }}">دوس هنا</a>.</p>
         </div>
     </div>
 </div>
@@ -73,7 +73,7 @@
 function getAdmin(val) {
     $("#gov").attr('disabled',true);
     $("#adminDiv , #DistTable").hide();
-    axios.post('/Tansik/gov', {
+    axios.post('/tansik/gov', {
         gov: val
     })
     .then(function (r) {
@@ -98,7 +98,7 @@ function getAdmin(val) {
 function getDist(val) {
     $("#admins").attr('disabled',true);
 
-    axios.post('/Tansik/admin', {
+    axios.post('/tansik/admin', {
         admin: val
     })
     .then(function (r) {
@@ -122,7 +122,7 @@ function makeDistTable(DistArr) {
     //Show it
     $("#DistTable").show(1000);
     //Instantiate Tabular for grouping
-    
+
     // code for grouping rows
     var $rows = $("#DistTable > tbody").find('tr');
     var items = [],

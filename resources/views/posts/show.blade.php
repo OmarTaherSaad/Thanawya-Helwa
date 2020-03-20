@@ -21,26 +21,42 @@
                 <h4>Deleted at: {{ $post->deleted_at->toDayDateTimeString() }}</h4>
                 @endif
             </div>
-            @if($post->state > config('team.posts.status.DISMISSED'))
-            <div class="col-12 col-md-8">
-                <label for="content"><h3 class="text-center"><u>Final Content</u></h3></label>
-                <textarea rows="10" readonly style="font-size: 1.5rem;" class="text-right form-control" id="content">
-                    {!! $post->content !!}
-                </textarea>
-            </div>
-            @endif
-            <div class="col-12 col-md-8">
-                <label for="content_before_review"><h3><u>Content Before Review</u></h3></label>
-                <textarea rows="10" readonly style="font-size: 1.5rem;" class="text-right form-control" id="content_before_review">
-                    {!! $post->content_before_review !!}
-                </textarea>
-            </div>
-            @if($post->with_link())
-            <div class="col-12 col-md-8">
-                <h3 class="text-center"><a href="{{ $post->fb_link }}" rel="noreferrer" target="_blank">Open FB Post</a></h3>
-            </div>
-            @endif
+            @if(Auth::check() && Auth::user()->isTeamMember())
 
+                @if($post->state > config('team.posts.status.DISMISSED'))
+                <div class="col-12 col-md-8">
+                    <label for="content"><h3 class="text-center"><u>Final Content</u></h3></label>
+                    <textarea rows="10" readonly style="font-size: 1.5rem;" class="text-right form-control" id="content">
+                        {!! $post->content !!}
+                    </textarea>
+                </div>
+                @endif
+                <div class="col-12 col-md-8">
+                    <label for="content_before_review"><h3><u>Content Before Review</u></h3></label>
+                    <textarea rows="10" readonly style="font-size: 1.5rem;" class="text-right form-control" id="content_before_review">
+                        {!! $post->content_before_review !!}
+                    </textarea>
+                </div>
+                @if($post->with_link())
+                <div class="col-12 col-md-8">
+                    <h3 class="text-center"><a href="{{ $post->fb_link }}" rel="noreferrer" target="_blank">Open FB Post</a></h3>
+                </div>
+                @endif
+
+            @else
+                <div class="col-12 col-md-8">
+                    <p style="font-size: 1.1rem;" class="m-1 py-1 text-right">
+                        {!! $post->content !!}
+                    </p>
+                </div>
+            @endif
+        </div>
+        <div class="row justify-content-center mt-3">
+            @foreach( $post->tags as $tag )
+            <div class="col-4 col-md-2 my-2">
+                @include('containers.tag')
+            </div>
+            @endforeach
         </div>
     </section>
 @endsection

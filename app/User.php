@@ -42,19 +42,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function hasRole($role) {
+    public function hasRole($role)
+    {
         return $this->role == $role;
     }
 
-    public function isTeamMember() {
+    public function isTeamMember()
+    {
         return  $this->role == 'THteam' || $this->role == 'admin';
     }
 
-    public function isEdba3() {
+    public function isEdba3()
+    {
         return $this->role == 'Ebda3team';
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->role == 'admin';
     }
 
@@ -96,15 +100,14 @@ class User extends Authenticatable
 
     public function latestNotificationsData()
     {
-        $takeRead = max(10 - $this->unreadNotificationsData()->take(10)->count(),0);
+        $takeRead = max(10 - $this->unreadNotificationsData()->take(10)->count(), 0);
         return $this->unreadNotificationsData()->merge($this->readNotificationsData()->take($takeRead));
     }
 
     public static function teamMembers()
     {
-        return User::all()->filter(function($user) {
+        return User::all()->filter(function ($user) {
             return $user->isTeamMember();
         });
     }
-
 }

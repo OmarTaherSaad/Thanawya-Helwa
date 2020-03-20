@@ -22,9 +22,9 @@ class PostPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
-        return $user->isTeamMember();
+        return true;
     }
 
     /**
@@ -34,9 +34,13 @@ class PostPolicy
      * @param  \App\Post  $post
      * @return mixed
      */
-    public function view(User $user, Post $post)
+    public function view(?User $user, Post $post)
     {
-        return $user->isTeamMember();
+        if ($user == null)
+        {
+            return $post->posted();
+        }
+        return ($user->isTeamMember() && $user->member->is($post->writter)) || $post->state == config('team.posts.status.UNDER_REVIEW');
     }
 
     /**

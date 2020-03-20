@@ -1,0 +1,89 @@
+@keyframes float {
+	0% {
+        -webkit-filter: drop-shadow(0 5px 15px 0px rgba(0,0,0,0.6));
+        filter: drop-shadow(0 5px 15px 0px rgba(0,0,0,0.6));
+		transform: translatey(0px);
+	}
+	50% {
+        -webkit-filter: drop-shadow(0 25px 15px 0px rgba(0,0,0,0.2));
+        filter: drop-shadow(0 25px 15px 0px rgba(0,0,0,0.2));
+		transform: translatey(-20px);
+	}
+	100% {
+        -webkit-filter: drop-shadow(0 5px 15px 0px rgba(0,0,0,0.6));
+        filter: drop-shadow(0 5px 15px 0px rgba(0,0,0,0.6));
+		transform: translatey(0px);
+	}
+}
+
+.section1 {
+    i {
+        color: red;
+        transform: translatey(0px);
+	    animation: float 6s ease-in-out infinite;
+    }
+    p {
+        font-size: 0.9em;
+    }
+}
+section {
+    padding: 2em 0;
+}
+.question-card-overlay {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba($color: #9d9d9d, $alpha: 0.5);
+    &:hover {
+        background-color: rgba($color: #ff7d56, $alpha: 0.5);
+    }
+}
+.tansik-part {
+    .img {
+        display: block;
+        width: 100%;
+        height: 320px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+    }
+    .text {
+       padding: 20px;
+        position: relative;
+        height: 320px;
+        span {
+            position: absolute;
+            bottom: 20px;
+            right: 0;
+            display: inline-block;
+            background: #33313b;
+            padding: 4px 5px 4px 15px;
+            border-radius: 20px 0 0 20px;
+            color: #fff;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease
+        }
+    }
+}
+.th-counter {
+    .img {
+        display: block;
+        width: 100%;
+    }
+    .text strong.number {
+        font-weight: 600;
+        font-size: 28px;
+        color: #a70101;
+    }
+    .text span {
+        display: block;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.7);
+        margin-bottom: 10px;
+    }
+}

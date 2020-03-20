@@ -21,6 +21,15 @@
                     <a class="dropdown-item" href="{{ route('admins.all-members') }}">View All Members</a>
                 </div>
             </li>
+            @endif
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="QuizzesDropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Quizzes &nbsp;</a>
+                <div class="dropdown-menu" aria-labelledby="QuizzesDropdown">
+                    <a class="dropdown-item" href="{{ route('quiz.index') }}">All Quizzes</a>
+                    <a class="dropdown-item" href="{{ route('quiz.create') }}">Create New Quiz</a>
+                </div>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="TagsDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Tags &nbsp;</a>
@@ -29,7 +38,6 @@
                     <a class="dropdown-item" href="{{ route('tags.create') }}">Create New Tag</a>
                 </div>
             </li>
-            @endif
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="PostsDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Posts &nbsp;</a>
@@ -50,12 +58,12 @@
                     <a class="dropdown-item" href="{{ route('contact') }}">تواصل معنا</a>
                     <a class="dropdown-item" href="{{ route('join-us') }}">انضم إلينا</a>
                     <hr>
-                    <a class="dropdown-item" href="{{ route('Tansik-Previous-Edges') }}">تنسيق السنوات السابقة</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Geo-Dist') }}">جدول التوزيع الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Geo-Dist-Info') }}">معلومات عن القبول الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-ReduceAlienation') }}">معلومات عن تقليل الاغتراب</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Tzalom') }}">معلومات عن التظلم</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Stages-Info') }}">معلومات عن مراحل التنسيق</a>
+                    <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
+                    <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.reduce_alienation') }}">معلومات عن تقليل الاغتراب</a>
+                    <a class="dropdown-item" href="{{ route('tansik.tzalom') }}">معلومات عن التظلم</a>
+                    <a class="dropdown-item" href="{{ route('tansik.stages_info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
             @else
@@ -75,12 +83,12 @@
                 <a class="nav-link dropdown-toggle" id="TansikDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">دليلك في التنسيق &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="TansikDropdown">
-                    <a class="dropdown-item" href="{{ route('Tansik-Previous-Edges') }}">تنسيق السنوات السابقة</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Geo-Dist') }}">جدول التوزيع الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Geo-Dist-Info') }}">معلومات عن القبول الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-ReduceAlienation') }}">معلومات عن تقليل الاغتراب</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Tzalom') }}">معلومات عن التظلم</a>
-                    <a class="dropdown-item" href="{{ route('Tansik-Stages-Info') }}">معلومات عن مراحل التنسيق</a>
+                    <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
+                    <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.reduce_alienation') }}">معلومات عن تقليل الاغتراب</a>
+                    <a class="dropdown-item" href="{{ route('tansik.tzalom') }}">معلومات عن التظلم</a>
+                    <a class="dropdown-item" href="{{ route('tansik.stages_info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
             @endif
@@ -93,24 +101,29 @@
             <!-- Authentication Links -->
             @guest
             <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
+                <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
             </li>
             @else
 
             {{-- Notifications --}}
             <li class="nav-item dropdown" id="NotifApp" dir="ltr">
-                <a v-bind:class="[newNotifications.length ? 'unread nav-link dropdown-toggle' : 'nav-link dropdown-toggle']" id="NotifDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+                <a v-bind:class="[newNotifications.length ? 'unread nav-link dropdown-toggle' : 'nav-link dropdown-toggle']"
+                    id="NotifDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell" aria-hidden="true"></i>
-                    <span class="d-inline d-md-none">Notifications</span> <span class="badge badge-pill badge-secondary" v-html="newNotifications.length"></span>
+                    <span class="d-inline d-md-none">Notifications</span> <span class="badge badge-pill badge-secondary"
+                        v-html="newNotifications.length"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="NotifDropdown">
                     <h6 class="dropdown-header" style="cursor: pointer" @click="markAsRead">Mark As Read</h6>
-                    <a class="dropdown-item bg-primary text-light" v-if="newNotifications.length" v-for="notif in newNotifications" :href="notif.link" v-html="notif.text"></a>
-                    <a class="dropdown-item bg-secondary text-light" v-if="oldNotifications.length && newNotifications.length < 10" v-for="notif in oldNotifications" :href="notif.link" v-html="notif.text"></a>
+                    <a class="dropdown-item bg-primary text-light" v-if="newNotifications.length"
+                        v-for="notif in newNotifications" :href="notif.link" v-html="notif.text"></a>
+                    <a class="dropdown-item bg-secondary text-light"
+                        v-if="oldNotifications.length && newNotifications.length < 10" v-for="notif in oldNotifications"
+                        :href="notif.link" v-html="notif.text"></a>
                     <p v-else="notifications" class="m-2">No Notifications</p>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('users.notifications',['user' => Auth::user()]) }}">View All Notifications</a>
+                    <a class="dropdown-item" href="{{ route('users.notifications',['user' => Auth::user()]) }}">View All
+                        Notifications</a>
 
                 </div>
             </li>

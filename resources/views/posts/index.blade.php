@@ -19,7 +19,7 @@
 </div>
 <div class="row">
     @foreach( $posts as $post )
-    <div class="col-6 col-md-4">
+    <div class="col-6 col-md-4 my-2">
         @include('containers.post')
     </div>
     @endforeach

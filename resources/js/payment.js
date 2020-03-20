@@ -1,5 +1,3 @@
-//Vue
-import Vue from 'vue';
 window.vueApp = new Vue({
     el: '#edgesApp',
     data: {

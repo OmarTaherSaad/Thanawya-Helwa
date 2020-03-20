@@ -8,12 +8,15 @@
     </script>
     <style>
         th:first-of-type {
-            width:48%;
+            width: 50%;
+        }
+        th:not(:first-of-type) {
+            width: 35px;
         }
     </style>
 @endsection
 @section('content')
-<div id="edgesApp">
+<div id="edgesApp" class="container-fluid">
     <div class="row text-center">
         <div class="col m-2 p-2">
             <div class="jumbotron jumbotron-fluid">
@@ -24,85 +27,100 @@
         </div>
     </div>
 
-    <div class="row text-right justify-content-center">
+    <div class="row text-right justify-content-center align-items-end">
         <div class="col-6 col-md-3">
             <div class="form-group text-right focused">
                 <label>الشعبة</label>
-                <select id="Section" class="form-control filled" v-model="section" v-on:change="getEdges()">
+                <select id="Section" class="form-control filled" v-model="section">
                     <option value="E" selected>علمي</option>
                     <option value="A">أدبي</option>
                 </select>
             </div>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 order-last order-md-12 col-md-5">
             <div class="form-group text-right focused">
                 <label>تحب تشوف المجموع الكلي ولا النسب المئوية؟</label>
-                <select v-model="percent" v-on:change="GradeOrPercent()" class="form-control filled">
+                <select v-model="percent" class="form-control filled">
                     <option value="0" selected>المجموع الكلي</option>
                     <option value="1">النسبة المئوية</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="form-group">
+                <label for="perPage">عدد الكليات في كل صفحة</label>
+                <select class="form-control" id="perPage" v-model="perPage">
+                    <option v-for="option in pageOptions" v-bind:value="option" v-html="option"></option>
                 </select>
             </div>
         </div>
     </div>
     <div class="row text-right justify-content-center">
         <div class="col-12 text-center">
-            <h4>تقدر ترتب الجدول لما تدوس على اسم أي عامود فيه :)</h4>
-            <h4 class="d-block d-sm-none">اتحرك يمين وشمال جوا الجدول عشان تشوف باقي السنوات</h4>
+            <h4>تقدر ترتب الجدول لما تدوس على اسم أي عامود فيه &#128516</h4>
         </div>
         <div class="col-12 text-right">
             <!-- User Interface controls -->
             <div class="row">
-                <div class="col-12 col-md-6 my-1">
-                    <b-form-group label-cols-sm="3" label="اكتب اسم أي كلية عايز تشوف درجاتها" class="mb-0">
-                            <div class="form-inline mx-0 px-0" id="searchBox">
-                                <b-form-input class="mx-1" v-on:input="isTyping = true" v-model="filter" placeholder="اكتب لتقوم بالبحث"></b-form-input>
-                                <b-button class="mx-1" v-if="filter" :disabled="!filter" v-on:click="filter = ''">مسح المكتوب</b-button>
-                            </div>
-                    </b-form-group>
-                </div>
-                <div class="col-12 col-md-6 my-1">
-                    <b-form-group label-cols-sm="3" label="عدد الكليات في كل صفحة" class="mb-0">
-                        <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
-                    </b-form-group>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-12 my-1">
-                    <b-pagination v-model="currentPage" align="center" :total-rows="items.length" :per-page="perPage" class="my-0">
-                    </b-pagination>
-                    <div>
-                        الجدول مُرتب طبقًا لـ <b>@{{ sortBy == 'avg' ? 'المتوسط' : sortBy == 'name' ? 'اسم الكلية' : sortBy }}</b>
-                        <b>@{{ sortDesc ? 'من الأعلى للأقل' : 'من الأقل للأعلى' }}</b>
+                    <div class="form-group form-inline">
+                        <input type="text" v-model="filterInput" class="form-control mx-1" placeholder="ابحث عن اسم الكلية/المعهد">
+                        <button class="btn btn-success mx-1" v-if="filter" @click="filter">
+                            ابحث
+                        </button>
+                        <button class="btn btn-secondary mx-1" v-if="filter" v-on:click="filterInput = ''">
+                            مسح المكتوب
+                        </button>
                     </div>
                 </div>
             </div>
-            {{--Table--}}
             <div class="row">
-                <div class="col-12">
-                    <b-table dir="rtl" class="mx-0"
-                    ref="table"
-                    striped hover bordered small responsive foot-clone
-                    :sort-compare="compareFunc"
-                    sort-compare-locale="ar"
-                    :sort-compare-options="{ numeric: true }"
-                    head-variant="dark"
-                    :items="items"
-                    :fields="fields"
-                    :current-page="currentPage"
-                    :per-page="perPage"
-                    :tbody-transition-props="trans"
-                    :filter="filter"
-                    :filter-function="Filter"
-                    :sort-by.sync="sortBy"
-                    :sort-desc.sync="sortDesc"
-                    v-on:filtered="onFiltered">
-                    <template slot="table-caption">جميع البيانات في هذه الجداول مأخوذة من موقع التنسيق، ووجود أخطاء إملائية في أسامي الكليات غير راجع لفريق ثانوية حلوة.</template>
-                    </b-table>
+                <div class="col-12 my-1">
+
+                    <div v-html="sortText"></div>
+                </div>
+            </div>
+            {{--Table--}}
+            <div class="row mb-5">
+                <div class="col-12 text-right">
+                    <small class="font-wieght-bold d-block d-sm-none">اتحرك يمين وشمال جوا الجدول عشان تشوف باقي السنوات</small>
+                    <div class="mb-2 text-center">
+                        <vuetable-pagination-info ref="paginationInfoTop"></vuetable-pagination-info>
+                        <vuetable-pagination-bootstrap ref="paginationTop"
+                            @vuetable-pagination:change-page="onChangePage"></vuetable-pagination-bootstrap>
+                    </div>
+                    <div class="table-responsive">
+                        <vuetable ref="vuetable"
+                        api-url="{{ route('tansik.get_edges') }}"
+                        http-method="post"
+                        :fields="fields"
+                        :css="tableCss.table"
+                        pagination-path=""
+                        :per-page="perPage"
+                        :append-params="{section: section, filter: filterInput}"
+                        :show-sort-icons="true"
+                        @vuetable:pagination-data="onPaginationData"
+                        track-by="name"
+                        @vuetable:loading="loading()"
+                        @vuetable:loaded="loaded()"
+                        :sort-order="sort"
+                    ></vuetable>
+                    </div>
+                    <div class="mt-2 text-center">
+                        <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
+                        <vuetable-pagination-bootstrap ref="pagination"
+                            @vuetable-pagination:change-page="onChangePage"></vuetable-pagination-bootstrap>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <small>جميع البيانات في هذه الجداول مأخوذة من موقع التنسيق، ووجود أخطاء إملائية في أسامي الكليات غير راجع لفريق ثانوية
+                        حلوة.</small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 my-1">
-                    <b-pagination v-model="currentPage" align="center" :total-rows="items.length" :per-page="perPage" class="my-0"></b-pagination>
+                    {{-- Pagination --}}
+
                 </div>
             </div>
         </div>
@@ -113,30 +131,6 @@
 @section('scripts')
 <script async src="{{ asset('js/edges.js') }}"></script>
 <script defer>
-    const searchBoxPosition = document.querySelector('#searchBox').getBoundingClientRect().top;
-
-    /* Feature detection */
-    var passiveIfSupported = false;
-    try {
-    window.addEventListener("test", null, Object.defineProperty({}, "passive", {
-        get: function() {
-            passiveIfSupported = {
-                passive: true
-            };
-        }
-    }));
-    } catch(err) {}
-
-    window.addEventListener('scroll',function() {
-        let el = document.querySelector('#searchBox');
-        if (window.scrollY < searchBoxPosition) {
-            //Move it
-            el.classList.remove('fixIt');
-            el.style.top = 0;
-        } else {
-            el.classList.add('fixIt');
-            el.style.top = 20 + document.querySelector('nav').getBoundingClientRect().height + "px";
-        }
-    },passiveIfSupported);
+    window.fields = {!! $fields !!};
 </script>
 @endsection

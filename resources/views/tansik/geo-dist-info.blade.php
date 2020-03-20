@@ -9,7 +9,7 @@
   <hr class="my-4">
   <p>لو عايز تعرف الجامعات المتاحة لمحافظتك دوس هنا</p>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="{{ route('Tansik-Geo-Dist') }}" role="button">دوس هنا</a>
+    <a class="btn btn-primary btn-lg" href="{{ route('tansik.geo_dist') }}" role="button">دوس هنا</a>
   </p>
 </div>
 		</div>
@@ -25,7 +25,7 @@
 					  يعني إيه قبول جغرافي؟
 					</button>
 				  </h5>
-				
+
 				</div>
 
 				<div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#GeoDistQuestions">
@@ -45,7 +45,7 @@
 							إيه المجموعات "أ" و "ب" و "ج" دول؟
 						</button>
 					</h5>
-			
+
 				</div>
 				<div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -75,11 +75,11 @@
 					  أعرف منين الجامعات المتاحة لمحافظتي؟
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#GeoDistQuestions">
 					<div class="card-body">
-						<p><a href="{{ route('Tansik-Geo-Dist') }}" target="_blank" rel="noopener">دوس هنا</a> واختار محافظتك والإدارة التعليمية اللي تابع ليها وإحنا هنقولك كل المجموعات بالنسبالك.</p>
+						<p><a href="{{ route('tansik.geo_dist') }}" target="_blank" rel="noopener">دوس هنا</a> واختار محافظتك والإدارة التعليمية اللي تابع ليها وإحنا هنقولك كل المجموعات بالنسبالك.</p>
 					</div>
 				</div>
 			</div>
@@ -91,7 +91,7 @@
 					  لو اتلغبطت وحطيت جامعة من مجموعة "ب" أو "ج" قبل جامعات مجموعة "أ" وأنا برتب الرغبات؟
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -107,7 +107,7 @@
 					  بس أنا عايز أدخل كلية مش موجودة في الجامعات اللي في مجموعة "أ" بتاعتي!؟
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -126,7 +126,7 @@
 						وإيه وضع المدارس الداخلية من الموضوع ( مثال: الرياضية - العسكرية - المتفوقين)؟
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -144,7 +144,7 @@
 						عايز مثال يوضحلي الكلام اللي بتقولوه ده
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -184,7 +184,7 @@
 						إيه الحاجات اللي خارجة عن القواعد دي؟
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -209,7 +209,7 @@
 						ملحوظات هامة من موقع التنسيق
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -246,7 +246,7 @@
 						هقدم منين للتنسيق؟
 					</button>
 				  </h5>
-				
+
 				</div>
 				<div id="collapse11" class="collapse" aria-labelledby="heading11" data-parent="#GeoDistQuestions">
 					<div class="card-body">
@@ -265,7 +265,7 @@
 							عندي سؤال تاني مش مكتوب هنا
 						</button>
 					</h5>
-			
+
 				</div>
 				<div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#GeoDistQuestions">
 					<div class="card-body">

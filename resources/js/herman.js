@@ -1,5 +1,3 @@
-//Vue
-import Vue from 'vue';
 //Vuetify Timeline component
 import Vuetify, { VStepper, VStepperStep, VStepperHeader, VStepperContent, VStepperItems } from 'vuetify/lib';
 
@@ -491,10 +489,10 @@ window.vueApp = new Vue({
         },
         points() {
             let size = 30;
-                
+
             let Ax = - (Math.cos(Math.PI / 4) * this.result.A * size / 19).toFixed(2);
             let Ay = - (Math.sin(Math.PI / 4) * this.result.A * size / 19).toFixed(2);
-            
+
             let Bx = - (Math.cos(Math.PI / 4) * this.result.B * size / 19).toFixed(2);
             let By = + (Math.sin(Math.PI / 4) * this.result.B * size / 19).toFixed(2);
 
@@ -526,7 +524,7 @@ window.vueApp = new Vue({
                     if (this.questions[keys[i]].Answer == null)
                     {
                         this.questions[keys[i]].Class = 'custom-select is-invalid';
-                    }   
+                    }
                 }
             }
         },

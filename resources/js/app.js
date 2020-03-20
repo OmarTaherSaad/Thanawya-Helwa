@@ -1,32 +1,42 @@
-require('./bootstrap');
+require("./bootstrap");
 
-axios.interceptors.request.use(function (config) {
-    //Before request start: show loading
-    document.body.classList.add('loading');
-    return config;
-}, function (error) {
-    alert("حصل عطل فني، ياريت تحاول في وقت تانية وبلغنا على صفحتنا على الفيسبوك");
-    document.body.classList.remove('loading');
-    return Promise.reject(error);
-});
-axios.interceptors.response.use(function (response) {
-    //After request is done: hide loading
-    document.body.classList.remove('loading');
-    return response;
-}, function (error) {
-    alert("حصل عطل فني، ياريت تحاول في وقت تانية وبلغنا على صفحتنا على الفيسبوك");
-    document.body.classList.remove('loading');
-    return Promise.reject(error);
-});
+axios.interceptors.request.use(
+    function(config) {
+        //Before request start: show loading
+        document.body.classList.add("loading");
+        return config;
+    },
+    function(error) {
+        alert(
+            "حصل عطل فني، ياريت تحاول في وقت تاني وبلغنا على صفحتنا على الفيسبوك"
+        );
+        document.body.classList.remove("loading");
+        return Promise.reject(error);
+    }
+);
+axios.interceptors.response.use(
+    function(response) {
+        //After request is done: hide loading
+        document.body.classList.remove("loading");
+        return response;
+    },
+    function(error) {
+        alert(
+            "حصل عطل فني، ياريت تحاول في وقت تاني وبلغنا على صفحتنا على الفيسبوك"
+        );
+        document.body.classList.remove("loading");
+        return Promise.reject(error);
+    }
+);
 
-import 'progressive-image.js/dist/progressive-image.js';
-import 'progressive-image.js/dist/progressive-image.css';
+import "progressive-image.js/dist/progressive-image.js";
+import "progressive-image.js/dist/progressive-image.css";
 
-let func = function () {
-    $("a.progressive").click(function (e) {
+let func = function() {
+    $("a.progressive").click(function(e) {
         e.preventDefault();
     });
-    document.body.classList.add('loaded');
+    document.body.classList.add("loaded");
     //PWA Notifications
     /*
     function askPermission() {
@@ -62,54 +72,107 @@ let func = function () {
     }
     */
     //Register Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
-            // Registration was successful
-            /*Tell the user that we work offline! (First time only)*/
-            if (navigator.serviceWorker.controller == null)
-            {
-                let el = document.createElement('div');
-                el.classList.add("alert", "alert-info", "offline-ready", "alert-dismissible", "fade", "show");
-                el.setAttribute('role', 'alert');
-                el.innerHTML = "النت بيقطع كتير .. بس الموقع ده بيشتغل حتى لو إنت مش فاتح النت! مفيش حاجة هتوقف تجربتك على موقع ثانوية حلوة :)";
-                document.querySelector('main').append(el);
-                setTimeout(function () {
-                    el.parentNode.removeChild(el);
-                }, 5000);
-            }
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+            .register("/service-worker.js")
+            .then(function(registration) {
+                // Registration was successful
+                /*Tell the user that we work offline! (First time only)*/
+                if (navigator.serviceWorker.controller == null) {
+                    let el = document.createElement("div");
+                    el.classList.add(
+                        "alert",
+                        "alert-info",
+                        "offline-ready",
+                        "alert-dismissible",
+                        "fade",
+                        "show"
+                    );
+                    el.setAttribute("role", "alert");
+                    el.innerHTML =
+                        "الموقع ده معظم صفحاته بتشتغل حتى لو بدون انترنت .. تجربتك معانا مختلفة!";
+                    document.querySelector("main").append(el);
+                    setTimeout(function() {
+                        el.parentNode.removeChild(el);
+                    }, 5000);
+                }
 
-            //Request notifications
-            /*setTimeout(() => {
+                //Request notifications
+                /*setTimeout(() => {
                 if (confirm('تقدر تخلي ثانوية حلوة تبعتلك إشعارات (notifications) لموبايلك .. موافق؟')) {
                     askPermission();
                 }
             }, 10000);*/
 
+                function updateOnlineStatus() {
+                    if (navigator.onLine) {
+                        document.body.classList.remove("offline");
+                    } else {
+                        /*Offline notification*/
+                        let offline_box =
+                            '<div class="offline-notification">دلوقتي النت مش شغال عندك!<strong><u>يعني إيه؟</u></strong><div class="offline-notification_explanation">الموقع هيفضل شغال عادي ;) في بس شوية الحاجات ممكن متشتغلش غير لما النت يرجع.</div></div>';
+                        document.body.innerHTML += offline_box;
 
-            function updateOnlineStatus() {
-                if (navigator.onLine) {
-                    document.body.classList.remove("offline");
-                } else {
-                    /*Offline notification*/
-                    let offline_box = '<div class="offline-notification">دلوقتي النت مش شغال عندك!<strong><u>يعني إيه؟</u></strong><div class="offline-notification_explanation">الموقع هيفضل شغال عادي ;) في بس شوية الحاجات ممكن متشتغلش غير لما النت يرجع.</div></div>';
-                    document.body.innerHTML += offline_box;
-
-                    document.body.classList.add("offline");
+                        document.body.classList.add("offline");
+                    }
                 }
-            }
-            updateOnlineStatus();
-            window.addEventListener('online', updateOnlineStatus);
-            window.addEventListener('offline', updateOnlineStatus);
-        });
+                updateOnlineStatus();
+                window.addEventListener("online", updateOnlineStatus);
+                window.addEventListener("offline", updateOnlineStatus);
+            });
     }
     //iframe must have title
     if (document.querySelector("iframe[title='']") != null) {
         document.querySelector("iframe[title='']").title = "Iframe";
     }
-}
+};
 
 if (window.addEventListener) {
-    window.addEventListener('load', func);
+    window.addEventListener("load", func);
 } else {
-    window.attachEvent('onload', func);
+    window.attachEvent("onload", func);
 }
+
+// scroll
+var scrollWindow = function() {
+    $(window).scroll(function() {
+        var $w = $(this),
+            st = $w.scrollTop(),
+            navbar = $("nav.navbar"),
+            sd = $(".js-scroll-wrap");
+
+        if (st > 150) {
+            if (!navbar.hasClass("scrolled")) {
+                navbar.addClass("scrolled");
+            }
+        }
+        if (st < 150) {
+            if (navbar.hasClass("scrolled")) {
+                navbar.removeClass("scrolled sleep");
+            }
+        }
+        if (st > 350) {
+            if (!navbar.hasClass("awake")) {
+                navbar.addClass("awake");
+                navbar.removeClass("navbar-dark");
+                navbar.addClass("navbar-light");
+            }
+
+            if (sd.length > 0) {
+                sd.addClass("sleep");
+            }
+        }
+        if (st < 350) {
+            if (navbar.hasClass("awake")) {
+                navbar.removeClass("awake");
+                navbar.addClass("navbar-dark");
+                navbar.removeClass("navbar-light");
+                navbar.addClass("sleep");
+            }
+            if (sd.length > 0) {
+                sd.removeClass("sleep");
+            }
+        }
+    });
+};
+scrollWindow();

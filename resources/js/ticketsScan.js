@@ -1,6 +1,3 @@
-//Vue
-import Vue from 'vue';
-
 import { QrcodeStream } from 'vue-qrcode-reader';
 import VueTheMask from 'vue-the-mask';
 Vue.use(VueTheMask);

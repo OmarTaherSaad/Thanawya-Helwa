@@ -1,5 +1,14 @@
-//Vue
-import Vue from "vue";
+import Echo from "laravel-echo";
+
+window.Pusher = require("pusher-js");
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    key: "87b38bfbf726505f518b",
+    cluster: "eu",
+    forceTLS: true,
+    logToConsole: true
+});
+
 import iziToast from "izitoast"; // https://github.com/dolce/iziToast
 import "izitoast/dist/css/iziToast.min.css";
 

@@ -2,6 +2,8 @@ window._ = require('lodash');
 window.Popper = require('popper.js').default;
 window.$ = window.jQuery = require('jquery');
 require('bootstrap');
+//Vue
+window.Vue = require("vue");
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -30,16 +32,3 @@ if (token) {
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-
-
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-Pusher.logToConsole = true;
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: "87b38bfbf726505f518b",
-    cluster: "eu",
-    forceTLS: true,
-    logToConsole: true
-});
