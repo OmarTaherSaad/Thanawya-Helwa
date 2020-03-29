@@ -17,8 +17,8 @@
     "/js/effects.js": "/js/effects.js",
     "/css/fontawesome.css": "/css/fontawesome.css",
     "/css/theme.css": "/css/theme.css",
-    "/css/font/summernote.woff": "/css/font/summernote.woff",
-    "/css/font/summernote.ttf": "/css/font/summernote.ttf",
-    "/css/font/summernote.eot": "/css/font/summernote.eot",
+    "/css/fonts/summernote.woff": "/css/fonts/summernote.woff",
+    "/css/fonts/summernote.ttf": "/css/fonts/summernote.ttf",
+    "/css/fonts/summernote.eot": "/css/fonts/summernote.eot",
     "/css/texteditor.css": "/css/texteditor.css"
 }

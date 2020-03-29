@@ -78,7 +78,7 @@ class Post extends Model implements HasMedia
 
     public function small_part()
     {
-        return \Str::limit($this->get_content(),30);
+        return \Str::limit($this->get_content(),20);
     }
 
     public function get_content()

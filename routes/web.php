@@ -91,6 +91,9 @@ Route::prefix('quiz')->name('quiz.')->group(function() {
 });
 Route::resource('quiz', 'QuizController');
 
+Route::resource('ministryExam', 'MinistryExamController');
+Route::get('ministryExam/{ministryExam}/download', 'MinistryExamController@download')->name('ministryExam.download');
+
 //TAS Routes
 /*
 Route::prefix('TAS')->name('tas.')->group(function() {

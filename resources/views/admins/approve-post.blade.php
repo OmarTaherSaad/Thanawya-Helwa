@@ -74,9 +74,9 @@
     window.vueApp.$data.tags = {!! $tagsSelected !!};
     window.vueApp.$data.post_content = `{!! $post->get_content() !!}`;
     window.vueApp.$data.state = {{ $post->state }};
-    window.vueApp.$data.fb_link = 'https\:{{ $post->fb_link }}';
+    window.vueApp.$data.fb_link = @if(isset($post->fb_link)) 'https\:{{ $post->fb_link }}' @else '' @endif;
     window.vueApp.$data.rate = {{ $post->rate ?? 0 }};
     window.vueApp.$data.submitURL = $("#postForm").attr('action');
-    window.vueApp.$data.redirectURL = "{{ route('admins.all-posts') }}";
+    window.vueApp.$data.redirectURL = "{{ url()->previous() }}";
 </script>
 @endsection

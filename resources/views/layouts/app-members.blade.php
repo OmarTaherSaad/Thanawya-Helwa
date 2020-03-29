@@ -1,6 +1,6 @@
 <?php if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start('ob_gzhandler'); else ob_start(); ?>
 <!doctype html>
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 
     <head>
         <meta charset="utf-8">
@@ -16,38 +16,36 @@
         {{--CSRF Token--}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title',config('app.name', 'Thanawya Helwa')) | TH</title>
+        <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
         <link rel="stylesheet" href="{{ asset('css/splash-screen.css') }}">
         {{--Scripts--}}
         <script src="{{ asset('js/app.js') }}"></script>
+
+        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
         <script defer>
             //Load css files
-            var tag = document.createElement("link");
-            tag.href = "{{ asset('css/app.css') }}";
-            tag.setAttribute('rel', 'stylesheet');
-            document.getElementsByTagName("head")[0].appendChild(tag);
+                    var tag = document.createElement("link");
+                    tag.href = "{{ asset('css/app.css') }}";
+                    tag.setAttribute('rel', 'stylesheet');
+                    document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
-        <script data-ad-client="ca-pub-8176502663524074" async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
         @yield('head')
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
+        <script data-ad-client="ca-pub-8176502663524074" async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
     </head>
 
     <body>
+        {{-- Splash Screen --}}
         @include('partials.splash-screen')
-        <header class="sticky-top">
-            {{--Navbar --}}
-            @if (Str::contains(Route::currentRouteName(),'Tansik'))
-            @include('partials.navbar-tansik')
-            @elseif(Str::contains(Route::currentRouteName(),'tas.'))
-            @include('partials.navbar-tas')
+        @include('partials.navbar')
+        <main role="main ">
+            @if(Route::currentRouteNamed('home'))
+            <div class="container-fluid px-0">
             @else
-            @include('partials.navbar')
+            <div class="container px-0">
             @endif
-        </header>
-        <main role="main" dir="ltr" class="text-left">
-            <div class="container-fluid">
                 @include('partials.show-alerts')
                 {{-- Content --}}
                 @yield('content')
@@ -55,17 +53,9 @@
             {{--AXIOS loading effect--}}
             <div class="modal" id="axiosModal"></div>
         </main>
-        {{-- Footer --}}
         @include('partials.footer')
-
-        @yield('scripts')
-        {{--Laravel Mix (code splitting)--}}
-        {{-- <script src="js/manifest.js"></script>
-        <script src="js/vendor.js"></script>
-        <script src="js/app.js"></script> --}}
-        {{-- Notification & Chat START--}}
         @include('partials.notification-setup')
-        {{-- Notification & Chat END--}}
+        <script src="{{ asset('js/effects.js') }}" sync></script>
+        @yield('scripts')
     </body>
-
 </html>

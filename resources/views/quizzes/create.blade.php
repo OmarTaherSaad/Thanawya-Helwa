@@ -1,7 +1,7 @@
 @extends('layouts.app-members')
 @section('title','Make a Quiz')
 @section('content')
-<div class="container-fluid mb-5 pb-5" id="quiz-maker-container">
+<div class="container-fluid mb-5 pb-5" id="quiz-maker-container" dir="ltr">
     <div class="row mt-2">
         <div class="col-12 my-2" v-if="alerts !== null">
             <div class="alert fade show" v-bind:class='{ "alert-success": alerts, "alert-danger": !alerts }' role="alert">
@@ -42,6 +42,7 @@
                 <label>Answer Label</label>
               <input type="text" class="form-control" v-model="tempAnswer.text" placeholder="Answer Label">
               <button class="btn btn-secondary my-1" @click="addAnswer()">Add Answer</button>
+              <button class="btn btn-warning my-1" @click="deleteAnswer()">Delete Last Answer</button>
               <hr>
             </div>
             <div class="form-group" v-if="type == 'MCQ'">

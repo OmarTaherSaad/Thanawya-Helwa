@@ -8,6 +8,7 @@ return [
             'UNDER_REVIEW' => 2,
             'APPROVED' =>  3,
             'POSTED' => 4,
+            'SCHEDULED' => 5,
         ],
     ],
     'users' => [

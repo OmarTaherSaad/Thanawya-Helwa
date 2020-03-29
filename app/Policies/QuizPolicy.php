@@ -34,10 +34,10 @@ class QuizPolicy
      * @param  \App\Quiz  $quiz
      * @return mixed
      */
-    public function view(User $user, Quiz $quiz)
+    public function view(?User $user, Quiz $quiz)
     {
         if ($user == null) {
-            return isset($quiz->revised);
+            return isset($quiz->revisor);
         }
         return $user->isTeamMember() && ($user->member->is($quiz->maker) || $user->member->is($quiz->revisor) || $user->member->is($quiz->inserter));
     }

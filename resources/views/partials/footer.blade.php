@@ -1,3 +1,4 @@
+<button class="btn btn-light" id="toTopBtn" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;" title="Go to top"><i class="fas fa-chevron-up fa-2x"></i></button>
 <footer class="th-footer bg-bottom py-2" style="background-image: url({{ Storage::url('assets/footer.jpg') }});">
     <div class="container">
         <div class="row mb-2">

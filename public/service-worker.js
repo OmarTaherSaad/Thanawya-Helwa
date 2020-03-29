@@ -16,7 +16,7 @@ workbox.setConfig({modulePathPrefix: "workbox-v4.3.1"});
 
 importScripts(
   "./js/service-worker.js",
-  "precache-manifest.8e966c6e6798d4a12bcebd3f21ddb5ef.js"
+  "precache-manifest.bcc48945dce7b9a2b42bd9f978bf1f32.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "TH"});
@@ -44,19 +44,19 @@ self.__precacheManifest = [
     "revision": "ab681be0a001b177b9f7634304449637"
   },
   {
-    "url": "/Tansik/Geographic-Distribution-Information",
+    "url": "/tansik/geographic-distribution-information",
     "revision": "b5916aa88edd6c6e0e89d28ecaefbbec"
   },
   {
-    "url": "/Tansik/Taqleel-al-eghterab",
+    "url": "/tansik/taqleel-al-eghterab",
     "revision": "53ce240fb78f576d603133890be4eea6"
   },
   {
-    "url": "/Tansik/Tzalom",
+    "url": "/tansik/tzalom",
     "revision": "130de469475a22f24893f3b8b9dff9b9"
   },
   {
-    "url": "/Tansik/Stages-Information",
+    "url": "/tansik/stages-information",
     "revision": "b4b3df3b22736d26c8f5c702c3986249"
   }
 ].concat(self.__precacheManifest || []);
@@ -66,5 +66,6 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {
 
 workbox.precaching.cleanupOutdatedCaches();
 
-workbox.routing.registerRoute(/\.(?:css|js|png|jpg|jpeg|svg)$/, new workbox.strategies.StaleWhileRevalidate(), 'GET');
-workbox.routing.registerRoute(/((\/Tansik\/).+(Edges|Distribution$))|contact$|join-us$|TAS|\/team\//, new workbox.strategies.NetworkOnly(), 'GET');
+workbox.routing.registerRoute(/\.(?:css|png|jpg|jpeg|svg)$/, new workbox.strategies.StaleWhileRevalidate(), 'GET');
+workbox.routing.registerRoute(/\.(?:js)$/, new workbox.strategies.NetworkFirst(), 'GET');
+workbox.routing.registerRoute(/((\/tansik\/).+(edges|distribution$))|contact$|join-us$|TAS|\/team\//, new workbox.strategies.NetworkOnly(), 'GET');

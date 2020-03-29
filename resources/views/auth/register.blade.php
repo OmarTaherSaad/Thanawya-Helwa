@@ -1,13 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="alert alert-warning" role="alert">
-            في خانة رقم الموبايل، لازم تكتب رقم الموبايل اللي استخدمته / هتستخدمه في الدفع.
-        </div>
-    </div>
-</div>
 <div class="row justify-content-center">
     <div class="col-md-10">
         <div class="card">

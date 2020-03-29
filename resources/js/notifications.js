@@ -75,45 +75,28 @@ window.notifApp = new Vue({
                 }
             });
         },
+        markOneAsRead(id) {
+            axios.post(this.markReadURL, {
+                id: id
+            }).then(res => {
+                if (res.data.success != undefined) {
+                    //Done
+                    window.notifApp.newNotifications.forEach(notif => {
+                        if (notif.id == id)
+                        {
+                            notif.read = true;
+                            return;
+                        }
+                    });
+                }
+            });
+        },
         toast(title, message, type, timeout = 5000) {
             iziToast[type]({
                 title: title,
                 message: message,
                 timeout: timeout
             });
-            return;
-            switch (type) {
-                case "info":
-                    iziToast.info({
-                        title: title,
-                        message: message,
-                        timeout: timeout
-                    });
-                    break;
-                case "warning":
-                    iziToast.warning({
-                        title: title,
-                        message: message,
-                        timeout: timeout
-                    });
-                    break;
-                case "success":
-                    console.log("1");
-
-                    iziToast.success({
-                        title: title,
-                        message: message,
-                        timeout: timeout
-                    });
-                    break;
-                case "error":
-                    iziToast.error({
-                        title: title,
-                        message: message,
-                        timeout: timeout
-                    });
-                    break;
-            }
         }
     }
 });

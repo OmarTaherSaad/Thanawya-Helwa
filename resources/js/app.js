@@ -29,13 +29,7 @@ axios.interceptors.response.use(
     }
 );
 
-import "progressive-image.js/dist/progressive-image.js";
-import "progressive-image.js/dist/progressive-image.css";
-
 let func = function() {
-    $("a.progressive").click(function(e) {
-        e.preventDefault();
-    });
     document.body.classList.add("loaded");
     //PWA Notifications
     /*
@@ -132,47 +126,3 @@ if (window.addEventListener) {
 } else {
     window.attachEvent("onload", func);
 }
-
-// scroll
-var scrollWindow = function() {
-    $(window).scroll(function() {
-        var $w = $(this),
-            st = $w.scrollTop(),
-            navbar = $("nav.navbar"),
-            sd = $(".js-scroll-wrap");
-
-        if (st > 150) {
-            if (!navbar.hasClass("scrolled")) {
-                navbar.addClass("scrolled");
-            }
-        }
-        if (st < 150) {
-            if (navbar.hasClass("scrolled")) {
-                navbar.removeClass("scrolled sleep");
-            }
-        }
-        if (st > 350) {
-            if (!navbar.hasClass("awake")) {
-                navbar.addClass("awake");
-                navbar.removeClass("navbar-dark");
-                navbar.addClass("navbar-light");
-            }
-
-            if (sd.length > 0) {
-                sd.addClass("sleep");
-            }
-        }
-        if (st < 350) {
-            if (navbar.hasClass("awake")) {
-                navbar.removeClass("awake");
-                navbar.addClass("navbar-dark");
-                navbar.removeClass("navbar-light");
-                navbar.addClass("sleep");
-            }
-            if (sd.length > 0) {
-                sd.removeClass("sleep");
-            }
-        }
-    });
-};
-scrollWindow();

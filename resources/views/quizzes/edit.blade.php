@@ -90,7 +90,7 @@
             </div>
 
             <div class="form-group m-2">
-                <label>Maker</label>
+                <label>Revisor</label>
                 <select class="form-control" v-model="revisor">
                     <option value="0" disabled selected>Select Revisor</option>
                     @foreach ($members as $key => $member)

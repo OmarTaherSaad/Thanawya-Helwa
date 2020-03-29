@@ -4,18 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Team\Member;
 use App\Quiz;
+use App\Traits\GetSubjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class QuizController extends Controller
 {
+    use GetSubjects;
 
     public function __construct()
     {
         $this->middleware(['auth', 'role:THteam'])->except([
             'index','show'
         ]);
+        $this->authorizeResource(Quiz::class);
     }
     /**
      * Display a listing of the resource.
@@ -149,17 +152,10 @@ class QuizController extends Controller
      */
     public function destroy(Quiz $quiz)
     {
-        //
+        $quiz->delete();
+        return redirect()->route('quiz.index')->with('success', 'Quiz Deleted Successfully!');
     }
 
-    public function getSubjects() {
-        $subjects = collect();
-        try {
-            $subjects = file_get_contents(storage_path('app/subjects.json'));
-        } catch (\Throwable $th) {
-        }
-        return collect(json_decode($subjects))->unique();
-    }
     public function revise_view(Request $request, Quiz $quiz)
     {
         //

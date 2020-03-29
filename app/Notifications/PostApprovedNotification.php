@@ -9,8 +9,8 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewPostAddedNotification extends Notification
-// class NewPostAddedNotification extends Notification implements ShouldQueue
+class PostApprovedNotification extends Notification
+// class PostApprovedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $post;
@@ -59,7 +59,8 @@ class NewPostAddedNotification extends Notification
     {
         return [
             'link' => $this->post->getLinkToView(),
-            'text' => $this->post->writer->name . ' wrote a new post: ' . $this->post->small_part()
+            'text' => 'Your post was approved! Post: ' . $this->post->small_part(),
+            'id' => $this->id
         ];
     }
 
@@ -67,7 +68,8 @@ class NewPostAddedNotification extends Notification
     {
         return [
             'link' => $this->post->getLinkToView(),
-            'text' => $this->post->writer->name . ' wrote a new post: ' .$this->post->small_part()
+            'text' => 'Your post was approved! Post: ' .$this->post->small_part(),
+            'id' => $this->id
         ];
     }
 
@@ -75,7 +77,8 @@ class NewPostAddedNotification extends Notification
     {
         return new BroadcastMessage([
             'link' => $this->post->getLinkToView(),
-            'text' => $this->post->writer->name . ' wrote a new post: ' .$this->post->small_part()
+            'text' => 'Your post was approved! Post: ' .$this->post->small_part(),
+            'id' => $this->id
         ]);
     }
 }

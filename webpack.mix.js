@@ -10,7 +10,6 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
 const CompressionPlugin = require('compression-webpack-plugin');
 const workboxPlugin = require('workbox-webpack-plugin');
 if (mix.inProduction())
@@ -30,19 +29,24 @@ if (mix.inProduction())
                     '/offline': 'resources/views/offline.blade.php',
                     '/': 'resources/views/index.blade.php',
                     '/about-us': 'resources/views/about-us.blade.php',
-                    '/Tansik/Geographic-Distribution-Information': 'resources/views/tansik/geo-dist-info.blade.php',
-                    '/Tansik/Taqleel-al-eghterab': 'resources/views/tansik/reduce-alienation.blade.php',
-                    '/Tansik/Tzalom': 'resources/views/tansik/tzaloom.blade.php',
-                    '/Tansik/Stages-Information': 'resources/views/tansik/stages-info.blade.php',
+                    '/tansik/geographic-distribution-information': 'resources/views/tansik/geo-dist-info.blade.php',
+                    '/tansik/taqleel-al-eghterab': 'resources/views/tansik/reduce-alienation.blade.php',
+                    '/tansik/tzalom': 'resources/views/tansik/tzaloom.blade.php',
+                    '/tansik/stages-information': 'resources/views/tansik/stages-info.blade.php',
                 },
                 runtimeCaching: [
                     {
-                        //JS, CSS, or Images
-                        urlPattern: /\.(?:css|js|png|jpg|jpeg|svg)$/,
+                        //CSS or Images
+                        urlPattern: /\.(?:css|png|jpg|jpeg|svg)$/,
                         handler: 'StaleWhileRevalidate'
                     },
                     {
-                        urlPattern: /((\/Tansik\/).+(Edges|Distribution$))|contact$|join-us$|TAS|\/team\//,
+                        //JS
+                        urlPattern: /\.(?:js)$/,
+                        handler: 'NetworkFirst'
+                    },
+                    {
+                        urlPattern: /((\/tansik\/).+(edges|distribution$))|contact$|join-us$|TAS|\/team\//,
                         handler: 'NetworkOnly'
                     }
                 ],
@@ -93,15 +97,15 @@ mix.js("resources/js/app.js", "public/js")
     .styles("resources/css/animate.css", "public/css/theme.css")
     .copy(
         "resources/summernote/font/summernote.woff",
-        "public/css/font/summernote.woff"
+        "public/css/fonts/summernote.woff"
     )
     .copy(
         "resources/summernote/font/summernote.ttf",
-        "public/css/font/summernote.ttf"
+        "public/css/fonts/summernote.ttf"
     )
     .copy(
         "resources/summernote/font/summernote.eot",
-        "public/css/font/summernote.eot"
+        "public/css/fonts/summernote.eot"
     )
     .styles(
         [

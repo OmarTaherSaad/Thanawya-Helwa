@@ -16,6 +16,9 @@ $class = 'bordered border-';
         case config('team.posts.status.POSTED'):
             $class .='primary';
             break;
+        case config('team.posts.status.SCHEDULED'):
+            $class .='dark';
+            break;
     }
 @endphp
 <div class="card text-center h-100 shadow {{ $class }}" style="border-width: 3px;">

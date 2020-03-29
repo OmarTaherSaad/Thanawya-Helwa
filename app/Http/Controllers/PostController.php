@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\NewPostAddedNotification;
+use App\Notifications\PostApprovedNotification;
 use App\Models\Team\Member;
 use App\Models\Team\Post;
 use App\Models\Team\Tag;
@@ -83,7 +83,7 @@ class PostController extends Controller
         }
 
         if (!$request->is_draft) {
-            Notification::send(\App\User::teamMembers()->except([$post->writer->id, auth()->user()->id]), new NewPostAddedNotification($post));
+            Notification::send(\App\User::teamMembers()->except([$post->writer->id, auth()->user()->id]), new PostApprovedNotification($post));
         }
 
         return response()->json([
@@ -141,10 +141,6 @@ class PostController extends Controller
             'state' => $request->is_draft ? config('team.posts.status.DRAFT') : config('team.posts.status.UNDER_REVIEW')
         ]);
         $post->tags()->sync($request->tags);
-
-        if (!$request->is_draft) {
-            Notification::send(\App\User::teamMembers()->except([$post->writer->id, auth()->user()->id]), new NewPostAddedNotification($post));
-        }
 
         session()->flash('success', 'Post Updated Successfully!');
         return response()->json([
@@ -243,25 +239,22 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-        if ($request->state > config('team.posts.status.DISMISSED')) {
-            $post->update([
-                'content' => $request->content,
-                'state' => $request->state
-            ]);
-            if ($request->has('fb_link')) {
-                $post->fb_link = $request->fb_link; //save() is called below anyway.
-            }
-            if ($request->has('rate')) {
-                $post->rate = $request->rate; //save() is called below anyway.
-            }
+        if ($post->state < config('team.posts.status.APPROVED') && $request->state >= config('team.posts.status.APPROVED')) {
+            //Newly Approved
             $post->approver()->associate(auth()->user()->member);
-            $post->save();
-        } else {
-            $post->update([
-                'content_before_review' => $request->content,
-                'state' => $request->state
-            ]);
+            Notification::send($post->writer->user, new PostApprovedNotification($post));
         }
+        $post->update([
+            'content' => $request->content,
+            'state' => $request->state
+        ]);
+        if ($request->has('fb_link')) {
+            $post->fb_link = $request->fb_link; //save() is called below anyway.
+        }
+        if ($request->has('rate')) {
+            $post->rate = $request->rate; //save() is called below anyway.
+        }
+        $post->save();
         $post->tags()->sync($request->tags);
 
         session()->flash('success', 'Post Approved Successfully!');

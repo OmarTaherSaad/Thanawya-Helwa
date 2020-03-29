@@ -23,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Ticketing\Ticket' => 'App\Policies\TicketPolicy',
         'App\Models\Ticketing\Payment' => 'App\Policies\PaymentPolicy',
         'App\Models\Team\Member' => 'App\Policies\MemberPolicy',
+        'App\MinistryExam' => 'App\Policies\MinistryExamPolicy',
 
     ];
 

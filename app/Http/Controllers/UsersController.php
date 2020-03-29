@@ -149,9 +149,16 @@ class UsersController extends Controller
         return view('users.notifications')->with(compact('user'));
     }
 
-    public function markNotificationsAsRead(User $user)
+    public function markNotificationsAsRead(Request $request, User $user)
     {
-        $user->unreadNotifications->markAsRead();
+        if ($request->has('id')) {
+            $notif = $user->unreadNotifications()->find($request->id);
+            if(isset($notif)) {
+                $notif->markAsRead();
+            }
+        } else {
+            $user->unreadNotifications->markAsRead();
+        }
         return response()->json([
             'success' => true
         ]);

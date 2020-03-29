@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewPostUnderReviewAdded;
-use App\Notifications\NewPostAddedNotification;
+use App\Notifications\PostApprovedNotification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -11,9 +11,7 @@ class NotificationController extends Controller
     public function notify()
     {
         $post = \App\Models\Team\Post::find(2);
-        dd(\App\User::teamMembers([$post->writer->id, auth()->user()->id]));
-        return;
-        auth()->user()->notify(new NewPostAddedNotification($post));
+        auth()->user()->notify(new PostApprovedNotification($post));
         //dd($post);
         //NewPostUnderReviewAdded::dispatch($post);
 

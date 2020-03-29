@@ -35,7 +35,6 @@
         <script data-ad-client="ca-pub-8176502663524074" async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
     </head>
-
     <body>
         {{-- Splash Screen --}}
         @include('partials.splash-screen')
@@ -45,13 +44,16 @@
             {{-- Facebook Chat Plugin --}}
             <!-- Load Facebook SDK for JavaScript -->
             <div id="fb-root"></div>
-
             <!-- Your customer chat code -->
             <div class="fb-customerchat" attribution=setup_tool page_id="1050652325008867" theme_color="#6D65AE"
                 logged_in_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك"
                 logged_out_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك">
             </div>
+            @if(Route::currentRouteNamed('home'))
             <div class="container-fluid px-0">
+            @else
+            <div class="container px-0">
+            @endif
                 @include('partials.show-alerts')
                 {{-- Content --}}
                 @yield('content')
@@ -59,12 +61,9 @@
             {{--AXIOS loading effect--}}
             <div class="modal" id="axiosModal"></div>
         </main>
-
         @include('partials.footer')
         @include('partials.notification-setup')
         <script src="{{ asset('js/effects.js') }}" sync></script>
         @yield('scripts')
-
     </body>
-
 </html>

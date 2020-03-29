@@ -43,6 +43,17 @@ body {
     background-position: top center;
     background-attachment: fixed;
 }
+//Scrol to top Btn START
+#toTopBtn {
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    color: red; /* Text color */
+    border-radius: 10px; /* Rounded corners */
+}
+//Scrol to top Btn END
 //Navbar START
 .navbar.scrolled {
     position: fixed;
@@ -57,32 +68,7 @@ body {
     padding: 0;
     .nav-item.active {
         > a {
-            color: #f9ab30 !important;
-        }
-    }
-    .nav-item.cta {
-        > a {
-            color: #fff !important;
-            background: #f9ab30;
-            border: none !important;
-            padding-top: 0.5rem !important;
-            padding-bottom: 0.5rem !important;
-            padding-left: 20px !important;
-            padding-right: 20px !important;
-            margin-top: 6px !important;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            -ms-border-radius: 5px;
-            border-radius: 5px;
-            span {
-                display: inline-block;
-                color: #fff !important;
-            }
-        }
-    }
-    .nav-item.cta.cta-colored {
-        span {
-            border-color: #f9ab30;
+            color: $red !important;
         }
     }
     .navbar-toggler {
@@ -139,13 +125,6 @@ body {
                     color: #fff;
                 }
             }
-            > .nav-item.th-seperator {
-                padding-left: 0;
-                margin-left: 0;
-                &:before {
-                    display: none;
-                }
-            }
             > .nav-item.active {
                 > a {
                     color: #f9ab30;
@@ -173,7 +152,7 @@ body {
 .navbar-brand {
     background: unset;
     img {
-        height: 2.5rem;
+        height: 2.5em;
     }
 }
 
@@ -250,7 +229,7 @@ footer {
     position: fixed;
     bottom: 0;
     transition: transform 0.3s;
-    transform: translate(-50%,100%);
+    transform: translate(-50%, 100%);
     width: 50%;
     border-radius: 10px 10px 0 0;
     background: #222;
@@ -286,14 +265,19 @@ footer {
         transition: transform 0.3s;
         transform: translateY(0) translateX(-50%);
     }
-    footer, main {
+    footer,
+    main {
         padding-bottom: 100px;
     }
 }
 
-//Collection
-#NotifDropdown {
-    &.unread {
+#NotifApp {
+    @include media-breakpoint-down(md) {
+        .dropdown-item {
+            white-space: pre-line;
+        }
+    }
+    #NotifDropdown .unread {
         color: rgba(255, 255, 255);
     }
 }
@@ -306,7 +290,6 @@ footer {
 .grecaptcha-badge:hover {
     opacity: 1;
 }
-
 
 .card-header button {
     font-size: 1.1em;
@@ -323,7 +306,7 @@ footer {
 }
 
 .collapsing {
-    transition: height .35s ease !important;
+    transition: height 0.35s ease !important;
 }
 
 /*AXIOS Modal styling*/
@@ -335,7 +318,8 @@ footer {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(255, 255, 255, .8) url('images/ajax-loader.gif') 50% 50% no-repeat;
+    background: rgba(255, 255, 255, 0.8) url("images/ajax-loader.gif") 50% 50%
+        no-repeat;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -347,23 +331,23 @@ body.loading #axiosModal {
 
 /*Table styling*/
 tbody {
-  background-color: cornsilk;
+    background-color: cornsilk;
 }
 table {
-  &.flip-list-move {
-      transition: transform 1s;
-  }
+    &.flip-list-move {
+        transition: transform 1s;
+    }
 }
 #searchBox {
-  z-index: 1;
-  position: initial;
-  top: 0;
-  transition: all 1s ease;
-  &.fixIt {
-    position: fixed;
-    border-radius: 20px;
-    border: 2px solid black;
-    background-color: cornsilk;
-    padding: 10px;
-  }
+    z-index: 1;
+    position: initial;
+    top: 0;
+    transition: all 1s ease;
+    &.fixIt {
+        position: fixed;
+        border-radius: 20px;
+        border: 2px solid black;
+        background-color: cornsilk;
+        padding: 10px;
+    }
 }

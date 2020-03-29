@@ -117,7 +117,7 @@ window.quizApp = new Vue({
                 this.subject == null ||
                 this.desc == "" ||
                 this.totalMarks < 1 ||
-                his.maker == 0 ||
+                this.maker == 0 ||
                 this.revisor == 0
             ) {
                 alert("Data not completed!");
@@ -201,6 +201,9 @@ window.quizApp = new Vue({
         },
         deleteQuestion(index) {
             this.MCQ.splice(index, 1);
+        },
+        deleteAnswer() {
+            this.answers.pop();
         }
     }
 });
