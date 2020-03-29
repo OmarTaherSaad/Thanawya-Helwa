@@ -1,4 +1,4 @@
-@extends('layouts.app-members')
+@extends('layouts.app')
 @section('title','View All Users')
 @section('head')
 <style>

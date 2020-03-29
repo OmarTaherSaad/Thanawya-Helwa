@@ -5,9 +5,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="Keywords" content="thanawya,ثانوية,ثانوية عامة,ثانوية حلوة">
-        <meta name="Description"
-            content="Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).">
+        {{-- Minified SEO Tags --}}
+        {!! SEO::generate(true) !!}
 
         {{--PWA--}}
         <link rel="manifest" href="{{ Storage::url('manifest.json') }}">
@@ -36,23 +35,43 @@
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
     </head>
     <body>
+        {{-- Facebook Chat Plugin START--}}
+        @if (!auth()->check() || !auth()->user()->isTeamMember())
+        <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                xfbml  : true,
+                version: 'v6.0'
+                });
+            };
+
+            (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/ar_AR/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
+        <!-- Your customer chat code -->
+        <div class="fb-customerchat" attribution=setup_tool page_id="1050652325008867" theme_color="#fa3c4c"
+            logged_in_greeting="أهلًاّ تقدر تكلمنا من هنا وهنتشرف بالرد عليك ^_^"
+            logged_out_greeting="أهلًاّ تقدر تكلمنا من هنا وهنتشرف بالرد عليك ^_^">
+        </div>
+        @endif
+        {{-- Facebook Chat Plugin END--}}
         {{-- Splash Screen --}}
         @include('partials.splash-screen')
         @include('partials.navbar')
 
         <main role="main ">
-            {{-- Facebook Chat Plugin --}}
-            <!-- Load Facebook SDK for JavaScript -->
-            <div id="fb-root"></div>
-            <!-- Your customer chat code -->
-            <div class="fb-customerchat" attribution=setup_tool page_id="1050652325008867" theme_color="#6D65AE"
-                logged_in_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك"
-                logged_out_greeting="أهلًا بيك .. تقدر تكتب هنا أي استفسار أو اقتراح وهنرد عليك عن طريق الفيسبوك">
-            </div>
             @if(Route::currentRouteNamed('home'))
             <div class="container-fluid px-0">
             @else
-            <div class="container px-0">
+            <div class="container">
             @endif
                 @include('partials.show-alerts')
                 {{-- Content --}}

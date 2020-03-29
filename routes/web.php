@@ -11,7 +11,6 @@
 */
 
 Route::get('/','PagesController@index')->name('home');
-Route::get('/home2','PagesController@index2')->name('home2');
 Route::get('/home','PagesController@index')->name('home');
 Route::get('/about-us','PagesController@about')->name('about-us');
 Route::get('get-members','PagesController@get_members');

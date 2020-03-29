@@ -1,4 +1,4 @@
-@extends('layouts.app-members')
+@extends('layouts.app')
 @section('title',"Members | Edit ".$member->name)
 @section('head')
 <link rel="stylesheet" href="{{ asset('css/texteditor.css') }}" />

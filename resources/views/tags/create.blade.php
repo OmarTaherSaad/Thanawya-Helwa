@@ -1,4 +1,4 @@
-@extends('layouts.app-members')
+@extends('layouts.app')
 @section('title','Tags | Add a New Tag')
 @section('head')
 @endsection

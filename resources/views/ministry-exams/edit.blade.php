@@ -1,4 +1,4 @@
-@extends('layouts.app-members')
+@extends('layouts.app')
 @section('title','Exams | Edit an Exam')
 @section('head')
 @endsection

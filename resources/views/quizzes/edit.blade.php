@@ -1,4 +1,4 @@
-@extends('layouts.app-members')
+@extends('layouts.app')
 @section('title','Edit Quiz ' . $quiz->identifier)
 @section('content')
 <div class="container-fluid mb-5 pb-5" id="quiz-maker-container">

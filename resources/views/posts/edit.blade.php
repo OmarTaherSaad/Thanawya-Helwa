@@ -1,4 +1,4 @@
-@extends('layouts.app-members')
+@extends('layouts.app')
 @section('title','Posts | Edit Post')
 @section('content')
 <div id="app" class="m-2 text-center">

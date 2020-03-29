@@ -1,4 +1,4 @@
-@extends('layouts.app-members')
+@extends('layouts.app')
 @section('title',$member->name)
 @section('head')
 <link type="text/css" rel="stylesheet" href="{{ asset('css/enlarge.css') }}">
