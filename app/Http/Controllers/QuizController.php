@@ -8,10 +8,11 @@ use App\Traits\GetSubjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use \Artesaos\SEOTools\Traits\SEOTools as SEOToolsTrait;
 
 class QuizController extends Controller
 {
-    use GetSubjects;
+    use GetSubjects,SEOToolsTrait;
 
     public function __construct()
     {
@@ -95,6 +96,8 @@ class QuizController extends Controller
             return $q;
         })->toArray();
         $subject = $this->getSubjects()->get($quiz->subject);
+
+        $this->seo()->setDescription($quiz->description);
         return view('quizzes.show')->with(compact('quiz'))->with(compact('subject'))->with(compact('questions'));
     }
 

@@ -15,7 +15,7 @@ return [
             'separator'    => ' - ',
             'keywords'     => array_merge([
 
-            ], (file_get_contents(storage_path('app\keywords.json')) ? json_decode(file_get_contents(storage_path('app\keywords.json'))) : [] )),
+            ], (file_get_contents(storage_path('app/keywords.json')) ? json_decode(file_get_contents(storage_path('app/keywords.json'))) : [] )),
             'canonical'    => false, // Set null for using Url::current(), set false to total remove
             'robots'       => false, // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
         ],

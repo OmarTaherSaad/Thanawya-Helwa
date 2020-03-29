@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title',"View Quiz")
+@section('title',$quiz->description)
 
 @section('content')
     <div class="row my-1">
@@ -10,28 +10,28 @@
     <section class="bg-gradient" id="quiz-maker-container">
         <div class="row justify-content-center text-center">
             <div class="col-12 col-md-8">
+                <h3>{{ $quiz->description }}</h3>
                 <h4>Subject: {{ $subject }}</h4>
-                <h4>Quiz ID: {{ $quiz->identifier }}</h4>
-                <h5>{{ $quiz->description }}</h5>
+                <h6>Quiz ID: {{ $quiz->identifier }}</h6>
                 @if(isset($quiz->maker))
-                <h4>Made by: {{ $quiz->maker->name }}</h4>
+                <h5>Made by: {{ $quiz->maker->name }}</h5>
                 @endif
                 @if(isset($quiz->revisor))
-                <h4>Revised by: {{ $quiz->revisor->name }}</h4>
+                <h5>Revised by: {{ $quiz->revisor->name }}</h5>
                 @endif
                 @if(isset($quiz->inserter))
-                <h4>Inserted by: {{ $quiz->inserter->name }}</h4>
+                <h5>Inserted by: {{ $quiz->inserter->name }}</h5>
                 @endif
-                <h4>Last Updated at: {{ $quiz->updated_at->toDayDateTimeString() }}</h4>
+                <h5>Last Updated at: {{ $quiz->updated_at->toDayDateTimeString() }}</h5>
                 @if(Auth::check() && Auth::user()->isTeamMember())
-                <h4>Created at: {{ $quiz->created_at->toDayDateTimeString() }}</h4>
+                <h5>Created at: {{ $quiz->created_at->toDayDateTimeString() }}</h5>
                 @if($quiz->trashed())
-                <h4>Deleted at: {{ $quiz->deleted_at->toDayDateTimeString() }}</h4>
+                <h5>Deleted at: {{ $quiz->deleted_at->toDayDateTimeString() }}</h5>
                 @endif
                 @endif
             </div>
         </div>
-        <div class="row mb-5 pb-5" @if(\Str::contains($quiz->subject,'_AR')) class="text-right" dir="rtl" @endif>
+        <div class="row mb-5 pb-5" @if(\Str::contains($quiz->subject,'_AR')) class="text-right" dir="rtl" @else class="text-left" dir="ltr" @endif>
             <div class="col-12 col-md-6 mx-auto">
                 <mcq-question v-for="question in questions" :question="question.question" :answers="question.answers"
                 :right-answer="question.rightAnswer" :ref="'question'+question.question.id"></mcq-question>

@@ -7,13 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use \Artesaos\SEOTools\Traits\SEOTools as SEOToolsTrait;
-
 
 class UsersController extends Controller
 {
-    use SEOToolsTrait;
-
     public function __construct()
     {
         $this->authorizeResource(User::class,'user');
