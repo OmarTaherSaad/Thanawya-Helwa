@@ -15,16 +15,15 @@ window.quizApp = new Vue({
     methods: {
         submit() {
             let marks = 0;
-            let filled = true;
-            Object.keys(this.$refs).every(key => {
-                if (window.quizApp.$refs[key][0].currentAnswer == null) {
-                    alert("Please, answer all questions!");
-                    filled = false;
-                    return false;
-                }
+            let filled = Object.keys(this.$refs).every(key => {
+                console.log(window.quizApp.$refs[key][0].currentAnswer == null);
+                return window.quizApp.$refs[key][0].currentAnswer != null;
             });
             if (!filled)
+            {
+                alert("Please, answer all questions!");
                 return;
+            }
             Object.keys(this.$refs).forEach(key => {
                 window.quizApp.$refs[key][0].correct();
                 marks += parseInt(window.quizApp.$refs[key][0].mark());

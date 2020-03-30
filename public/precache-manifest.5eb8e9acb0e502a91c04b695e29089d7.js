@@ -88,11 +88,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/post.js.gz"
   },
   {
-    "revision": "486f42fe396107a87f31",
+    "revision": "d3c63a03825781de39fc",
     "url": "/js/quizzes/general.js"
   },
   {
-    "revision": "f9768a76e4e46d740275e0e4225016f1",
+    "revision": "efd2307afe282582664b300129181269",
     "url": "/js/quizzes/general.js.gz"
   },
   {

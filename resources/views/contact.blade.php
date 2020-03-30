@@ -23,7 +23,7 @@
 <div class="row justify-content-center mb-5">
     <!--Contact Form START-->
     <div class="col-12 col-xl-8 text-right">
-        <form action="{{ route('contact-submit') }}" method="POST" id="ContactForm">
+        <form action="{{ route('contact.submit') }}" method="POST" id="ContactForm">
             @csrf
             <div class="row">
                 <div class="col-12 my-2">

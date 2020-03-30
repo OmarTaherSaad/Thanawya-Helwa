@@ -33,8 +33,8 @@
         </div>
         <div class="row mb-5 pb-5" @if(\Str::contains($quiz->subject,'_AR')) class="text-right" dir="rtl" @else class="text-left" dir="ltr" @endif>
             <div class="col-12 col-md-6 mx-auto">
-                <mcq-question v-for="question in questions" :question="question.question" :answers="question.answers"
-                :right-answer="question.rightAnswer" :ref="'question'+question.question.id"></mcq-question>
+                <mcq-question v-for="(question,index) in questions" :question="question.question" :answers="question.answers"
+                :right-answer="question.rightAnswer" :ref="'question'+index"></mcq-question>
             </div>
             <div class="col-12 text-center">
                 <button type="button" class="btn btn-success" @click="submit()">Submit</button>
