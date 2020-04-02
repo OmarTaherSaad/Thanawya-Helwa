@@ -2,7 +2,7 @@
 $class = 'bordered border-';
     switch($post->state){
         case config('team.posts.status.DRAFT'):
-            $class .='secondary';
+            $class .='light';
             break;
         case config('team.posts.status.UNDER_REVIEW'):
             $class .='warning';
@@ -18,6 +18,9 @@ $class = 'bordered border-';
             break;
         case config('team.posts.status.SCHEDULED'):
             $class .='dark';
+            break;
+        case config('team.posts.status.DRAFTED_ON_PAGE'):
+            $class .='secondary';
             break;
     }
 @endphp
