@@ -110,4 +110,10 @@ class User extends Authenticatable
             return $user->isTeamMember();
         });
     }
+    public static function admins()
+    {
+        return User::all()->filter(function ($user) {
+            return $user->isAdmin();
+        });
+    }
 }

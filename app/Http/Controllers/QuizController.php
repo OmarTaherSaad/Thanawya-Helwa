@@ -29,10 +29,7 @@ class QuizController extends Controller
     public function index()
     {
         if (auth()->check() && auth()->user()->isTeamMember()) {
-            if (auth()->user()->isAdmin()) {
-                return view('quizzes.index')->with('quizzes', Quiz::orderBy('updated_at', 'desc')->paginate(config('app.pagination_max')));
-            }
-            return view('quizzes.index')->with('quizzes', Quiz::all_for_member(auth()->user()->member));
+            return view('quizzes.index')->with('quizzes', Quiz::orderBy('updated_at', 'desc')->paginate(config('app.pagination_max')));
         }
         return view('quizzes.index')->with('quizzes', Quiz::all_for_public());
     }

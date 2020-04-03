@@ -9,7 +9,7 @@ return [
          * The default configurations to be used by the meta generator.
          */
         'defaults'       => [
-            'title'        => "Thanawya Helwa", // set false to total remove
+            'title'        => false, // set false to total remove
             'titleBefore'  => false, // Put defaults.title before page title, like 'Thanawya Helwa - Dashboard'
             'description'  => 'Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).', // set false to total remove
             'separator'    => ' - ',

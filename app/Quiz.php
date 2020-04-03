@@ -41,11 +41,11 @@ class Quiz extends Model
         $quizzes = collect();
         if (isset($member)) {
             if ($type == null) {
-                $quizzes = $member->quizzes_made->union($member->quizzes_inserted)->union($member->quizzes_revised);
+                $quizzes = $member->quizzes_made()->union($member->quizzes_inserted())->union($member->quizzes_revised());
             }
             else {
                 $type = 'quizzes_'. $type;
-                $quizzes = $member->$type;
+                $quizzes = $member->$type();
             }
         }
         return $quizzes->orderBy('updated_at', 'desc')->paginate(config('app.pagination_max'));
