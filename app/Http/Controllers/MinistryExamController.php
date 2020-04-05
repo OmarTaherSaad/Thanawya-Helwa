@@ -46,11 +46,18 @@ class MinistryExamController extends Controller
         });
         $years = MinistryExam::all()->unique('year')->pluck('year');
         $educational_years = MinistryExam::all()->unique('educational_year')->pluck('educational_year');
+
+        $exams = $exams->paginate(config('app.pagination_max'));
+        $exams = $exams->appends([
+            'educational_year' => $request->educational_year,
+            'subject' => $request->subject,
+            'major' => $request->major
+        ]);
         return view('ministry-exams.index')
         ->with(compact('subjects'))
         ->with(compact('years'))
         ->with(compact('educational_years'))
-        ->with('ministryExams',$exams->paginate(config('app.pagination_max')));
+        ->with('ministryExams',$exams);
     }
 
     /**
