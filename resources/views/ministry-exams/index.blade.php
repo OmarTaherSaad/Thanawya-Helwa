@@ -15,8 +15,17 @@
         </div>
     </div>
     <div class="row justify-content-center text-center mt-5">
-        <div class="col-12 col-6">
+        <div class="col-12">
             <form class="form-inline" {{ route('ministryExam.index') }} id="filterForm">
+                <div class="form-group">
+                    <label>قم باختيار المادة</label>
+                    <select class="form-control" name="major" onchange="this.form.submit()">
+                        <option selected disabled>اختر الشعبة</option>
+                        <option value="adby" @if('adby'==Request::get('major')) selected @endif>أدبي</option>
+                        <option value="oloom" @if('oloom'==Request::get('major')) selected @endif>علمي علوم</option>
+                        <option value="ryada" @if('ryada'==Request::get('major')) selected @endif>علمي رياضة</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>قم باختيار المادة</label>
                     <select class="form-control" name="subject" onchange="this.form.submit()">

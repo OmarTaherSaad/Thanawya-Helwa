@@ -36,6 +36,9 @@ class MinistryExamController extends Controller
         if ($request->has('subject')) {
             $exams = $exams->where('subject', $request->subject);
         }
+        if ($request->has('major')) {
+            $exams = $exams->whereIn('subject', $this->getForMajor($request->major));
+        }
         $subjects = $this->getSubjects();
         $existingSubjects = MinistryExam::all()->unique('subject')->pluck('subject')->toArray();
         $subjects = $subjects->filter(function($value,$key) use ($existingSubjects) {
@@ -164,5 +167,96 @@ class MinistryExamController extends Controller
 
     public function download(MinistryExam $ministryExam) {
         return Storage::download($ministryExam->link, 'ثانوية حلوة - ' . $ministryExam->subject_name . '-' . $ministryExam->title . ' .pdf');
+    }
+
+    public function getForMajor(string $major)
+    {
+        switch (strtolower($major)) {
+            case 'adby':
+                $subjects = [
+                    "ARB_AR",
+                    "ENG",
+                    "GRM",
+                    "FRN",
+                    "ITL",
+                    "SPN",
+                    "CHN",
+                    "GEO_AR",
+                    "HIST_AR",
+                    "PHILO_AR",
+                    "LOG_AR",
+                    "PSH_AR",
+                    "SOC_AR",
+                    "PSH_SOC_AR",
+                    "PHILO_LOG_AR",
+                    "DISL",
+                    "DMIS",
+                    "ECON",
+                    "EHSA",
+                    "EHSA_AR",
+                    "WTN"
+                ];
+                break;
+            case 'oloom':
+                $subjects = [
+                    "ARB_AR",
+                    "ENG",
+                    "GRM",
+                    "FRN",
+                    "ITL",
+                    "SPN",
+                    "CHN",
+                    "PHY",
+                    "PHY_AR",
+                    "CHEM",
+                    "CHEM_AR",
+                    "BIO",
+                    "BIO_AR",
+                    "GLG",
+                    "DISL",
+                    "DMIS",
+                    "ECON",
+                    "EHSA",
+                    "EHSA_AR",
+                    "WTN"
+                ];
+                break;
+            case 'ryada':
+                $subjects = [
+                    "ARB_AR",
+                    "ENG",
+                    "GRM",
+                    "FRN",
+                    "ITL",
+                    "SPN",
+                    "CHN",
+                    "PHY",
+                    "PHY_AR",
+                    "CHEM",
+                    "CHEM_AR",
+                    "MTH_ST",
+                    "MTH_DY",
+                    "MTH_ALG",
+                    "MTH_SG",
+                    "MTH_ALG_SG",
+                    "MTH_DIFF",
+                    "MTH_ST_AR",
+                    "MTH_DY_AR",
+                    "MTH_ALG_AR",
+                    "MTH_SG_AR",
+                    "MTH_ALG_SG_AR",
+                    "MTH_DIFF_AR",
+                    "DISL",
+                    "DMIS",
+                    "ECON",
+                    "EHSA",
+                    "EHSA_AR",
+                    "WTN"
+                ];
+                break;
+            default:
+                $subjects = [];
+        }
+        return $subjects;
     }
 }

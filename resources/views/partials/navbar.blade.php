@@ -18,6 +18,9 @@
                 <div class="dropdown-menu" aria-labelledby="AdminDropdown">
                     <a class="dropdown-item" href="{{ route('admins.all-posts') }}">View All Posts</a>
                     <a class="dropdown-item" href="{{ route('users.index') }}">View All Users</a>
+                    @can('create',\App\Models\Team\Member::class)
+                    <a class="dropdown-item" href="{{ route('members.index') }}">View All Members</a>
+                    @endcan
                     <a class="dropdown-item" href="{{ route('admins.all-members') }}">View All Members</a>
                 </div>
             </li>
@@ -39,22 +42,17 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="TagsDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Tags &nbsp;</a>
-                <div class="dropdown-menu" aria-labelledby="TagsDropdown">
-                    <a class="dropdown-item" href="{{ route('tags.index') }}">All Tags</a>
-                    <a class="dropdown-item" href="{{ route('tags.create') }}">Create New Tag</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="PostsDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Posts &nbsp;</a>
+                    aria-expanded="false">Posts & Tags &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="PostsDropdown">
                     <a class="dropdown-item"
                         href="{{ route('posts.view-member-posts',['member' => auth()->user()->member ]) }}">View & Edit
                         My Posts</a>
                     <a class="dropdown-item" href="{{ route('posts.create') }}">Create Post</a>
                     <a class="dropdown-item" href="{{ route('posts.index') }}">View All Posts</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('tags.index') }}">All Tags</a>
+                    <a class="dropdown-item" href="{{ route('tags.create') }}">Create New Tag</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -162,12 +160,6 @@
                         تعديل بياناتك مع الفريق
                     </a>
                     @endif
-                    @can('create',\App\Models\Team\Member::class)
-                    <a class="dropdown-item {{ request()->is(route('members.index')) ? 'active' : '' }}"
-                        href="{{ route('members.index') }}">
-                        تعديل أعضاء الفريق
-                    </a>
-                    @endcan
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
                         تسجيل خروج

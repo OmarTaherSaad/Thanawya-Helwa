@@ -82,6 +82,7 @@ Route::prefix('team')->group(function() {
         Route::post('approve-post/{post}','PostController@approve');
         Route::get('all-post','PostController@all_post_for_admin')->name('all-posts');
         Route::get('members','MemberController@index')->name('all-members');
+        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     });
 });
 //Quizzes

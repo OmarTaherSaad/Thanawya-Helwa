@@ -37,6 +37,9 @@ $class = 'bordered border-';
         <h5>Status: {{ $post->status . ($post->rated() ? ' | Rate: ' . $post->rate : '') }}</h5>
         <hr>
         <h6>By: {{ $post->writer->name }}</h6>
+        @if ($post->hasCowriter())
+        <h6>and {{ $post->cowriter->name }}</h6>
+        @endif
         <hr>
         @if($post->trashed())
         <h6>Deleted at: {{ $post->deleted_at->locale('en-US')->diffForHumans() }}</h6>

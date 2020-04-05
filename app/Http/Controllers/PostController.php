@@ -40,7 +40,7 @@ class PostController extends Controller
     public function view_user_posts(Member $member)
     {
         session()->flash('member', $member->name);
-        return view('posts.index')->with('posts', $member->posts()->orderBy('updated_at', 'desc')->paginate(config('app.pagination_max')));
+        return view('posts.index')->with('posts', Post::all_for_member(auth()->user()->member,true));
     }
 
     /**
@@ -51,7 +51,8 @@ class PostController extends Controller
     public function create()
     {
         $tags = $this->getTagsForSelector();
-        return view('posts.create')->with(compact('tags'));
+        $members = Member::pluck('name','id');
+        return view('posts.create')->with(compact('tags'))->with(compact('members'));
     }
 
     /**
@@ -66,6 +67,7 @@ class PostController extends Controller
             'tags' => 'nullable|array',
             'content' => 'required|string|min:10',
             'is_draft' => 'required|boolean',
+            'cowriter' => 'nullable|integer|exists:members,id'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -75,6 +77,11 @@ class PostController extends Controller
             'state' => $request->is_draft ? config('team.posts.status.DRAFT') : config('team.posts.status.UNDER_REVIEW')
         ]);
         $post->writer()->associate(auth()->user()->member);
+        if ($request->has('cowriter') && $request->cowriter != 0) {
+            $post->cowriter()->associate($request->cowriter);
+        } else {
+            $post->cowriter()->dissociate();
+        }
         $post->save();
         foreach ($request->tags as $tag_id) {
             if (Tag::where('id', $tag_id)->exists()) {
@@ -112,11 +119,13 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $tags = $this->getTagsForSelector();
+        $members = Member::pluck('name', 'id');
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));
         return view('posts.edit')
             ->with(compact('post'))
             ->with(compact('tags'))
-            ->with(compact('tagsSelected'));
+            ->with(compact('tagsSelected'))
+            ->with(compact('members'));
     }
 
     /**
@@ -132,6 +141,7 @@ class PostController extends Controller
             'tags' => 'nullable|array',
             'content' => 'required|string|min:10',
             'is_draft' => 'required|boolean',
+            'cowriter' => 'nullable|integer|exists:members,id'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -140,6 +150,12 @@ class PostController extends Controller
             'content_before_review' => $request->content,
             'state' => $request->is_draft ? config('team.posts.status.DRAFT') : config('team.posts.status.UNDER_REVIEW')
         ]);
+        if ($request->has('cowriter') && $request->cowriter != 0) {
+            $post->cowriter()->associate($request->cowriter);
+        } else {
+            $post->cowriter()->dissociate();
+        }
+        $post->save();
         $post->tags()->sync($request->tags);
 
         session()->flash('success', 'Post Updated Successfully!');
@@ -188,11 +204,13 @@ class PostController extends Controller
     public function approve_post(Post $post)
     {
         $tags = $this->getTagsForSelector();
+        $members = Member::pluck('name', 'id');
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));
         return view('admins.approve-post')
             ->with(compact('post'))
             ->with(compact('tagsSelected'))
-            ->with(compact('tags'));
+            ->with(compact('tags'))
+            ->with(compact('members'));
     }
 
     public function all_post_for_admin(Request $request)
@@ -226,6 +244,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'tags' => 'nullable|array',
             'state' => 'required|integer',
+            'cowriter' => 'nullable|integer|exists:members,id',
             'rate' => [Rule::RequiredIf($request->state >= config('team.posts.status.APPROVED')), 'numeric', 'max:5', 'min:0'],
         ]);
         $isPosted = $request->state == config('team.posts.status.POSTED');
@@ -248,6 +267,11 @@ class PostController extends Controller
             'content' => $request->content,
             'state' => $request->state
         ]);
+        if ($request->has('cowriter') && $request->cowriter != 0) {
+            $post->cowriter()->associate($request->cowriter);
+        } else {
+            $post->cowriter()->dissociate();
+        }
         if ($request->has('fb_link')) {
             $post->fb_link = $request->fb_link; //save() is called below anyway.
         }

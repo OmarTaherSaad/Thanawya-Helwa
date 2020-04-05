@@ -27,6 +27,10 @@ class Member extends User implements HasMedia
     {
         return $this->hasMany('App\Models\Team\Post','written_by');
     }
+    public function coposts()
+    {
+        return $this->hasMany('App\Models\Team\Post','cowriter_id');
+    }
     public function quizzes_made()
     {
         return $this->hasMany('App\Quiz','made_by');

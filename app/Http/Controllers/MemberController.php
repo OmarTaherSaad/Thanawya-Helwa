@@ -16,7 +16,7 @@ class MemberController extends Controller
 
     public function index()
     {
-        return view('members.index')->with('members', Member::paginate(config('app.pagination_max')));
+        return view('members.index')->with('members', Member::orderBy('name')->paginate(config('app.pagination_max')));
     }
 
     public function show(Member $member)

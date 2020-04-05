@@ -11,6 +11,9 @@
         <div class="row justify-content-center text-center">
             <div class="col-12 col-md-8">
                 <h4>Written by: {{ $post->writer->name }}</h4>
+                @if ($post->hasCowriter())
+                <h4>and {{ $post->cowriter->name }}</h4>
+                @endif
                 <h4>Status: {{ $post->status }}</h4>
                 @if($post->approved())
                 <h4>Approved by: {{ $post->approver->name }}</h4>

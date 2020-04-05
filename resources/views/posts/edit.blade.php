@@ -47,6 +47,16 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="cowriter">Co-writer</label>
+                    <select class="form-control" name="cowriter" id="cowriter" v-model="cowriter">
+                        <option value="0" selected>No one</option>
+                        @foreach($members as $id => $name)
+                        <option value="{{ $id }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
@@ -61,6 +71,7 @@
     window.vueApp.$data.tags = {!! $tagsSelected !!};
     window.vueApp.$data.post_content = `{!! $post->get_content() !!}`;
     window.vueApp.$data.is_draft = {{ $post->state == config('team.posts.status.DRAFT') ? 1 : 0 }};
+    window.vueApp.$data.cowriter = {{ $post->hasCowriter() ? $post->cowriter->id : 0 }};
     window.vueApp.$data.submitURL = $("#postForm").attr('action');
     window.vueApp.$data.redirectURL = "{{ route('posts.view-member-posts',['member' => auth()->user()->member]) }}";
 </script>

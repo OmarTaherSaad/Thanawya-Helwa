@@ -21,6 +21,10 @@ class Post extends Model implements HasMedia
         return $this->belongsTo('App\Models\Team\Member','written_by');
     }
 
+    public function cowriter() {
+        return $this->belongsTo('App\Models\Team\Member', 'cowriter_id');
+    }
+
     public function approver() {
         return $this->belongsTo('App\Models\Team\Member','approved_by');
     }
@@ -28,6 +32,11 @@ class Post extends Model implements HasMedia
     public function tags()
     {
         return $this->belongsToMany('App\Models\Team\Tag', 'posts_tags');
+    }
+
+    public function hasCowriter()
+    {
+        return !is_null($this->cowriter);
     }
 
     public function belongTo(\App\User $user)
@@ -86,16 +95,22 @@ class Post extends Model implements HasMedia
         return str_replace('`','\`', $this->content ?? $this->content_before_review);
     }
 
-    public static function all_for_member(Member $member = null)
+    public static function all_for_member(Member $member = null,$MemberOnly = false)
     {
         if (is_null($member)) {
             $member_posts = collect();
+            $member_coposts = collect();
         }
         else {
             $member_posts = $member->posts();
+            $member_coposts = $member->coposts();
         }
         $posts = Post::where('state', '>',config('team.posts.status.DRAFT'));
-        $posts = $posts->union($member_posts);
+        if($MemberOnly) {
+            $posts = $member_posts->union($member_coposts);
+        } else {
+            $posts = $posts->union($member_posts)->union($member_coposts);
+        }
         return $posts->orderBy('updated_at', 'desc')->paginate(config('app.pagination_max'));
     }
     public static function all_for_public()
@@ -121,11 +136,11 @@ class Post extends Model implements HasMedia
 
     public function rated()
     {
-        return !is_null($this->rate);
+        return !is_null($this->rate) && $this->approved();
     }
 
     public function with_link()
     {
-        return isset($this->fb_link);
+        return isset($this->fb_link) && $this->posted();
     }
 }

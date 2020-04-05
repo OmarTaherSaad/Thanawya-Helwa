@@ -42,6 +42,16 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="cowriter">Co-writer</label>
+                    <select class="form-control" name="cowriter" id="cowriter" v-model="cowriter">
+                        <option value="0" selected>No one</option>
+                        @foreach($members as $id => $name)
+                        <option value="{{ $id }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label>New State</label>
                     <select class="form-control" name="state" v-model="state">
                         @foreach (config('team.posts.status') as $key => $value)
@@ -74,6 +84,7 @@
     window.vueApp.$data.tags = {!! $tagsSelected !!};
     window.vueApp.$data.post_content = `{!! $post->get_content() !!}`;
     window.vueApp.$data.state = {{ $post->state }};
+    window.vueApp.$data.cowriter = {{ $post->hasCowriter() ? $post->cowriter->id : 0 }};
     window.vueApp.$data.fb_link = @if(isset($post->fb_link)) 'https\:{{ $post->fb_link }}' @else '' @endif;
     window.vueApp.$data.rate = {{ $post->rate ?? 0 }};
     window.vueApp.$data.submitURL = $("#postForm").attr('action');

@@ -8,9 +8,10 @@ window.vueApp = new Vue({
     data: {
         post_content: "",
         is_draft: 1,
+        cowriter: 0,
         state: 0,
         fb_link: "",
-        rate: 0,
+        rate: null,
         tags: null,
         tagsOptions: [],
         submitURL: null,
@@ -56,9 +57,10 @@ window.vueApp = new Vue({
                 .post(this.submitURL, {
                     tags: this.tagsValues,
                     content: this.post_content,
-                    is_draft: this.is_draft
+                    is_draft: this.is_draft,
+                    cowriter: this.cowriter
                 })
-                .then(response => {
+                .then((response) => {
                     if (response.data.success == undefined) {
                         alerts = false;
                         alertsList = Object.values(response.data);
@@ -69,11 +71,11 @@ window.vueApp = new Vue({
                         this.post_content = "";
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertsList = error.errors;
                     alerts = false;
                 })
-                .finally(function() {
+                .finally(function () {
                     window.vueApp.$data.alertsList = alertsList;
                     window.vueApp.$data.alerts = alerts;
                     window.scrollTo(0, 0);
@@ -90,9 +92,10 @@ window.vueApp = new Vue({
                 .patch(this.submitURL, {
                     tags: this.tagsValues,
                     content: this.post_content,
-                    is_draft: this.is_draft
+                    is_draft: this.is_draft,
+                    cowriter: this.cowriter
                 })
-                .then(response => {
+                .then((response) => {
                     if (response.data.success == undefined) {
                         alerts = false;
                         alertsList = Object.values(response.data);
@@ -101,11 +104,11 @@ window.vueApp = new Vue({
                         alertsList = { Done: response.data.message };
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertsList = error.errors;
                     alerts = false;
                 })
-                .finally(function() {
+                .finally(function () {
                     window.vueApp.$data.alertsList = alertsList;
                     window.vueApp.$data.alerts = alerts;
                     window.scrollTo(0, 0);
@@ -125,6 +128,7 @@ window.vueApp = new Vue({
                     tags: this.tagsValues,
                     content: this.post_content,
                     state: this.state,
+                    cowriter: this.cowriter,
                     fb_link: this.fb_link,
                     rate: this.rate
                 })
