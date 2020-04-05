@@ -51,7 +51,7 @@ class PostController extends Controller
     public function create()
     {
         $tags = $this->getTagsForSelector();
-        $members = Member::pluck('name','id');
+        $members = Member::hasStatus('current')->sortBy('name')->pluck('name','id');
         return view('posts.create')->with(compact('tags'))->with(compact('members'));
     }
 
@@ -119,7 +119,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $tags = $this->getTagsForSelector();
-        $members = Member::pluck('name', 'id');
+        $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id');
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));
         return view('posts.edit')
             ->with(compact('post'))
@@ -204,7 +204,7 @@ class PostController extends Controller
     public function approve_post(Post $post)
     {
         $tags = $this->getTagsForSelector();
-        $members = Member::pluck('name', 'id');
+        $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id');
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));
         return view('admins.approve-post')
             ->with(compact('post'))
