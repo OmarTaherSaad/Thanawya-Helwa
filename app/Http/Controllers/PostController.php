@@ -64,7 +64,7 @@ class PostController extends Controller
     public function create()
     {
         $tags = $this->getTagsForSelector();
-        $members = Member::hasStatus('current')->sortBy('name')->pluck('name','id');
+        $members = Member::hasStatus('current')->sortBy('name')->pluck('name','id')->except(auth()->user()->member->id);
         return view('posts.create')->with(compact('tags'))->with(compact('members'));
     }
 
@@ -132,7 +132,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $tags = $this->getTagsForSelector();
-        $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id');
+        $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id')->except($post->writer->id);
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));
         return view('posts.edit')
             ->with(compact('post'))
@@ -217,7 +217,7 @@ class PostController extends Controller
     public function approve_post(Post $post)
     {
         $tags = $this->getTagsForSelector();
-        $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id');
+        $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id')->except($post->writer->id);
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));
         return view('admins.approve-post')
             ->with(compact('post'))
@@ -253,7 +253,7 @@ class PostController extends Controller
             $temp->put('count',$count);
             $coposts->push($temp->toArray());
         }
-        $coposts->filter(function($p) {
+        $coposts = $coposts->filter(function($p) {
             return $p['count'] > 0;
         });
 

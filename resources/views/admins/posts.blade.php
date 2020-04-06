@@ -30,7 +30,7 @@
             <br>
             <div class="form-group m-2">
                 <label for="from_date">From Date:</label>
-                <input type="date" class="form-control" name="from_date" id="from_date" @if(Request::has('member')) value="{{ Request::get('from_date') }}"  @endif>
+                <input type="date" class="form-control" name="from_date" id="from_date" @if(Request::has('from_date')) value="{{ Request::get('from_date') }}"  @endif>
             </div>
             <div class="form-group m-2">
                 <label for="to_date">To Date:</label>
