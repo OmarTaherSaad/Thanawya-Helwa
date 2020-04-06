@@ -26,15 +26,28 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->isTeamMember()) {
             if (auth()->user()->isAdmin()) {
-                return view('posts.index')->with('posts', Post::orderBy('updated_at', 'desc')->paginate(config('app.pagination_max')));
+                return redirect()->route('admins.all-posts');
             }
-            return view('posts.index')->with('posts', Post::all_for_member(auth()->user()->member));
+            $Posts = Post::all_for_member(auth()->user()->member);
+        } else {
+            $Posts = Post::all_for_public();
         }
-        return view('posts.index')->with('posts', Post::all_for_public());
+        $members = Member::has('posts')->pluck('name', 'id');
+        $states = $this->getStatesForFilter();
+        $Posts = Post::orderBy('updated_at', 'desc');
+        //Get Existing Filters
+        $Posts = $this->filter($Posts, $request);
+
+        $Posts = $Posts->paginate(config('app.pagination_max'));
+        $Posts = $Posts->appends($request->all());
+
+        return view('posts.index')->with('posts', $Posts)
+            ->with(compact('members'))
+            ->with(compact('states'));
     }
 
     public function view_user_posts(Member $member)
@@ -215,28 +228,41 @@ class PostController extends Controller
 
     public function all_post_for_admin(Request $request)
     {
-        $members = Member::has('posts')->pluck('name','id');
-        $states = collect(config('team.posts.status'))->keys()->transform(function($s) {
-            return ['key'=> $s, 'value' => \Str::title(str_replace('_', ' ', $s))];
-        })->keyBy('key')->transform(function($s) {
-            return $s['value'];
-        });
-
-        //Get Existing Filters
+        $members = Member::has('posts')->pluck('name', 'id');
+        $states = $this->getStatesForFilter();
         $Posts = Post::orderBy('updated_at', 'desc');
         $DeletedPosts = Post::onlyTrashed()->orderBy('deleted_at', 'desc');
-        if ($request->has('member')) {
-            $Posts = $Posts->whereHas('writer',function($q) use ($request) {
-                $q->where('id', $request->member);
-            });
+        //Get Existing Filters
+        $Posts = $this->filter($Posts,$request);
+        $DeletedPosts = $this->filter($DeletedPosts,$request);
+
+        $copostsData = $Posts->has('cowriter')->with('writer')->with('cowriter')->get();
+        $coposts = collect();
+        foreach ($members as $id => $name) {
+            $temp = collect(['member' => $name]);
+            $cowriters = collect();
+            $count = 0;
+            foreach ($copostsData as  $post) {
+                if($post->writer->id == $id || $post->cowriter->id == $id) {
+                    $cowriters->push($post->writer->id == $id  ? $post->cowriter->name : $post->writer->name);
+                    $count++;
+                }
+            }
+            $temp->put('cowriters',$cowriters);
+            $temp->put('count',$count);
+            $coposts->push($temp->toArray());
         }
-        if ($request->has('state')) {
-            $Posts = $Posts->where('state', config('team.posts.status.'. $request->state));
-        }
-        return view('admins.posts')->with('posts', $Posts->paginate(config('app.pagination_max')))
-            ->with('deleted_posts', $DeletedPosts->paginate(config('app.pagination_max')))
+
+        $Posts = $Posts->paginate(config('app.pagination_max'));
+        $DeletedPosts = $DeletedPosts->paginate(config('app.pagination_max'));
+        $Posts = $Posts->appends($request->all());
+        $DeletedPosts = $DeletedPosts->appends($request->all());
+
+        return view('admins.posts')->with('posts', $Posts)
+            ->with('deleted_posts',$DeletedPosts)
             ->with(compact('members'))
-            ->with(compact('states'));
+            ->with(compact('states'))
+            ->with(compact('coposts'));
     }
 
     public function approve(Request $request, Post $post)
@@ -300,5 +326,38 @@ class PostController extends Controller
         }
         $tags .= ']';
         return $tags;
+    }
+
+    public function filter($Posts, Request $request)
+    {
+        if ($request->has('member')) {
+            $Posts = $Posts->whereHas('writer', function ($q) use ($request) {
+                $q->where('id', $request->member);
+            })->orWhereHas('cowriter', function ($q) use ($request) {
+                $q->where('id', $request->member);
+            });
+        }
+        if ($request->has('state')) {
+            $Posts = $Posts->where('state', config('team.posts.status.' . $request->state));
+        }
+        if (isset($request->to_date)) {
+            $date = \Carbon\Carbon::createFromFormat('Y-m-d', $request->to_date);
+            $Posts = $Posts->where('created_at', '<=', $date);
+        }
+        if (isset($request->from_date)) {
+            $date = \Carbon\Carbon::createFromFormat('Y-m-d', $request->from_date);
+            $Posts = $Posts->where('created_at', '>=', $date);
+        }
+        return $Posts;
+    }
+
+    public function getStatesForFilter()
+    {
+        $states = collect(config('team.posts.status'))->keys()->transform(function ($s) {
+            return ['key' => $s, 'value' => \Str::title(str_replace('_', ' ', $s))];
+        })->keyBy('key')->transform(function ($s) {
+            return $s['value'];
+        });
+        return $states;
     }
 }

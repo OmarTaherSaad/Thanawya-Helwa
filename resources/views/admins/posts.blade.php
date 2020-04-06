@@ -6,9 +6,9 @@
         <a class="btn btn-primary" href="{{ route('posts.create') }}">Add Post</a>
     </div>
 </div>
-<div class="row justify-content-center text-center mt-5">
+<div class="row justify-content-center text-left mt-5">
     <div class="col-12 col-6">
-        <form class="form-inline" {{ route('admins.all-posts') }} id="filterForm">
+        <form class="form-inline" {{ route('admins.all-posts') }} id="filterForm" dir="ltr">
             <div class="form-group m-2">
                 <label for="state">Filter By Status</label>
                 <select class="form-control" name="state" id="state" onchange="this.form.submit()">
@@ -27,6 +27,17 @@
                     @endforeach
                 </select>
             </div>
+            <br>
+            <div class="form-group m-2">
+                <label for="from_date">From Date:</label>
+                <input type="date" class="form-control" name="from_date" id="from_date" @if(Request::has('member')) value="{{ Request::get('from_date') }}"  @endif>
+            </div>
+            <div class="form-group m-2">
+                <label for="to_date">To Date:</label>
+                <input type="date" class="form-control" name="to_date" id="to_date" @if(Request::has('member'))
+                    value="{{ Request::get('from_date') }}" @else value="{{ \Carbon\Carbon::now()->toDateString() }}" @endif>
+            </div>
+            <button type="submit" class="btn btn-success m-2">Filter</button>
             <button type="button" onclick="resetFilters();this.form.submit();" class="btn btn-danger m-2">Reset</button>
         </form>
     </div>
@@ -36,6 +47,46 @@
         <h1>All Posts of TH</h1>
     </div>
 </div>
+<div class="row justify-content-center text-center mt-5">
+    <div class="col-12 col-6">
+        <a class="btn btn-secondary" data-toggle="collapse" href="#copostCollapse" role="button" aria-expanded="false"
+            aria-controls="copostCollapse">
+            Coposts Data
+        </a>
+        <div class="collapse" id="copostCollapse">
+            <h4>Coposts data</h4>
+            <div class="card card-body">
+                <table class="table table-bordered table-hover table-responsive" dir="ltr">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>Members</th>
+                            <th>Coposts Count</th>
+                            <th>Coposts with:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($coposts as $data)
+                        <tr>
+                            <td>{{ $data['member'] }}</td>
+                            <td>{{ $data['count'] }}</td>
+                            <td>
+                                <ul class="list-group">
+                                    @forelse ($data['cowriters'] as $writer)
+                                    <li class="list-group-item">{{ $writer }}</li>
+                                    @empty
+                                    <li class="list-group-item">No one.</li>
+                                    @endforelse
+                                </ul>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     @foreach( $posts as $post )
     <div class="col-6 col-md-4">
