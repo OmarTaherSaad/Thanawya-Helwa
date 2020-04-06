@@ -236,7 +236,8 @@ class PostController extends Controller
         $Posts = $this->filter($Posts,$request);
         $DeletedPosts = $this->filter($DeletedPosts,$request);
 
-        $copostsData = $Posts->has('cowriter')->with('writer')->with('cowriter')->get();
+        $copostsData = clone $Posts;
+        $copostsData = $copostsData->has('cowriter')->with('writer')->with('cowriter')->get();
         $coposts = collect();
         foreach ($members as $id => $name) {
             $temp = collect(['member' => $name]);
@@ -252,6 +253,9 @@ class PostController extends Controller
             $temp->put('count',$count);
             $coposts->push($temp->toArray());
         }
+        $coposts->filter(function($p) {
+            return $p['count'] > 0;
+        });
 
         $Posts = $Posts->paginate(config('app.pagination_max'));
         $DeletedPosts = $DeletedPosts->paginate(config('app.pagination_max'));
