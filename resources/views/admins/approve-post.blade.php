@@ -44,7 +44,7 @@
                 <div class="form-group">
                     <label for="cowriter">Co-writer</label>
                     <select class="form-control" name="cowriter" id="cowriter" v-model="cowriter">
-                        <option value="0" selected>No one</option>
+                        <option value="" selected>No one</option>
                         @foreach($members as $id => $name)
                         <option value="{{ $id }}">{{ $name }}</option>
                         @endforeach

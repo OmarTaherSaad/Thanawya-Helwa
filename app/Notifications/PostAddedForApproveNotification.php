@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PostApprovedNotification extends Notification implements ShouldQueue
+class PostAddedForApproveNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $post;
@@ -58,8 +58,7 @@ class PostApprovedNotification extends Notification implements ShouldQueue
     {
         return [
             'link' => $this->post->getLinkToView(),
-            'text' => 'Your post was approved! Post: ' . $this->post->small_part(),
-            'id' => $this->id
+            'text' => $this->post->writer->name . ' wrote a new post: ' . $this->post->small_part()
         ];
     }
 
@@ -67,8 +66,7 @@ class PostApprovedNotification extends Notification implements ShouldQueue
     {
         return [
             'link' => $this->post->getLinkToView(),
-            'text' => 'Your post was approved! Post: ' .$this->post->small_part(),
-            'id' => $this->id
+            'text' => $this->post->writer->name . ' wrote a new post: ' .$this->post->small_part()
         ];
     }
 
@@ -76,8 +74,7 @@ class PostApprovedNotification extends Notification implements ShouldQueue
     {
         return new BroadcastMessage([
             'link' => $this->post->getLinkToView(),
-            'text' => 'Your post was approved! Post: ' .$this->post->small_part(),
-            'id' => $this->id
+            'text' => $this->post->writer->name . ' wrote a new post: ' .$this->post->small_part()
         ]);
     }
 }

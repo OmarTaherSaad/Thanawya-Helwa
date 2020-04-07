@@ -6,6 +6,7 @@ use App\Notifications\PostApprovedNotification;
 use App\Models\Team\Member;
 use App\Models\Team\Post;
 use App\Models\Team\Tag;
+use App\Notifications\PostAddedForApproveNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -29,9 +30,6 @@ class PostController extends Controller
     public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->isTeamMember()) {
-            if (auth()->user()->isAdmin()) {
-                return redirect()->route('admins.all-posts');
-            }
             $Posts = Post::all_for_member(auth()->user()->member);
         } else {
             $Posts = Post::all_for_public();
@@ -53,7 +51,7 @@ class PostController extends Controller
     public function view_user_posts(Member $member)
     {
         session()->flash('member', $member->name);
-        return view('posts.index')->with('posts', Post::all_for_member(auth()->user()->member,true));
+        return redirect()->action('PostController@index',['member' => $member->id]);
     }
 
     /**
@@ -103,7 +101,7 @@ class PostController extends Controller
         }
 
         if (!$request->is_draft) {
-            Notification::send(\App\User::teamMembers()->except([$post->writer->id, auth()->user()->id]), new PostApprovedNotification($post));
+            Notification::send(\App\User::admins(), new PostAddedForApproveNotification($post));
         }
 
         return response()->json([
@@ -170,6 +168,10 @@ class PostController extends Controller
         }
         $post->save();
         $post->tags()->sync($request->tags);
+
+        if (!$request->is_draft) {
+            Notification::send(\App\User::admins(), new PostAddedForApproveNotification($post));
+        }
 
         session()->flash('success', 'Post Updated Successfully!');
         return response()->json([
