@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\MinistryExam;
 use App\Traits\GetSubjects;
+use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -81,24 +82,63 @@ class MinistryExamController extends Controller
     {
         $subjects = ($this->getSubjects())->keys();
         $request->validate([
-            'title' => 'required|string|max:191',
+            'title' => 'nullable|required_without:table|string|max:191',
             'year' => 'required|integer',
             'educational_year' => 'required|integer|min:1|max:3',
-            'file' => 'required|file|mimetypes:application/pdf|max:10240',
-            'subject' => ['required', 'string', Rule::in($subjects)],
+            'file' => 'required_without_all:url,table|file|mimetypes:application/pdf|max:10240',
+            'url' => 'nullable|required_without_all:file,table|url',
+            'subject' => ['required_without:table', 'string', Rule::in($subjects)],
+            'table' => 'required_without_all:url,file',
         ]);
-        $path = 'exams/' . $request->educational_year . '/' . $request->year . '/' . $request->subject . '/';
-        $name = \Str::random(40) . '.pdf';
-        $path = $request->file('file')->storeAs($path,$name);
-        $exam = MinistryExam::create([
-            'title' => $request->title,
-            'educational_year' => $request->educational_year,
-            'year' => $request->year,
-            'subject' => $request->subject,
-            'link' => $path
-        ]);
-        $exam->adder()->associate(auth()->user()->member);
-        $exam->save();
+        if ($request->has('table')) {
+            $dom = new DOMDocument();
+            $dom->loadHTML($request->table);
+            $table = $dom->getElementsByTagName('tr');
+            $data = collect();
+            foreach ($table as $tr) {
+                $tds = $tr->getElementsByTagName('td');
+                if ($tds->count() < 2 || is_null($tds[1]->getElementsByTagName('a')[0])) {
+                    continue;
+                }
+                $title = utf8_decode($tds[0]->nodeValue);
+                $url = "http://elearning1.moe.gov.eg/" . utf8_decode($tds[1]->getElementsByTagName('a')[0]->getAttribute('href'));
+                foreach (config('ministryExams') as $key => $value) {
+                    if (strpos($title,$key) !== false) {
+                        $data->push([
+                            's' => strpos($title, $key),
+                            'title' => $title,
+                            'url' => $url,
+                            'subject' => $value,
+                        ]);
+                        break;
+                    }
+                }
+            }
+            foreach ($data as  $exam) {
+                $exam = $this->addExam($exam,$request->educational_year, $request->year);
+                $exam->adder()->associate(auth()->user()->member);
+                $exam->save();
+            }
+        } else {
+            $path = 'exams/' . $request->educational_year . '/' . $request->year . '/' . $request->subject . '/';
+            $name = \Str::random(40) . '.pdf';
+            if ($request->has('url')) {
+                $file = tempnam(sys_get_temp_dir(), $name);
+                copy($request->url, $file);
+                $path = Storage::putFileAs($path, $file, $name);
+            } else {
+                $path = $request->file('file')->storeAs($path, $name);
+            }
+            $exam = MinistryExam::create([
+                'title' => $request->title,
+                'educational_year' => $request->educational_year,
+                'year' => $request->year,
+                'subject' => $request->subject,
+                'link' => $path
+            ]);
+            $exam->adder()->associate(auth()->user()->member);
+            $exam->save();
+        }
         session()->flash('success','Exam Stored Successfully');
         return redirect()->route('ministryExam.index');
     }
@@ -174,6 +214,23 @@ class MinistryExamController extends Controller
 
     public function download(MinistryExam $ministryExam) {
         return Storage::download($ministryExam->link, 'ثانوية حلوة - ' . $ministryExam->subject_name . '-' . $ministryExam->title . ' .pdf');
+    }
+
+    public function addExam(array $request, $educational_year, $year)
+    {
+        $path = 'exams/' . $educational_year . '/' . $year . '/' . $request['subject'] . '/';
+        $name = \Str::random(40) . '.pdf';
+        $file = tempnam(sys_get_temp_dir(), $name);
+        copy($request['url'], $file);
+        $path = Storage::putFileAs($path, $file, $name);
+        $exam = MinistryExam::create([
+            'title' => $request['title'],
+            'educational_year' => $educational_year,
+            'year' => $year,
+            'subject' => $request['subject'],
+            'link' => $path
+        ]);
+        return $exam;
     }
 
     public function getForMajor(string $major)

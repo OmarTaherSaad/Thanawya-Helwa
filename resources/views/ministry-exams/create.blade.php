@@ -37,9 +37,19 @@
                     required>
             </div>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" id="file" name="file" required accept="application/pdf">
+                <input type="file" class="custom-file-input" id="file" name="file" accept="application/pdf">
                 <label class="custom-file-label" for="file">Choose file (PDF)</label>
             </div>
+            <div class="form-group">
+                <label>Or Put URL here</label>
+                <input type="url" name="url" class="form-control" value="{{ old('url') }}">
+            </div>
+
+            <div class="form-group">
+                <label>Or Put Full Table of Ministry webpage here as HTML table</label>
+                <textarea type="url" name="table" class="form-control" value="{{ old('table') }}"></textarea>
+            </div>
+
             <div class="form-group">
                 <label>Subject</label>
                 <select class="form-control" name="subject">
