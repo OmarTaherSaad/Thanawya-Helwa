@@ -35,7 +35,7 @@
             <div class="form-group m-2">
                 <label for="to_date">To Date:</label>
                 <input type="date" class="form-control" name="to_date" id="to_date" @if(Request::has('member'))
-                    value="{{ Request::get('from_date') }}" @else value="{{ \Carbon\Carbon::now()->toDateString() }}" @endif>
+                    value="{{ Request::get('from_date') }}" @endif>
             </div>
             <button type="submit" class="btn btn-success m-2">Filter</button>
             <button type="button" onclick="resetFilters();this.form.submit();" class="btn btn-danger m-2">Reset</button>
@@ -155,6 +155,7 @@
     });
     function resetFilters() {
         $("#filterForm select").prop('selectedIndex',0);
+        $("#filterForm input").val('');
     }
 </script>
 @endsection
