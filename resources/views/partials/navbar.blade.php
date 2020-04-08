@@ -16,6 +16,7 @@
                 <a class="nav-link dropdown-toggle" id="AdminDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Admin Tools &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="AdminDropdown">
+                    <a class="dropdown-item" href="{{ route('admins.logs') }}">Logs</a>
                     <a class="dropdown-item" href="{{ route('admins.all-posts') }}">View All Posts</a>
                     <a class="dropdown-item" href="{{ route('users.index') }}">View All Users</a>
                     @can('create',\App\Models\Team\Member::class)
