@@ -70,9 +70,13 @@ class TansikController extends Controller
                     $unifac->university()->associate($university);
                     $unifac->save();
                 }
-                $facultyEdge->UniFac()->associate($unifac);
-                $facultyEdge->editor()->associate(auth()->user()->member);
-                $facultyEdge->save();
+                $edges = FacultyEdge::where('TempName',$facultyEdge->TempName)->get();
+                foreach ($edges as $facultyEdge) {
+
+                    $facultyEdge->UniFac()->associate($unifac);
+                    $facultyEdge->editor()->associate(auth()->user()->member);
+                    $facultyEdge->save();
+                }
             }
             return redirect()->route('tansik.edges.edit');
         }
