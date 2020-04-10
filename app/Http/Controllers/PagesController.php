@@ -11,12 +11,13 @@ use App\Models\Team\Member;
 use App\Models\Tansik\Governorate;
 use App\Models\Tansik\Administration;
 use App\Models\Tansik\FacultyEdge;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
+use App\Traits\Paginate;
 
 class PagesController extends Controller
 {
+    use Paginate;
+
+
     private $founder_members, $current_members, $old_members, $pageSize;
 
     public function __construct()
@@ -49,14 +50,6 @@ class PagesController extends Controller
             return response()->json(['html' => $view]);
         }
         return view('containers.members-list', compact('members'));
-    }
-    public function paginate($items, $perPage = 15, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     public function join()

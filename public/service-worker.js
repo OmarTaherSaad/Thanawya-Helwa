@@ -16,7 +16,7 @@ workbox.setConfig({modulePathPrefix: "workbox-v4.3.1"});
 
 importScripts(
   "./js/service-worker.js",
-  "precache-manifest.b0d8536f20dc6707fa7e4785b41e8b88.js"
+  "precache-manifest.382b2d6ebd70be0fb6d7bc92b39bae3b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "TH"});

@@ -8,7 +8,7 @@ window.vueApp = new Vue({
     data: {
         post_content: "",
         is_draft: 1,
-        cowriter: 0,
+        cowriter: "",
         state: 0,
         fb_link: "",
         rate: null,

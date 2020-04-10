@@ -16,16 +16,20 @@
                 <a class="nav-link dropdown-toggle" id="AdminDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Admin Tools &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="AdminDropdown">
-                    <a class="dropdown-item" href="{{ route('admins.logs') }}">Logs</a>
                     <a class="dropdown-item" href="{{ route('admins.all-posts') }}">View All Posts</a>
                     <a class="dropdown-item" href="{{ route('users.index') }}">View All Users</a>
                     @can('create',\App\Models\Team\Member::class)
                     <a class="dropdown-item" href="{{ route('members.index') }}">View All Members</a>
                     @endcan
                     <a class="dropdown-item" href="{{ route('admins.all-members') }}">View All Members</a>
+                    <a class="dropdown-item" href="{{ route('admins.logs') }}">Logs</a>
+                    <a class="dropdown-item" href="{{ route('admins.all-edges') }}">Edges Edits</a>
                 </div>
             </li>
             @endif
+            <li class="nav-item {{ Route::currentRouteNamed('tansik.edges.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('tansik.edges.index') }}">مسابقة التنسيق</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="QuizzesDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Quizzes &nbsp;</a>

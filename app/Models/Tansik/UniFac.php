@@ -21,4 +21,9 @@ class UniFac extends Pivot
     public function edges() {
         return $this->hasMany(FacultyEdge::class);
     }
+
+    public function hasFaculty()
+    {
+        return !is_null($this->faculty);
+    }
 }

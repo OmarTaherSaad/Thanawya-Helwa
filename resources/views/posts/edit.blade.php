@@ -71,7 +71,7 @@
     window.vueApp.$data.tags = {!! $tagsSelected !!};
     window.vueApp.$data.post_content = `{!! $post->get_content() !!}`;
     window.vueApp.$data.is_draft = {{ $post->state == config('team.posts.status.DRAFT') ? 1 : 0 }};
-    window.vueApp.$data.cowriter = {{ $post->hasCowriter() ? $post->cowriter->id : 0 }};
+    window.vueApp.$data.cowriter = "{{ $post->hasCowriter() ? $post->cowriter->id : '' }}";
     window.vueApp.$data.submitURL = $("#postForm").attr('action');
     window.vueApp.$data.redirectURL = "{{ route('posts.view-member-posts',['member' => auth()->user()->member]) }}";
 </script>

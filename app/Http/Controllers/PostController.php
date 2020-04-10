@@ -294,6 +294,9 @@ class PostController extends Controller
             //Newly Approved
             $post->approver()->associate(auth()->user()->member);
             Notification::send($post->writer->user, new PostApprovedNotification($post));
+            if ($post->hasCowriter()) {
+                Notification::send($post->cowriter->user, new PostApprovedNotification($post));
+            }
         }
         $post->update([
             'content' => $request->content,

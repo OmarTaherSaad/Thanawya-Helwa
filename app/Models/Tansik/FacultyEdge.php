@@ -11,6 +11,11 @@ class FacultyEdge extends Model
     protected $fillable = ['section','TempName','year','edge','unifac_id'];
 
     public function UniFac() {
-        return $this->belongsTo(UniFac::class);
+        return $this->belongsTo(UniFac::class,'unifac_id');
     }
+
+    public function editor() {
+        return $this->belongsTo('App\User','edit_by');
+    }
+
 }

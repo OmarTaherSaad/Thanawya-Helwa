@@ -54,8 +54,6 @@ Route::get('user/{user}/notifications', 'UsersController@notifications')->name('
 //Mark Notifications as read via AXIOS
 Route::post('user/{user}/notifications/mark-as-read', 'UsersController@markNotificationsAsRead')->name('users.notifications.mark-as-read');
 
-Route::get('notify','NotificationController@notify');
-Route::get('notify-view','NotificationController@view');
 //Users
 Route::resource('users', 'UsersController');
 //Socialite
@@ -75,6 +73,14 @@ Route::prefix('team')->group(function() {
         Route::post('{post}/force-delete', 'PostController@forceDelete')->name('forceDelete');
         Route::post('{post}/restore', 'PostController@restore')->name('restore');
     });
+
+    //Tansik Data
+    Route::prefix('tansik')->name('tansik.')->middleware(['auth', 'role:THteam'])->group(function() {
+        Route::get('edges/edit/{FacultyEdge?}','TansikController@edit')->name('edges.edit');
+        Route::patch('edges/{facultyEdge}','TansikController@update')->name('edges.update');
+        Route::get('edges','TansikController@index')->name('edges.index');
+    });
+
     //Admin Board
     Route::prefix('admins')->name('admins.')->middleware(['auth','role:admin'])->group(function() {
         //Posts
@@ -82,6 +88,7 @@ Route::prefix('team')->group(function() {
         Route::post('approve-post/{post}','PostController@approve');
         Route::get('all-post','PostController@all_post_for_admin')->name('all-posts');
         Route::get('members','MemberController@index')->name('all-members');
+        Route::get('edges', 'TansikController@all_member_counts')->name('all-edges');
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
     });
 });
