@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class UniFac extends Pivot
 {
-    protected $table = "UniFac";
+    protected $table = "unifac";
 
     protected $fillable = ['name','address'];
 
