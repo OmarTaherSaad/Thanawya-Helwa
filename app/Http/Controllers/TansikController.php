@@ -29,7 +29,7 @@ class TansikController extends Controller
     {
         if (is_null($facultyEdge))
         {
-            $facultyEdge = FacultyEdge::where('unifac_id', null)->inRandomOrder()->limit(1)->lockForUpdate()->first();
+            $facultyEdge = FacultyEdge::where('edit_by', null)->inRandomOrder()->limit(1)->lockForUpdate()->first();
             if(is_null($facultyEdge))
             {
                 return redirect()->route('tansik.edges.index');
@@ -77,6 +77,9 @@ class TansikController extends Controller
                     $facultyEdge->editor()->associate(auth()->user()->member);
                     $facultyEdge->save();
                 }
+            } else {
+                $facultyEdge->editor()->associate(auth()->user()->member);
+                $facultyEdge->save();
             }
             return redirect()->route('tansik.edges.edit');
         }
@@ -94,8 +97,8 @@ class TansikController extends Controller
             $countData->push($temp->toArray());
         }
         $countData = $countData->sortByDesc('count');
-
-        return view('admins.edges',['counts' => $countData]);
+        $all = FacultyEdge::where('edit_by', null)->count();
+        return view('admins.edges',['counts' => $countData])->with(compact('all'));
 
     }
 

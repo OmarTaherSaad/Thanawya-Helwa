@@ -14,7 +14,7 @@ class AddUserToTable extends Migration
     public function up()
     {
         Schema::table('faculty_edges', function (Blueprint $table) {
-            $table->unsignedBigInteger('edit_by');
+            $table->unsignedBigInteger('edit_by')->nullable();
 
             $table->foreign('edit_by')->references('id')->on('members')->onDelete('set null');
         });
