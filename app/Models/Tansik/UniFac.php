@@ -8,7 +8,7 @@ class UniFac extends Pivot
 {
     protected $table = "unifac";
 
-    protected $fillable = ['name','address'];
+    protected $fillable = ['name', 'university_id', 'faculty_id', 'address'];
 
     public function faculty() {
         return $this->belongsTo(Faculty::class);
