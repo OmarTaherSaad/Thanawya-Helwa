@@ -64,11 +64,10 @@ class TansikController extends Controller
                 if(is_null($unifac)) {
                     //Does not exist
                     $unifac = UniFac::create([
-                        'name' => 'كلية ' . $faculty->name . ' ' . $university->name
+                        'name' => 'كلية ' . $faculty->name . ' ' . $university->name,
+                        'university_id' => $university->id,
+                        'faculty_id' => $faculty->id,
                     ]);
-                    $unifac->faculty()->associate($faculty);
-                    $unifac->university()->associate($university);
-                    $unifac->save();
                 }
                 $edges = FacultyEdge::where('TempName',$facultyEdge->TempName)->get();
                 foreach ($edges as $facultyEdge) {
