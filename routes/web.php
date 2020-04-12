@@ -44,9 +44,6 @@ Route::get('/privacy-policy-and-terms','PagesController@privacyPolicy');
 //Offline
 Route::get('/offline','PagesController@offline')->name('offline');
 
-//Deployment
-Route::post('deploy', 'DeployController@deploy');
-
 //Auth & Facebook Login
 Auth::routes();
 //Notifications
