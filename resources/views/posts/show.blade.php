@@ -14,18 +14,21 @@
                 @if ($post->hasCowriter())
                 <h4>and {{ $post->cowriter->name }}</h4>
                 @endif
+                <h4>Created at: {{ $post->created_at->toDayDateTimeString() }}</h4>
+
+                @if(Auth::check() && Auth::user()->isTeamMember())
                 <h4>Status: {{ $post->status }}</h4>
                 @if($post->approved())
                 <h4>Approved by: {{ $post->approver->name }}</h4>
+                <h4>Quality: {{ $post->percentage }}%</h4>
                 @endif
                 <h4>Last Updated at: {{ $post->updated_at->toDayDateTimeString() }}</h4>
-                <h4>Created at: {{ $post->created_at->toDayDateTimeString() }}</h4>
                 @if($post->trashed())
                 <h4>Deleted at: {{ $post->deleted_at->toDayDateTimeString() }}</h4>
                 @endif
+                @endif
             </div>
             @if(Auth::check() && Auth::user()->isTeamMember())
-
                 @if($post->state > config('team.posts.status.DISMISSED'))
                 <div class="col-12 col-md-8">
                     <label for="content"><h3 class="text-center"><u>Final Content</u></h3></label>

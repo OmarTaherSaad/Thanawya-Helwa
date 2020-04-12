@@ -143,4 +143,10 @@ class Post extends Model implements HasMedia
     {
         return isset($this->fb_link) && $this->posted();
     }
+
+    public function getPercentageAttribute()
+    {
+        similar_text($this->content, $this->content_before_review, $perc);
+        return round($perc,2);
+    }
 }

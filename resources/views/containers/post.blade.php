@@ -41,6 +41,10 @@ $class = 'bordered border-';
         <h6>and {{ $post->cowriter->name }}</h6>
         @endif
         <hr>
+        @if ($post->approved())
+        <h6>Quality: {{ $post->percentage }}%</h6>
+        <hr>
+        @endif
         @if($post->trashed())
         <h6>Deleted at: {{ $post->deleted_at->locale('en-US')->diffForHumans() }}</h6>
         @endif
