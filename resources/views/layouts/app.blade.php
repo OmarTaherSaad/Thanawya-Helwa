@@ -1,8 +1,10 @@
 @php
-    if (array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER) && substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip'))
+if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
+    if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip'))
         ob_start('ob_gzhandler');
     else
         ob_start();
+}
 @endphp
 <!doctype html>
 <html lang="ar" dir="rtl">
