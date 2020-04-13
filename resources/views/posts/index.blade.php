@@ -15,7 +15,7 @@
         @else
         <h1>All Posts of TH</h1>
         @endif
-        <h4>Count: {{ $posts->count() . ' ' . \Str::plural('post',$posts->count()) }}</h4>
+        <h4>Count: {{ $count . ' ' . \Str::plural('post',$count) }}</h4>
     </div>
 </div>
 <div class="row justify-content-center text-left mt-5">

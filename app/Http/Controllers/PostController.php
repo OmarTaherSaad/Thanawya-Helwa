@@ -39,12 +39,13 @@ class PostController extends Controller
         $Posts = Post::orderBy('updated_at', 'desc');
         //Get Existing Filters
         $Posts = $this->filter($Posts, $request);
-
+        $count = $Posts->count();
         $Posts = $Posts->paginate(config('app.pagination_max'));
         $Posts = $Posts->appends($request->all());
 
         return view('posts.index')->with('posts', $Posts)
             ->with(compact('members'))
+            ->with(compact('count'))
             ->with(compact('states'));
     }
 
@@ -258,7 +259,7 @@ class PostController extends Controller
         $coposts = $coposts->filter(function($p) {
             return $p['count'] > 0;
         });
-
+        $count = $Posts->count();
         $Posts = $Posts->paginate(config('app.pagination_max'));
         $DeletedPosts = $DeletedPosts->paginate(config('app.pagination_max'));
         $Posts = $Posts->appends($request->all());
@@ -267,6 +268,7 @@ class PostController extends Controller
         return view('admins.posts')->with('posts', $Posts)
             ->with('deleted_posts',$DeletedPosts)
             ->with(compact('members'))
+            ->with(compact('count'))
             ->with(compact('states'))
             ->with(compact('coposts'));
     }
