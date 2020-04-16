@@ -61,7 +61,7 @@ class TagController extends Controller
                 $posts = $tag->posts()->where('state', '>', config('team.posts.status.DRAFT'));
             }
         } else {
-            $posts = $tag->posts()->where('state', config('team.posts.status.POSTED'))
+            $posts = $tag->posts()->where('state', config('team.posts.status.POSTED'));
         }
         $members = \App\Models\Team\Member::has('posts')->pluck('name', 'id');
         $states =  \App\Models\Team\Post::getStatesForFilter();
@@ -70,7 +70,6 @@ class TagController extends Controller
         return view('posts.index',[
             compact('posts'),
             compact('members'),
-            compact('count'),
             compact('count'),
             compact('states')
         ]);
