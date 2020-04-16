@@ -56,18 +56,21 @@ class TagController extends Controller
         session()->flash('tag',$tag->name);
         if (auth()->check() && auth()->user()->isTeamMember()) {
             if (auth()->user()->isAdmin()) {
-                $posts = $tag->posts()->paginate(config('app.pagination_max'));
+                $posts = $tag->posts();
             } else {
-                $posts = $tag->posts()->where('state', '>', config('team.posts.status.DRAFT'))->paginate(config('app.pagination_max'));
+                $posts = $tag->posts()->where('state', '>', config('team.posts.status.DRAFT'));
             }
         } else {
-            $posts = $tag->posts()->where('state', config('team.posts.status.POSTED'))->paginate(config('app.pagination_max'));
+            $posts = $tag->posts()->where('state', config('team.posts.status.POSTED'))
         }
         $members = \App\Models\Team\Member::has('posts')->pluck('name', 'id');
         $states =  \App\Models\Team\Post::getStatesForFilter();
+        $count = $posts->count();
+        $posts = $posts->paginate(config('app.pagination_max'));
         return view('posts.index',[
             compact('posts'),
             compact('members'),
+            compact('count'),
             compact('count'),
             compact('states')
         ]);
