@@ -35,7 +35,7 @@ class PostController extends Controller
             $Posts = Post::all_for_public();
         }
         $members = Member::has('posts')->pluck('name', 'id');
-        $states = $this->getStatesForFilter();
+        $states = Post::getStatesForFilter();
         $Posts = Post::orderBy('updated_at', 'desc');
         //Get Existing Filters
         $Posts = $this->filter($Posts, $request);
@@ -232,7 +232,7 @@ class PostController extends Controller
     public function all_post_for_admin(Request $request)
     {
         $members = Member::has('posts')->pluck('name', 'id');
-        $states = $this->getStatesForFilter();
+        $states = Post::getStatesForFilter();
         $Posts = Post::orderBy('updated_at', 'desc');
         $DeletedPosts = Post::onlyTrashed()->orderBy('deleted_at', 'desc');
         //Get Existing Filters
@@ -360,15 +360,5 @@ class PostController extends Controller
             $Posts = $Posts->where('created_at', '>=', $date);
         }
         return $Posts;
-    }
-
-    public function getStatesForFilter()
-    {
-        $states = collect(config('team.posts.status'))->keys()->transform(function ($s) {
-            return ['key' => $s, 'value' => \Str::title(str_replace('_', ' ', $s))];
-        })->keyBy('key')->transform(function ($s) {
-            return $s['value'];
-        });
-        return $states;
     }
 }

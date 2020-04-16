@@ -149,4 +149,14 @@ class Post extends Model implements HasMedia
         similar_text($this->content, $this->content_before_review, $perc);
         return round($perc,2);
     }
+
+    public static function getStatesForFilter()
+    {
+        $states = collect(config('team.posts.status'))->keys()->transform(function ($s) {
+            return ['key' => $s, 'value' => \Str::title(str_replace('_', ' ', $s))];
+        })->keyBy('key')->transform(function ($s) {
+            return $s['value'];
+        });
+        return $states;
+    }
 }
