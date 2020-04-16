@@ -61,6 +61,11 @@ class User extends Authenticatable
     {
         return $this->role == 'admin';
     }
+    public function isLangReviewer()
+    {
+
+        return $this->isTeamMember() && in_array('langreviewer', $this->member->status);
+    }
 
     public function sendPasswordResetNotification($token)
     {

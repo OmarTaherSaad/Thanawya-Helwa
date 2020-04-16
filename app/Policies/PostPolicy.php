@@ -104,11 +104,11 @@ class PostPolicy
 
     public function approve(User $user, Post $post)
     {
-        return false;
+        return $user->isLangReviewer();
     }
     public function approve_post(User $user, Post $post)
     {
-        return false;
+        return $user->isLangReviewer();
     }
     public function all_post_for_admin()
     {

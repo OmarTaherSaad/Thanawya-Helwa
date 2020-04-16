@@ -66,7 +66,7 @@ class Post extends Model implements HasMedia
 
     public function getLinkToApprove()
     {
-        return route('admins.approve-post',['post' => $this]);
+        return route('posts.approve',['post' => $this]);
     }
 
     public function getLinkToDelete()

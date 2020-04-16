@@ -20,7 +20,7 @@
             <h2>Edit Post</h2>
         </div>
     </div>
-    <form action="{{ route('admins.approve-post',['post' => $post]) }}" method="POST" id="postForm"
+    <form action="{{ route('posts.approve',['post' => $post]) }}" method="POST" id="postForm"
         v-on:submit.prevent="approvePost" dir="rtl">
         @csrf
         <div class="row justify-content-center">

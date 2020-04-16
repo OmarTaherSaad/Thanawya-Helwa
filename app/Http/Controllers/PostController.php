@@ -37,6 +37,14 @@ class PostController extends Controller
         $members = Member::has('posts')->pluck('name', 'id');
         $states = Post::getStatesForFilter();
         $Posts = Post::orderBy('updated_at', 'desc');
+        if($request->has('tag'))
+        {
+            $tag = Tag::find($request->tag);
+            if(isset($tag)) {
+                session()->flash('tag',$tag->name);
+                $Posts = $tag->posts()->orderBy('updated_at', 'desc');
+            }
+        }
         //Get Existing Filters
         $Posts = $this->filter($Posts, $request);
         $count = $Posts->count();
@@ -47,6 +55,13 @@ class PostController extends Controller
             ->with(compact('members'))
             ->with(compact('count'))
             ->with(compact('states'));
+    }
+
+    public function view_tag_posts(Tag $tag)
+    {
+        session()->forget('member');
+        session('tag', $tag->name);
+        return redirect()->action('PostController@index',['tag' => $tag]);
     }
 
     public function view_user_posts(Member $member)
@@ -222,7 +237,7 @@ class PostController extends Controller
         $tags = $this->getTagsForSelector();
         $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id')->except($post->writer->id);
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));
-        return view('admins.approve-post')
+        return view('posts.approve')
             ->with(compact('post'))
             ->with(compact('tagsSelected'))
             ->with(compact('tags'))
@@ -318,10 +333,10 @@ class PostController extends Controller
         $post->save();
         $post->tags()->sync($request->tags);
 
-        session()->flash('success', 'Post Approved Successfully!');
+        session()->flash('success', 'Post Updated Successfully!');
         return response()->json([
             'success' => true,
-            'message' => "Post Approved Successfully!"
+            'message' => "Post Updated Successfully!"
         ]);
     }
 

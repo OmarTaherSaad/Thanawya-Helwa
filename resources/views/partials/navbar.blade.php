@@ -11,7 +11,8 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             @if(auth()->check() && auth()->user()->isTeamMember())
-            @if(auth()->user()->isAdmin())
+            @if(auth()->user()->isLangReviewer())
+            @elseif(auth()->user()->isAdmin())
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="AdminDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Admin Tools &nbsp;</a>
@@ -21,7 +22,6 @@
                     @can('create',\App\Models\Team\Member::class)
                     <a class="dropdown-item" href="{{ route('members.index') }}">View All Members</a>
                     @endcan
-                    <a class="dropdown-item" href="{{ route('admins.all-members') }}">View All Members</a>
                     <a class="dropdown-item" href="{{ route('admins.logs') }}">Logs</a>
                     <a class="dropdown-item" href="{{ route('admins.all-edges') }}">Edges Edits</a>
                 </div>

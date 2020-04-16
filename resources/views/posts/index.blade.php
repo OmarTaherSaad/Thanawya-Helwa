@@ -43,13 +43,14 @@
             <div class="form-group m-2">
                 <label for="from_date">From Date:</label>
                 <input type="date" class="form-control" name="from_date" id="from_date" @if(Request::has('from_date'))
-                    value="{{ Request::get('from_date') }}" @endif>
+                value="{{ Request::get('from_date') }}" @endif>
             </div>
             <div class="form-group m-2">
                 <label for="to_date">To Date:</label>
                 <input type="date" class="form-control" name="to_date" id="to_date" @if(Request::has('to_date'))
-                    value="{{ Request::get('to_date') }}" @endif>
+                value="{{ Request::get('to_date') }}" @endif>
             </div>
+            <input type="number" name="tag" @if(Request::has('tag')) value="{{ Request::get('tag') }}" @endif readonly hidden>
             <button type="submit" class="btn btn-success m-2">Filter</button>
             <button type="button" onclick="resetFilters();this.form.submit();" class="btn btn-danger m-2">Reset</button>
         </form>
