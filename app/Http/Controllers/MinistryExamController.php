@@ -92,8 +92,9 @@ class MinistryExamController extends Controller
             'table' => 'required_without_all:url,file',
         ]);
         if ($request->has('table')) {
+            $table = file_get_contents($request->file('table'));
             $dom = new DOMDocument();
-            $dom->loadHTML($request->table);
+            $dom->loadHTML($table);
             $table = $dom->getElementsByTagName('tr');
             $data = collect();
             foreach ($table as $tr) {

@@ -45,9 +45,9 @@
                 <input type="url" name="url" class="form-control" value="{{ old('url') }}">
             </div>
 
-            <div class="form-group">
-                <label>Or Put Full Table of Ministry webpage here as HTML table</label>
-                <textarea type="url" name="table" class="form-control" value="{{ old('table') }}"></textarea>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="table" name="table">
+                <label class="custom-file-label" for="table">Choose file of HTML table</label>
             </div>
 
             <div class="form-group">
