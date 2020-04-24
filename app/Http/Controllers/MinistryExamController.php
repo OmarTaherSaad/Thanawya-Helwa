@@ -8,6 +8,8 @@ use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\File;
+
 
 class MinistryExamController extends Controller
 {
@@ -123,9 +125,7 @@ class MinistryExamController extends Controller
             $path = 'exams/' . $request->educational_year . '/' . $request->year . '/' . $request->subject . '/';
             $name = \Str::random(40) . '.pdf';
             if ($request->has('url')) {
-                $file = tempnam(sys_get_temp_dir(), $name);
-                copy($request->url, $file);
-                $path = Storage::putFileAs($path, $file, $name);
+                $path = Storage::putFileAs($path, new File($request->url), $name);
             } else {
                 $path = $request->file('file')->storeAs($path, $name);
             }
@@ -220,7 +220,7 @@ class MinistryExamController extends Controller
     {
         $path = 'exams/' . $educational_year . '/' . $year . '/' . $request['subject'] . '/';
         $name = \Str::random(40) . '.pdf';
-        $path = Storage::putFileAs($path, $request['url'], $name);
+        $path = Storage::putFileAs($path, new File($request['url']), $name);
         $exam = MinistryExam::create([
             'title' => $request['title'],
             'educational_year' => $educational_year,
