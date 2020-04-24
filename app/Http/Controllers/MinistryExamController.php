@@ -220,9 +220,7 @@ class MinistryExamController extends Controller
     {
         $path = 'exams/' . $educational_year . '/' . $year . '/' . $request['subject'] . '/';
         $name = \Str::random(40) . '.pdf';
-        $file = tempnam(sys_get_temp_dir(), $name);
-        copy($request['url'], $file);
-        $path = Storage::putFileAs($path, $file, $name);
+        $path = Storage::putFileAs($path, $request['url'], $name);
         $exam = MinistryExam::create([
             'title' => $request['title'],
             'educational_year' => $educational_year,
