@@ -125,7 +125,8 @@ class MinistryExamController extends Controller
             $path = 'exams/' . $request->educational_year . '/' . $request->year . '/' . $request->subject . '/';
             $name = \Str::random(40) . '.pdf';
             if ($request->has('url')) {
-                $file = file_get_contents($request->url);
+                $file = tempnam(sys_get_temp_dir(), $name);
+                copy($request->url, $file);
                 $path = Storage::putFileAs($path, $file, $name);
             } else {
                 $path = $request->file('file')->storeAs($path, $name);
@@ -221,7 +222,8 @@ class MinistryExamController extends Controller
     {
         $path = 'exams/' . $educational_year . '/' . $year . '/' . $request['subject'] . '/';
         $name = \Str::random(40) . '.pdf';
-        $file = file_get_contents($request['url']);
+        $file = tempnam(sys_get_temp_dir(), $name);
+        copy($request['url'], $file);
         $path = Storage::putFileAs($path, $file, $name);
         $exam = MinistryExam::create([
             'title' => $request['title'],
