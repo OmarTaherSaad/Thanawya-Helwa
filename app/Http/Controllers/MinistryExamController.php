@@ -28,7 +28,7 @@ class MinistryExamController extends Controller
      */
     public function index(Request $request)
     {
-        $exams = MinistryExam::orderBy('updated_at', 'desc');
+        $exams = MinistryExam::orderBy('subject', 'desc')->orderBy('title');
         if ($request->has('year')) {
             $exams = $exams->where('year', $request->year);
         }

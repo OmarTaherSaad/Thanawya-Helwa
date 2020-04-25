@@ -58,15 +58,46 @@
         </div>
     </div>
     <div class="row">
-        @forelse( $ministryExams as $ministryExam )
-        <div class="col-6 col-md-4 my-2">
-            @include('containers.ministryExam',$ministryExam)
+        <div class="col-12 table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>العنوان</th>
+                        <th>السنة</th>
+                        <th>الصف الدراسي</th>
+                        @can('update', $ministryExams->first())
+                        <th>Edit</th>
+                        @endcan
+                        @can('delete', $ministryExams->first())
+                        <th>Delete</th>
+                        @endcan
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @forelse( $ministryExams as $ministryExam )
+                        <tr>
+                            <td>
+                                <a href="{{ route('ministryExam.show',['ministryExam'=>$ministryExam]) }}">{{ $ministryExam->subject_name }} - {{$ministryExam->title}}</a>
+                            </td>
+                            <td>{{ $ministryExam->year }}</td>
+                            <td>{{ $ministryExam->educational_year }}</td>
+                            @can('update', $ministryExam)
+                            <td>
+                                <a href="{{ $ministryExam->getLinkToEdit() }}" class="btn btn-secondary">Edit</a>
+                            </td>
+                            @endcan
+                            @can('delete', $ministryExam)
+                            <td>
+                                <a href="#deleteModal" data-id="{{ $ministryExam->getLinkToDelete() }}" data-name="{{ $ministryExam->title }}"
+                                    data-toggle="modal" class=" deleteBtn btn btn-danger">Delete</a>
+                            </td>
+                            @endcan
+                        </tr>
+                        @empty
+                        @endforelse
+                    </tbody>
+            </table>
         </div>
-        @empty
-        <div class="col-8 p-4">
-            <h2>لا توجد امتحانات الآن</h2>
-        </div>
-        @endforelse
     </div>
     <div class="row justify-content-center">
         <div class="col-auto">
