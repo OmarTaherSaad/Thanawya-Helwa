@@ -76,6 +76,8 @@ Route::prefix('team')->group(function() {
     //Tansik Data
     Route::prefix('tansik')->name('tansik.')->middleware(['auth', 'role:THteam'])->group(function() {
         Route::get('edges/edit/{FacultyEdge?}','TansikController@edit')->name('edges.edit');
+        Route::get('edges/confirm/{FacultyEdge?}','TansikController@confirm_view')->name('edges.confirm_view');
+        Route::patch('edges/{facultyEdge}/confirm','TansikController@confirm')->name('edges.confirm');
         Route::patch('edges/{facultyEdge}','TansikController@update')->name('edges.update');
         Route::get('edges','TansikController@index')->name('edges.index');
     });
