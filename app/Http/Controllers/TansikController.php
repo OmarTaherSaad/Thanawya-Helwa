@@ -61,7 +61,6 @@ class TansikController extends Controller
         }
         $universities = University::where('type','governmental')->pluck('name','id');
         $faculties = Faculty::pluck('name','id');
-
         $count = FacultyEdge::where('edit_by',auth()->user()->member->id)->distinct('TempName')->count();
         $countConfirm = FacultyEdge::where('confirmed_by',auth()->user()->member->id)->distinct('TempName')->count();
         return view('tansik-work.confirm')->with(compact('faculties'))
