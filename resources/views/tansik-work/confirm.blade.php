@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-12 col-md-auto">
         <h2>تأكيد رقم "{{ $edge->id }}</h2>
-        <h4>إنت عملت: {{ $count }} تأكيد</h4>
+        <h4>إنت عملت: {{ $countConfirm }} تأكيد/تأكيدات</h4>
     </div>
 </div>
 <form action="{{ route('tansik.edges.confirm',['facultyEdge' => $edge]) }}" method="POST" class="text-left">
