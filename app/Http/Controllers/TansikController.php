@@ -172,8 +172,7 @@ class TansikController extends Controller
         $countData = collect();
         foreach ($members as $id => $name) {
             $temp = collect(['member' => $name]);
-            $cowriters = collect();
-            $count = FacultyEdge::where('edit_by', $id)->count();
+            $count = FacultyEdge::where('edit_by', $id)->distinct('TempName')->count();
             $temp->put('count', $count);
             $countData->push($temp->toArray());
         }
