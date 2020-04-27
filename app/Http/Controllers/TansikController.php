@@ -31,7 +31,7 @@ class TansikController extends Controller
     {
         if (is_null($facultyEdge))
         {
-            $facultyEdge = FacultyEdge::where('edit_by', 0)->inRandomOrder()->limit(1)->lockForUpdate()->first();
+            $facultyEdge = FacultyEdge::where('edit_by', null)->inRandomOrder()->limit(1)->lockForUpdate()->first();
             if(is_null($facultyEdge))
             {
                 return redirect()->route('tansik.edges.index');
@@ -52,7 +52,7 @@ class TansikController extends Controller
     {
         if (is_null($facultyEdge))
         {
-            $facultyEdge = FacultyEdge::where('edit_by','!=',0)->where('edit_by', '!=', auth()->user()->member->id)->where('confirmed', false)->inRandomOrder()->limit(1)->lockForUpdate()->first();
+            $facultyEdge = FacultyEdge::where('edit_by','!=',null)->where('edit_by', '!=', auth()->user()->member->id)->where('confirmed', false)->inRandomOrder()->limit(1)->lockForUpdate()->first();
             if(is_null($facultyEdge))
             {
                 return redirect()->route('tansik.edges.index');

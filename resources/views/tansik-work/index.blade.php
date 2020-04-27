@@ -7,8 +7,8 @@
             <h1>بيانات التنسيق</h1>
             <h3>إنت عملت: {{ $count }} تعديل/تعديلات</h3>
             <h3>إنت عملت: {{ $countConfirm }} تأكيد/تأكيدات</h3>
-            <a href="{{ route('tansik.edges.edit') }}" class="btn btn-primary">تعديل البيانات</a>
-            <a href="{{ route('tansik.edges.confirm_view') }}" class="btn btn-primary">تأكيد البيانات</a>
+            {{-- <a href="{{ route('tansik.edges.edit') }}" class="btn btn-primary">تعديل البيانات</a> --}}
+            <a href="{{ route('tansik.edges.confirm_view') }}" class="btn btn-success">تأكيد البيانات</a>
         </div>
     </div>
     <div class="row">
