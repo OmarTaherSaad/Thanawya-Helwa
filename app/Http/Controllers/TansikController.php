@@ -173,11 +173,15 @@ class TansikController extends Controller
         foreach ($members as $id => $name) {
             $temp = collect(['member' => $name]);
             $count = FacultyEdge::where('edit_by', $id)->distinct('TempName')->count();
+            $countConfirm = FacultyEdge::where('confirmed_by', $id)->distinct('TempName')->count();
             $temp->put('count', $count);
+            $temp->put('countConfirm', $countConfirm);
             $countData->push($temp->toArray());
         }
-        $countData = $countData->sortByDesc('count');
-        $all = FacultyEdge::where('edit_by', null)->count();
+        $countData = $countData->sortByDesc(function($item) {
+            return $item['countConfirm'] + $item['count'];
+        });
+        $all = FacultyEdge::where('confirmed_by', null)->count();
         return view('admins.edges',['counts' => $countData])->with(compact('all'));
 
     }
