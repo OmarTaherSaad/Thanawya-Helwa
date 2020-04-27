@@ -150,13 +150,14 @@ class TansikController extends Controller
                     foreach ($edges as $facultyEdge) {
 
                         $facultyEdge->UniFac()->associate($unifac);
-                        $facultyEdge->editor()->associate(auth()->user()->member);
+                        $facultyEdge->confirmer()->associate(auth()->user()->member);
                         $facultyEdge->save();
                     }
                 } else {
                     //Is institute
                     foreach ($edges as $facultyEdge) {
-                        $facultyEdge->editor()->associate(auth()->user()->member);
+                        $facultyEdge->UniFac()->dissociate();
+                        $facultyEdge->confirmer()->associate(auth()->user()->member);
                         $facultyEdge->save();
                     }
                 }
