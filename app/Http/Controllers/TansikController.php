@@ -181,7 +181,7 @@ class TansikController extends Controller
         $countData = $countData->sortByDesc(function($item) {
             return $item['countConfirm'] + $item['count'];
         });
-        $all = FacultyEdge::where('confirmed_by', null)->count();
+        $all = FacultyEdge::where('confirmed_by', null)->distinct('TempName')->count();
         return view('admins.edges',['counts' => $countData])->with(compact('all'));
 
     }
