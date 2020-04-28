@@ -12,26 +12,28 @@
         </div>
     </div>
     <div class="row">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>University</th>
-                    <th>Faculty or Institute</th>
-                    <th>Faculty</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach( $edges as $edge )
-                <tr>
-                    <td>{{ $edge->TempName }}</td>
-                    <td>{{ $edge->UniFac ? $edge->UniFac->university->name : 'مفيش' }}</td>
-                    <td>{{ $edge->UniFac ? $edge->UniFac->hasFaculty() ? 'كلية' : 'معهد' : 'مفيش' }}</td>
-                    <td>{{ $edge->UniFac ? $edge->UniFac->faculty->name : 'مفيش' }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>University</th>
+                        <th>Faculty or Institute</th>
+                        <th>Faculty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach( $edges as $edge )
+                    <tr>
+                        <td>{{ $edge->TempName }}</td>
+                        <td>{{ $edge->UniFac ? $edge->UniFac->university->name : 'مفيش' }}</td>
+                        <td>{{ $edge->UniFac ? $edge->UniFac->hasFaculty() ? 'كلية' : 'معهد' : 'مفيش' }}</td>
+                        <td>{{ $edge->UniFac ? $edge->UniFac->faculty->name : 'مفيش' }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-auto">
