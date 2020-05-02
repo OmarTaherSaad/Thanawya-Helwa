@@ -15,6 +15,7 @@
                     <th>Members</th>
                     <th>Edits Count</th>
                     <th>Confirms Count</th>
+                    <th>Confirms 2 Count</th>
                     <th>Total Count</th>
                 </tr>
             </thead>
@@ -24,7 +25,8 @@
                     <td>{{ $c['member'] }}</td>
                     <td>{{ $c['count'] }}</td>
                     <td>{{ $c['countConfirm'] }}</td>
-                    <td>{{ $c['count'] + $c['countConfirm'] }}</td>
+                    <td>{{ $c['countConfirm2'] }}</td>
+                    <td>{{ $c['count'] + $c['countConfirm'] + $c['countConfirm2'] }}</td>
                 </tr>
                 @endforeach
             </tbody>

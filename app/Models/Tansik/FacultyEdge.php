@@ -8,7 +8,7 @@ class FacultyEdge extends Model
 {
     protected $table = 'faculty_edges';
 
-    protected $fillable = ['section','TempName','year','edge','unifac_id','confirmed'];
+    protected $fillable = ['section','TempName','year','edge','unifac_id','confirmed', 'confirmed2'];
 
     public function UniFac() {
         return $this->belongsTo(UniFac::class,'unifac_id');
@@ -22,9 +22,18 @@ class FacultyEdge extends Model
         return $this->belongsTo('App\User','confirmed_by');
     }
 
+    public function confirmer2() {
+        return $this->belongsTo('App\User','confirmed2_by');
+    }
+
     public function confirmed()
     {
         return $this->confirmed == true;
+    }
+
+    public function confirmed2()
+    {
+        return $this->confirmed2 == true;
     }
 
     public function is_faculty()

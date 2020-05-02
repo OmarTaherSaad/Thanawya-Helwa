@@ -9,7 +9,7 @@
         <h4>إنت عملت: {{ $countConfirm }} تأكيد/تأكيدات</h4>
     </div>
 </div>
-<form action="{{ route('tansik.edges.confirm',['facultyEdge' => $edge]) }}" method="POST" class="text-left">
+<form action="{{ route('tansik.edges.confirm2',['facultyEdge' => $edge]) }}" method="POST" class="text-left">
     @csrf
     @method('PATCH')
     <div class="row justify-content-center mt-2">

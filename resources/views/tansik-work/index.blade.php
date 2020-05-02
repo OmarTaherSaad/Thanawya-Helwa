@@ -7,8 +7,12 @@
             <h1>بيانات التنسيق</h1>
             <h3>إنت عملت: {{ $count }} تعديل/تعديلات</h3>
             <h3>إنت عملت: {{ $countConfirm }} تأكيد/تأكيدات</h3>
+            <h3>إنت عملت: {{ $countConfirm2 }} تأكيد/تأكيدات</h3>
             {{-- <a href="{{ route('tansik.edges.edit') }}" class="btn btn-primary">تعديل البيانات</a> --}}
             <a href="{{ route('tansik.edges.confirm_view') }}" class="btn btn-success">تأكيد البيانات</a>
+            @if(auth()->user()->isAdmin())
+            <a href="{{ route('tansik.edges.confirm_view2') }}" class="btn btn-warning">تأكيد البيانات 2</a>
+            @endif
         </div>
     </div>
     <div class="row">

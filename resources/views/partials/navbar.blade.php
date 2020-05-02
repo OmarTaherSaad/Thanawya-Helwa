@@ -12,6 +12,9 @@
         <ul class="navbar-nav">
             @if(auth()->check() && auth()->user()->isTeamMember())
             @if(auth()->user()->isLangReviewer())
+            <li class="nav-item {{ Route::currentRouteNamed('posts.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('posts.index') }}">View All Posts</a>
+            </li>
             @elseif(auth()->user()->isAdmin())
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="AdminDropdown" data-toggle="dropdown" aria-haspopup="true"
