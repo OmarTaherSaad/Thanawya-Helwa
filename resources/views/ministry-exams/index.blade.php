@@ -18,7 +18,7 @@
         <div class="col-12">
             <form class="form-inline" {{ route('ministryExam.index') }} id="filterForm">
                 <div class="form-group">
-                    <label>قم باختيار المادة</label>
+                    <label>قم باختيار الشعبة</label>
                     <select class="form-control" name="major" onchange="this.form.submit()">
                         <option selected disabled>اختر الشعبة</option>
                         <option value="adby" @if('adby'==Request::get('major')) selected @endif>أدبي</option>
