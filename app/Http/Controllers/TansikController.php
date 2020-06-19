@@ -17,7 +17,7 @@ class TansikController extends Controller
 
     public function index(Request $request)
     {
-        $edges = FacultyEdge::orderBy('created_at')->where('confirmed2',false)->get()->unique('TempName');
+        $edges = FacultyEdge::orderBy('created_at')->where('confirmed2', false)->get()->unique('TempName');
         $count = FacultyEdge::where('edit_by', auth()->user()->member->id)->distinct('TempName')->count();
         $countConfirm = FacultyEdge::where('confirmed_by', auth()->user()->member->id)->distinct('TempName')->count();
         $countConfirm2 = FacultyEdge::where('confirmed2_by', auth()->user()->member->id)->distinct('TempName')->count();
@@ -31,19 +31,17 @@ class TansikController extends Controller
 
     public function edit(FacultyEdge $facultyEdge = null)
     {
-        if (is_null($facultyEdge))
-        {
+        if (is_null($facultyEdge)) {
             $facultyEdge = FacultyEdge::where('edit_by', null)->inRandomOrder()->limit(1)->lockForUpdate()->first();
-            if(is_null($facultyEdge))
-            {
+            if (is_null($facultyEdge)) {
                 return redirect()->route('tansik.edges.index');
             }
         }
-        $universities = University::where('type','governmental')->pluck('name','id');
-        $faculties = Faculty::pluck('name','id');
+        $universities = University::where('type', 'governmental')->pluck('name', 'id');
+        $faculties = Faculty::pluck('name', 'id');
 
-        $count = FacultyEdge::where('edit_by',auth()->user()->member->id)->distinct('TempName')->count();
-        $countConfirm = FacultyEdge::where('confirmed_by',auth()->user()->member->id)->distinct('TempName')->count();
+        $count = FacultyEdge::where('edit_by', auth()->user()->member->id)->distinct('TempName')->count();
+        $countConfirm = FacultyEdge::where('confirmed_by', auth()->user()->member->id)->distinct('TempName')->count();
         return view('tansik-work.edit')->with(compact('faculties'))
             ->with(compact('universities'))
             ->with(compact('count'))
@@ -52,18 +50,16 @@ class TansikController extends Controller
     }
     public function confirm_view(FacultyEdge $facultyEdge = null)
     {
-        if (is_null($facultyEdge))
-        {
-            $facultyEdge = FacultyEdge::where('edit_by','!=',null)->where('edit_by', '!=', auth()->user()->member->id)->where('confirmed', false)->inRandomOrder()->limit(1)->lockForUpdate()->first();
-            if(is_null($facultyEdge))
-            {
+        if (is_null($facultyEdge)) {
+            $facultyEdge = FacultyEdge::where('edit_by', '!=', null)->where('edit_by', '!=', auth()->user()->member->id)->where('confirmed', false)->inRandomOrder()->limit(1)->lockForUpdate()->first();
+            if (is_null($facultyEdge)) {
                 return redirect()->route('tansik.edges.index');
             }
         }
-        $universities = University::where('type','governmental')->pluck('name','id');
-        $faculties = Faculty::pluck('name','id');
-        $count = FacultyEdge::where('edit_by',auth()->user()->member->id)->distinct('TempName')->count();
-        $countConfirm = FacultyEdge::where('confirmed_by',auth()->user()->member->id)->distinct('TempName')->count();
+        $universities = University::where('type', 'governmental')->pluck('name', 'id');
+        $faculties = Faculty::pluck('name', 'id');
+        $count = FacultyEdge::where('edit_by', auth()->user()->member->id)->distinct('TempName')->count();
+        $countConfirm = FacultyEdge::where('confirmed_by', auth()->user()->member->id)->distinct('TempName')->count();
         return view('tansik-work.confirm')->with(compact('faculties'))
             ->with(compact('universities'))
             ->with(compact('count'))
@@ -72,19 +68,17 @@ class TansikController extends Controller
     }
     public function confirm2_view(FacultyEdge $facultyEdge = null)
     {
-        if (is_null($facultyEdge))
-        {
-            $facultyEdge = FacultyEdge::where('confirmed_by','!=',null)->where('confirmed_by', '!=', auth()->user()->member->id)->where('confirmed2', false)->inRandomOrder()->limit(1)->lockForUpdate()->first();
-            if(is_null($facultyEdge))
-            {
+        if (is_null($facultyEdge)) {
+            $facultyEdge = FacultyEdge::where('confirmed_by', '!=', null)->where('confirmed_by', '!=', auth()->user()->member->id)->where('confirmed2', false)->inRandomOrder()->limit(1)->lockForUpdate()->first();
+            if (is_null($facultyEdge)) {
                 return redirect()->route('tansik.edges.index');
             }
         }
-        $universities = University::where('type','governmental')->pluck('name','id');
-        $faculties = Faculty::pluck('name','id');
-        $count = FacultyEdge::where('edit_by',auth()->user()->member->id)->distinct('TempName')->count();
-        $countConfirm = FacultyEdge::where('confirmed_by',auth()->user()->member->id)->distinct('TempName')->count();
-        $countConfirm2 = FacultyEdge::where('confirmed2_by',auth()->user()->member->id)->distinct('TempName')->count();
+        $universities = University::where('type', 'governmental')->pluck('name', 'id');
+        $faculties = Faculty::pluck('name', 'id');
+        $count = FacultyEdge::where('edit_by', auth()->user()->member->id)->distinct('TempName')->count();
+        $countConfirm = FacultyEdge::where('confirmed_by', auth()->user()->member->id)->distinct('TempName')->count();
+        $countConfirm2 = FacultyEdge::where('confirmed2_by', auth()->user()->member->id)->distinct('TempName')->count();
         return view('tansik-work.confirm')->with(compact('faculties'))
             ->with(compact('universities'))
             ->with(compact('count'))
@@ -102,14 +96,13 @@ class TansikController extends Controller
             'faculty' => 'required_if:is_faculty,1|exists:faculties,id',
         ]);
         //Check it's not already edit
-        if(is_null($facultyEdge->UniFac))
-        {
+        if (is_null($facultyEdge->UniFac)) {
             if ($request->is_faculty) {
                 $university = University::find($request->university);
                 $faculty = Faculty::find($request->faculty);
 
-                $unifac = UniFac::where('university_id',$request->university)->where('faculty_id',$request->faculty)->first();
-                if(is_null($unifac)) {
+                $unifac = UniFac::where('university_id', $request->university)->where('faculty_id', $request->faculty)->first();
+                if (is_null($unifac)) {
                     //Does not exist
                     $unifac = UniFac::create([
                         'name' => 'كلية ' . $faculty->name . ' ' . $university->name,
@@ -117,7 +110,7 @@ class TansikController extends Controller
                         'faculty_id' => $faculty->id,
                     ]);
                 }
-                $edges = FacultyEdge::where('TempName',$facultyEdge->TempName)->get();
+                $edges = FacultyEdge::where('TempName', $facultyEdge->TempName)->get();
                 foreach ($edges as $facultyEdge) {
 
                     $facultyEdge->UniFac()->associate($unifac);
@@ -141,8 +134,7 @@ class TansikController extends Controller
             'faculty' => 'required_if:is_faculty,1|exists:faculties,id',
         ]);
         //Check it's not already confirmed
-        if(!$facultyEdge->confirmed())
-        {
+        if (!$facultyEdge->confirmed()) {
             $edges = FacultyEdge::where('TempName', $facultyEdge->TempName)->get();
             if ($request->has('is_right')) {
                 //Is correct => confirm only
@@ -153,7 +145,6 @@ class TansikController extends Controller
                     $facultyEdge->confirmer()->associate(auth()->user()->member);
                     $facultyEdge->save();
                 }
-
             } else {
                 //Not right => correct it
                 if ($request->is_faculty) {
@@ -199,8 +190,7 @@ class TansikController extends Controller
             'faculty' => 'required_if:is_faculty,1|exists:faculties,id',
         ]);
         //Check it's not already confirmed
-        if(!$facultyEdge->confirmed())
-        {
+        if (!$facultyEdge->confirmed2()) {
             $edges = FacultyEdge::where('TempName', $facultyEdge->TempName)->get();
             if ($request->has('is_right')) {
                 //Is correct => confirm only
@@ -211,7 +201,6 @@ class TansikController extends Controller
                     $facultyEdge->confirmer2()->associate(auth()->user()->member);
                     $facultyEdge->save();
                 }
-
             } else {
                 //Not right => correct it
                 if ($request->is_faculty) {
@@ -262,12 +251,10 @@ class TansikController extends Controller
             $temp->put('countConfirm2', $countConfirm2);
             $countData->push($temp->toArray());
         }
-        $countData = $countData->sortByDesc(function($item) {
+        $countData = $countData->sortByDesc(function ($item) {
             return $item['countConfirm2'] + $item['countConfirm'] + $item['count'];
         });
         $all = FacultyEdge::where('confirmed2_by', null)->distinct('TempName')->count();
-        return view('admins.edges',['counts' => $countData])->with(compact('all'));
-
+        return view('admins.edges', ['counts' => $countData])->with(compact('all'));
     }
-
 }
