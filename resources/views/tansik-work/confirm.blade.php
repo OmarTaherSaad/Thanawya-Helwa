@@ -32,7 +32,7 @@
             <hr>
             <div class="form-check" dir="ltr">
                 <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input " name="is_right" id="is_right" value="1">
+                    <input type="checkbox" class="form-check-input " name="is_right" id="is_right" value="1" checked>
                     المعلومات صحيحة
                 </label>
             </div>
