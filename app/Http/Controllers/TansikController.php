@@ -14,7 +14,6 @@ class TansikController extends Controller
 {
     use Paginate;
 
-
     public function index(Request $request)
     {
         $edges = FacultyEdge::orderBy('created_at')->where('confirmed2', false)->get()->unique('TempName');

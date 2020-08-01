@@ -8,22 +8,26 @@ class FacultyEdge extends Model
 {
     protected $table = 'faculty_edges';
 
-    protected $fillable = ['section','TempName','year','edge','unifac_id','confirmed', 'confirmed2'];
+    protected $fillable = ['section', 'TempName', 'year', 'edge', 'unifac_id', 'confirmed', 'confirmed2'];
 
-    public function UniFac() {
-        return $this->belongsTo(UniFac::class,'unifac_id');
+    public function UniFac()
+    {
+        return $this->belongsTo(UniFac::class, 'unifac_id');
     }
 
-    public function editor() {
-        return $this->belongsTo('App\User','edit_by');
+    public function editor()
+    {
+        return $this->belongsTo('App\User', 'edit_by');
     }
 
-    public function confirmer() {
-        return $this->belongsTo('App\User','confirmed_by');
+    public function confirmer()
+    {
+        return $this->belongsTo('App\User', 'confirmed_by');
     }
 
-    public function confirmer2() {
-        return $this->belongsTo('App\User','confirmed2_by');
+    public function confirmer2()
+    {
+        return $this->belongsTo('App\User', 'confirmed2_by');
     }
 
     public function confirmed()
@@ -40,5 +44,4 @@ class FacultyEdge extends Model
     {
         return !is_null($this->UniFac);
     }
-
 }

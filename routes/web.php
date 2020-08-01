@@ -9,20 +9,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/','PagesController@index')->name('home');
-Route::get('/home','PagesController@index')->name('home');
-Route::get('/about-us','PagesController@about')->name('about-us');
-Route::get('get-members','PagesController@get_members');
-Route::get('/join-us','PagesController@join')->name('join-us');
-Route::get('/media/tv','PagesController@TV')->name('media.tv');
-Route::get('/media/newspaper','PagesController@Newspaper')->name('media.newspaper');
-Route::get('/feedback','PagesController@feedback')->name('feedback');
+Route::get('/', 'PagesController@index')->name('home');
+Route::get('/home', 'PagesController@index')->name('home');
+Route::get('/about-us', 'PagesController@about')->name('about-us');
+Route::get('get-members', 'PagesController@get_members');
+Route::get('/join-us', 'PagesController@join')->name('join-us');
+Route::get('/media/tv', 'PagesController@TV')->name('media.tv');
+Route::get('/media/newspaper', 'PagesController@Newspaper')->name('media.newspaper');
+Route::get('/feedback', 'PagesController@feedback')->name('feedback');
 //Contact
-Route::get('/contact','PagesController@contact')->name('contact');
-Route::post('/contact','PagesController@SubmitContact')->name('contact.submit');
+Route::get('/contact', 'PagesController@contact')->name('contact');
+Route::post('/contact', 'PagesController@SubmitContact')->name('contact.submit');
 
 //Tansik routes
-Route::prefix('tansik')->name('tansik.')->group(function() {
+Route::prefix('tansik')->name('tansik.')->group(function () {
     Route::get('previous-years-edges', 'PagesController@TansikPrevEdges')->name('previous_edges');
     //Geographic Distribution for AXIOS
     Route::post('gov', 'PagesController@getAdmin')->name('get_admin');
@@ -38,10 +38,10 @@ Route::prefix('tansik')->name('tansik.')->group(function() {
 });
 
 //Privacy Policy
-Route::get('/privacy-policy-and-terms','PagesController@privacyPolicy');
+Route::get('/privacy-policy-and-terms', 'PagesController@privacyPolicy');
 
 //Offline
-Route::get('/offline','PagesController@offline')->name('offline');
+Route::get('/offline', 'PagesController@offline')->name('offline');
 
 //Auth & Facebook Login
 Auth::routes();
@@ -56,7 +56,7 @@ Route::resource('users', 'UsersController');
 Route::get('auth/{provider}', 'SocialController@redirectToProvider')->name('ProviderAuth');
 Route::get('callback/{provider}', 'SocialController@handleProviderCallback');
 
-Route::prefix('team')->group(function() {
+Route::prefix('team')->group(function () {
     //Members
     Route::resource('members', 'MemberController')->middleware(['auth', 'role:THteam']);
     Route::post('members/upload', 'MemberController@store_image')->name('members.save_image');
@@ -74,27 +74,27 @@ Route::prefix('team')->group(function() {
     });
 
     //Tansik Data
-    Route::prefix('tansik')->name('tansik.')->middleware(['auth', 'role:THteam'])->group(function() {
-        Route::get('edges/edit/{FacultyEdge?}','TansikController@edit')->name('edges.edit');
-        Route::get('edges/confirm/{FacultyEdge?}','TansikController@confirm_view')->name('edges.confirm_view');
-        Route::get('edges/confirm2/{FacultyEdge?}','TansikController@confirm2_view')->name('edges.confirm_view2');
-        Route::patch('edges/{facultyEdge}/confirm','TansikController@confirm')->name('edges.confirm');
-        Route::patch('edges/{facultyEdge}/confirm2','TansikController@confirm2')->name('edges.confirm2');
-        Route::patch('edges/{facultyEdge}','TansikController@update')->name('edges.update');
-        Route::get('edges','TansikController@index')->name('edges.index');
+    Route::prefix('tansik')->name('tansik.')->middleware(['auth', 'role:THteam'])->group(function () {
+        Route::get('edges/edit/{FacultyEdge?}', 'TansikController@edit')->name('edges.edit');
+        Route::get('edges/confirm/{FacultyEdge?}', 'TansikController@confirm_view')->name('edges.confirm_view');
+        Route::get('edges/confirm2/{FacultyEdge?}', 'TansikController@confirm2_view')->name('edges.confirm_view2');
+        Route::patch('edges/{facultyEdge}/confirm', 'TansikController@confirm')->name('edges.confirm');
+        Route::patch('edges/{facultyEdge}/confirm2', 'TansikController@confirm2')->name('edges.confirm2');
+        Route::patch('edges/{facultyEdge}', 'TansikController@update')->name('edges.update');
+        Route::get('edges', 'TansikController@index')->name('edges.index');
     });
 
 
     //Admin Board
-    Route::prefix('admins')->name('admins.')->middleware(['auth','role:admin'])->group(function() {
-        Route::get('all-post','PostController@all_post_for_admin')->name('all-posts');
+    Route::prefix('admins')->name('admins.')->middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('all-post', 'PostController@all_post_for_admin')->name('all-posts');
         Route::get('edges', 'TansikController@all_member_counts')->name('all-edges');
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
     });
 });
 //Quizzes
-Route::prefix('quiz')->name('quiz.')->group(function() {
-    Route::get('{quiz}/revise','QuizController@revise_view')->name('revise');
+Route::prefix('quiz')->name('quiz.')->group(function () {
+    Route::get('{quiz}/revise', 'QuizController@revise_view')->name('revise');
 });
 Route::resource('quiz', 'QuizController');
 

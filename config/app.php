@@ -182,7 +182,8 @@ return [
         App\Providers\EventServiceProvider::class,
         //App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        TomLingham\Searchy\SearchyServiceProvider::class
 
     ],
 
@@ -234,7 +235,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Searchy' => TomLingham\Searchy\Facades\Searchy::class
 
     ],
 

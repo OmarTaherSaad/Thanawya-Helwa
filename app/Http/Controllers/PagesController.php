@@ -228,22 +228,26 @@ class PagesController extends Controller
 
         //Edges
         $AllEdges = collect();
-        $RawData = FacultyEdge::all()->where('section',$request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+        if ($data['filter']) {
+            $RawData = \Searchy::driver('ufuzzy')->search('faculty_edges')->fields('tempName')->query($data['filter'])->get()->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+        } else {
+            $RawData = FacultyEdge::all()->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+        }
         foreach ($RawData as $name => $edgesOfName) {
             $Edges = collect();
             foreach ($edgesOfName as $edge) {
                 $Edges->put($edge->year, number_format($edge->edge, 2) + 0); //To remove .00
             }
-            $Edges->put('avg',number_format($Edges->sum() / $Edges->count(), 2) + 0);
-            $Edges->put('name',$name);
+            $Edges->put('avg', number_format($Edges->sum() / $Edges->count(), 2) + 0);
+            $Edges->put('name', $name);
             $Edges->put('section', $edgesOfName[0]->section);
             $AllEdges->push($Edges);
         }
         //Filter
-        if($data['filter']) {
-            $AllEdges = $AllEdges->filter(function($edge) use ($data) {
-                similar_text($edge['name'], $data['filter'],$percent);
-                return $percent > 10;
+        if ($data['filter'] && false) {
+            $AllEdges = $AllEdges->filter(function ($edge) use ($data) {
+                similar_text($edge['name'], $data['filter'], $percent);
+                return $percent > 50;
                 return \Str::contains($edge['name'], $data['filter']);
             });
         }
@@ -251,7 +255,7 @@ class PagesController extends Controller
         foreach ($AllEdges as $edge) {
             foreach ($Years as $year) {
                 if (!\Arr::has($edge, $year)) {
-                    $edge->put($year,'غير موجود');
+                    $edge->put($year, 'غير موجود');
                 }
             }
         }
@@ -261,7 +265,7 @@ class PagesController extends Controller
             if ($sort[1] == 'asc') {
                 if (is_numeric($sort[0])) {
                     $field = $sort[0];
-                    $AllEdges = $AllEdges->sortBy(function($edge) use ($field) {
+                    $AllEdges = $AllEdges->sortBy(function ($edge) use ($field) {
                         return is_numeric($edge[$field]) ? $edge[$field] : 500;
                     });
                 } else {
