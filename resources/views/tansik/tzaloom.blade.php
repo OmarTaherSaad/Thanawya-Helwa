@@ -153,8 +153,8 @@
                 </div>
                 <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#TzalomQuestions">
                     <div class="card-body">
-                        <p>ابعتلنا من هنا <a href="https://m.me/Thanawya.Helwa" target="_blank" rel="noopener"><i
-                                    class="fab fa-facebook-messenger"></i></a> وقولنا سؤالك وإحنا هنرد عليك وهنزوده هنا
+                        <p>ابعتلنا <a href="https://m.me/Thanawya.Helwa" target="_blank" rel="noopener">من هنا</a>
+                            وقولنا سؤالك وإحنا هنرد عليك وهنزوده هنا
                             كمان عشان باقي زمايلك.</p>
                     </div>
                 </div>
