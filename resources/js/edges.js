@@ -1,4 +1,4 @@
-import Vuetable from 'vuetable-2';
+import Vuetable from "vuetable-2";
 import VuetablePaginationBootstrap from "./components/VuetablePaginationBootstrap";
 import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo";
 
@@ -106,7 +106,9 @@ window.vueApp = new Vue({
             this.$refs.vuetable.changePage(page);
         },
         edgeView(value) {
-            return this.percent == "1"
+            return isNaN(value)
+                ? "غير موجود"
+                : this.percent == "1"
                 ? ((value * 10) / 41).toFixed(2) + "%"
                 : value;
         },
@@ -116,8 +118,6 @@ window.vueApp = new Vue({
                 .replace("ى", "ي")
                 .replace("ة", "ه")
                 .replace("كليه", "");
-            if (filter == "")
-                return;
             this.filterInput = filter;
 
             this.$nextTick(function() {

@@ -229,7 +229,7 @@ class PagesController extends Controller
         //Edges
         $AllEdges = collect();
         if ($data['filter']) {
-            $RawData = \Searchy::driver('ufuzzy')->search('faculty_edges')->fields('tempName')->query($data['filter'])->get()->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+            $RawData = \Searchy::driver('simple')->search('faculty_edges')->fields('tempName')->query($data['filter'])->get()->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
         } else {
             $RawData = FacultyEdge::all()->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
         }
