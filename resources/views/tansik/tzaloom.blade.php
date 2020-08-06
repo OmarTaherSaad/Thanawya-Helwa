@@ -146,12 +146,29 @@
                     <h5 class="mb-0">
                         <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
                             data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-                            عندي سؤال تاني مش مكتوب هنا
+                            هل ممكن أنقص درجات بعد التظلم؟
                         </button>
                     </h5>
 
                 </div>
                 <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#TzalomQuestions">
+                    <div class="card-body">
+                        <p>لأ، إنت يا بتزيد يا مبيحصلش حاجة لكن مش بتنقص درجات.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="heading7">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                            عندي سؤال تاني مش مكتوب هنا
+                        </button>
+                    </h5>
+
+                </div>
+                <div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#TzalomQuestions">
                     <div class="card-body">
                         <p>ابعتلنا <a href="https://m.me/Thanawya.Helwa" target="_blank" rel="noopener">من هنا</a>
                             وقولنا سؤالك وإحنا هنرد عليك وهنزوده هنا
