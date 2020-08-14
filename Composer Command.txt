@@ -1,2 +1,5 @@
-/usr/local/bin/ea-php72 -d memory_limit=-1 /usr/local/bin/composer install
+/usr/local/bin/ea-php72  /usr/local/bin/composer install
 /usr/local/bin/ea-php72 -d memory_limit=-1 /usr/local/bin/composer update
+
+
+php -d memory_limit=-1 -d allow_url_fopen=on /opt/cpanel/composer/bin/composer

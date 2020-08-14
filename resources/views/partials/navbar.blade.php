@@ -74,10 +74,6 @@
                     <hr>
                     <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('tansik.reduce_alienation') }}">معلومات عن تقليل الاغتراب</a>
-                    <a class="dropdown-item" href="{{ route('tansik.tzalom') }}">معلومات عن التظلم</a>
-                    <a class="dropdown-item" href="{{ route('tansik.stages_info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
             @else
@@ -96,16 +92,15 @@
             <li class="nav-item {{ Route::currentRouteNamed('ministryExam.index') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('ministryExam.index') }}">نماذج الوزارة</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://blog.thanawyahelwa.org">مدونة ثانوية حلوة</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="TansikDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">دليلك في التنسيق &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="TansikDropdown">
                     <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
-                    <a class="dropdown-item" href="{{ route('tansik.reduce_alienation') }}">معلومات عن تقليل الاغتراب</a>
-                    <a class="dropdown-item" href="{{ route('tansik.tzalom') }}">معلومات عن التظلم</a>
-                    <a class="dropdown-item" href="{{ route('tansik.stages_info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
             @endif
@@ -133,7 +128,8 @@
                 <div class="dropdown-menu" aria-labelledby="NotifDropdown">
                     <h6 class="dropdown-header" style="cursor: pointer" @click="markAsRead">Mark As Read</h6>
                     <a class="dropdown-item bg-primary text-light" v-if="newNotifications.length"
-                        v-for="notif in newNotifications" :href="notif.link" v-html="notif.text" @click="markOneAsRead(notif.id)"></a>
+                        v-for="notif in newNotifications" :href="notif.link" v-html="notif.text"
+                        @click="markOneAsRead(notif.id)"></a>
                     <a class="dropdown-item bg-secondary text-light"
                         v-if="oldNotifications.length && newNotifications.length < 10" v-for="notif in oldNotifications"
                         :href="notif.link" v-html="notif.text"></a>

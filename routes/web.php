@@ -31,10 +31,6 @@ Route::prefix('tansik')->name('tansik.')->group(function () {
     Route::post('edges', 'PagesController@getEdges')->name('get_edges');
 
     Route::get('geographic-distribution', 'PagesController@TansikGeoDist')->name('geo_dist');
-    Route::get('geographic-distribution-information', 'PagesController@TansikGeoDistInfo')->name('geo_dist_info');
-    Route::get('tzalom', 'PagesController@TansikTzalom')->name('tzalom');
-    Route::get('stages-information', 'PagesController@TansikStagesInfo')->name('stages_info');
-    Route::get('taqleel-al-eghterab', 'PagesController@TansikReduceAlienation')->name('reduce_alienation');
 });
 
 //Privacy Policy
