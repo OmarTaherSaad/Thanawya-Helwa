@@ -146,18 +146,6 @@
         <div class="row">
             <div class="col-md-3 th-animate">
                 <div class="tansik-part">
-                    <a href="{{ route('tansik.reduce_alienation') }}" class="img"
-                        style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
-                        <div class="text">
-                            <div class="question-card-overlay"></div>
-                            <span>تقليل الاغتراب</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-md-3 th-animate">
-                <div class="tansik-part">
                     <a href="{{ route('tansik.geo_dist') }}" class="img"
                         style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
                         <div class="text">
@@ -174,17 +162,6 @@
                         <div class="text">
                             <div class="question-card-overlay"></div>
                             <span>تنسيق السنوات الماضية</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 th-animate">
-                <div class="tansik-part">
-                    <a href="{{ route('tansik.tzalom') }}" class="img"
-                        style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
-                        <div class="text">
-                            <div class="question-card-overlay"></div>
-                            <span>التظلم</span>
                         </div>
                     </a>
                 </div>
