@@ -17,7 +17,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index','show']);
+        $this->middleware('auth')->except(['index', 'show']);
         $this->authorizeResource(Post::class);
 
         session()->forget(['member', 'tag']);
@@ -37,11 +37,10 @@ class PostController extends Controller
         $members = Member::has('posts')->pluck('name', 'id');
         $states = Post::getStatesForFilter();
         $Posts = Post::orderBy('updated_at', 'desc');
-        if($request->has('tag'))
-        {
+        if ($request->has('tag')) {
             $tag = Tag::find($request->tag);
-            if(isset($tag)) {
-                session()->flash('tag',$tag->name);
+            if (isset($tag)) {
+                session()->flash('tag', $tag->name);
                 $Posts = $tag->posts()->orderBy('updated_at', 'desc');
             }
         }
@@ -61,13 +60,13 @@ class PostController extends Controller
     {
         session()->forget('member');
         session('tag', $tag->name);
-        return redirect()->action('PostController@index',['tag' => $tag]);
+        return redirect()->action('PostController@index', ['tag' => $tag]);
     }
 
     public function view_user_posts(Member $member)
     {
         session()->flash('member', $member->name);
-        return redirect()->action('PostController@index',['member' => $member->id]);
+        return redirect()->action('PostController@index', ['member' => $member->id]);
     }
 
     /**
@@ -78,7 +77,7 @@ class PostController extends Controller
     public function create()
     {
         $tags = $this->getTagsForSelector();
-        $members = Member::hasStatus('current')->sortBy('name')->pluck('name','id')->except(auth()->user()->member->id);
+        $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id')->except(auth()->user()->member->id);
         return view('posts.create')->with(compact('tags'))->with(compact('members'));
     }
 
@@ -251,8 +250,8 @@ class PostController extends Controller
         $Posts = Post::orderBy('updated_at', 'desc');
         $DeletedPosts = Post::onlyTrashed()->orderBy('deleted_at', 'desc');
         //Get Existing Filters
-        $Posts = $this->filter($Posts,$request);
-        $DeletedPosts = $this->filter($DeletedPosts,$request);
+        $Posts = $this->filter($Posts, $request);
+        $DeletedPosts = $this->filter($DeletedPosts, $request);
 
         $copostsData = clone $Posts;
         $copostsData = $copostsData->has('cowriter')->with('writer')->with('cowriter')->get();
@@ -262,16 +261,21 @@ class PostController extends Controller
             $cowriters = collect();
             $count = 0;
             foreach ($copostsData as  $post) {
-                if($post->writer->id == $id || $post->cowriter->id == $id) {
+                if (is_null($post->cowriter)) {
+                    $coID = false;
+                } else {
+                    $coID = $post->cowriter->id == $id;
+                }
+                if ($post->writer->id == $id || $coID) {
                     $cowriters->push($post->writer->id == $id  ? $post->cowriter->name : $post->writer->name);
                     $count++;
                 }
             }
-            $temp->put('cowriters',$cowriters);
-            $temp->put('count',$count);
+            $temp->put('cowriters', $cowriters);
+            $temp->put('count', $count);
             $coposts->push($temp->toArray());
         }
-        $coposts = $coposts->filter(function($p) {
+        $coposts = $coposts->filter(function ($p) {
             return $p['count'] > 0;
         });
         $count = $Posts->count();
@@ -281,7 +285,7 @@ class PostController extends Controller
         $DeletedPosts = $DeletedPosts->appends($request->all());
 
         return view('admins.posts')->with('posts', $Posts)
-            ->with('deleted_posts',$DeletedPosts)
+            ->with('deleted_posts', $DeletedPosts)
             ->with(compact('members'))
             ->with(compact('count'))
             ->with(compact('states'))
