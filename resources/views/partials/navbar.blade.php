@@ -74,6 +74,11 @@
                     <hr>
                     <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.reduce_alienation') }}">معلومات عن تقليل
+                        الاغتراب</a>
+                    <a class="dropdown-item" href="{{ route('tansik.tzalom') }}">معلومات عن التظلم</a>
+                    <a class="dropdown-item" href="{{ route('tansik.stages_info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
             @else
@@ -101,6 +106,11 @@
                 <div class="dropdown-menu" aria-labelledby="TansikDropdown">
                     <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
+                    <a class="dropdown-item" href="{{ route('tansik.reduce_alienation') }}">معلومات عن تقليل
+                        الاغتراب</a>
+                    <a class="dropdown-item" href="{{ route('tansik.tzalom') }}">معلومات عن التظلم</a>
+                    <a class="dropdown-item" href="{{ route('tansik.stages_info') }}">معلومات عن مراحل التنسيق</a>
                 </div>
             </li>
             @endif
