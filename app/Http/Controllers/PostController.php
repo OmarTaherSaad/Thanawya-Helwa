@@ -267,7 +267,7 @@ class PostController extends Controller
                     $coID = $post->cowriter->id == $id;
                 }
                 if ($post->writer->id == $id || $coID) {
-                    $cowriters->push($post->writer->id == $id  ? $post->cowriter->name : $post->writer->name);
+                    $cowriters->push($post->writer->id == $id  ? $post->writer->name : $post->cowriter->name);
                     $count++;
                 }
             }
