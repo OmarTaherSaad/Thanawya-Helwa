@@ -248,26 +248,24 @@ class PostController extends Controller
         $members = Member::has('posts')->pluck('name', 'id');
         $states = Post::getStatesForFilter();
         $Posts = Post::orderBy('updated_at', 'desc');
+        $copostsData = Post::has('cowriter')->orderBy('updated_at', 'desc');
         $DeletedPosts = Post::onlyTrashed()->orderBy('deleted_at', 'desc');
         //Get Existing Filters
         $Posts = $this->filter($Posts, $request);
+        $copostsData = $this->filter($copostsData, $request);
         $DeletedPosts = $this->filter($DeletedPosts, $request);
 
-        $copostsData = clone $Posts;
-        $copostsData = $copostsData->has('cowriter')->with('writer')->with('cowriter')->get();
+        $copostsData = $copostsData->with('writer')->with('cowriter')->get();
         $coposts = collect();
         foreach ($members as $id => $name) {
+            //For all members
             $temp = collect(['member' => $name]);
             $cowriters = collect();
             $count = 0;
             foreach ($copostsData as  $post) {
-                if (is_null($post->cowriter)) {
-                    $coID = false;
-                } else {
-                    $coID = $post->cowriter->id == $id;
-                }
-                if ($post->writer->id == $id || $coID) {
-                    $cowriters->push($post->writer->id == $id  ? $post->writer->name : $post->cowriter->name);
+                //For each post
+                if ($post->writer->id == $id || $post->cowriter->id == $id) {
+                    $cowriters->push($post->writer->id == $id  ? $post->cowriter->name : $post->writer->name);
                     $count++;
                 }
             }
