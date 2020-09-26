@@ -8,11 +8,14 @@
             window.location.href = '/offline';
         }
 </script>
-<link rel="stylesheet" href="{{ asset('css/index.css') }}">    
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
 @endsection
 
 @section('content')
 <div class="row justify-content-center">
-    <iframe id="frame" src="https://docs.google.com/forms/d/e/1FAIpQLScdTVkETdC-V0TqD9dDV7scXGQygqnBKGUWzK4QFXA4bgZxKA/viewform?embedded=true" style="width:90vw;height:70vh">Loading...</iframe>
+    <div class="col 10 text-center">
+        <h2>استمارة الانضمام لينا</h2>
+        <a href="https://forms.gle/MNfd5AgtKMuBFJ9X8" class="btn btn-primary">اضغط هنا</a>
+    </div>
 </div>
 @endsection
