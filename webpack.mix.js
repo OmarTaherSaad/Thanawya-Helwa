@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -10,55 +10,62 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-const CompressionPlugin = require('compression-webpack-plugin');
-const workboxPlugin = require('workbox-webpack-plugin');
-if (mix.inProduction())
-{
+const CompressionPlugin = require("compression-webpack-plugin");
+const workboxPlugin = require("workbox-webpack-plugin");
+if (mix.inProduction()) {
     mix.webpackConfig({
         plugins: [
             new CompressionPlugin(),
             new workboxPlugin.GenerateSW({
-                importWorkboxFrom: 'local',
-                cacheId: 'TH',
+                importWorkboxFrom: "local",
+                cacheId: "TH",
                 cleanupOutdatedCaches: true,
                 skipWaiting: true,
                 clientsClaim: true,
                 ignoreURLParametersMatching: [/./],
-                exclude: ['node_modules/**/*', '**map*', '**/*manifest*', '**service-worker*/'],
+                exclude: [
+                    "node_modules/**/*",
+                    "**map*",
+                    "**/*manifest*",
+                    "**service-worker*/"
+                ],
                 templatedURLs: {
-                    '/offline': 'resources/views/offline.blade.php',
-                    '/': 'resources/views/index.blade.php',
-                    '/about-us': 'resources/views/about-us.blade.php',
-                    '/tansik/geographic-distribution-information': 'resources/views/tansik/geo-dist-info.blade.php',
-                    '/tansik/taqleel-al-eghterab': 'resources/views/tansik/reduce-alienation.blade.php',
-                    '/tansik/tzalom': 'resources/views/tansik/tzaloom.blade.php',
-                    '/tansik/stages-information': 'resources/views/tansik/stages-info.blade.php',
+                    "/offline": "resources/views/offline.blade.php",
+                    "/": "resources/views/index.blade.php",
+                    "/about-us": "resources/views/about-us.blade.php",
+                    "/tansik/geographic-distribution-information":
+                        "resources/views/tansik/geo-dist-info.blade.php",
+                    "/tansik/taqleel-al-eghterab":
+                        "resources/views/tansik/reduce-alienation.blade.php",
+                    "/tansik/tzalom":
+                        "resources/views/tansik/tzaloom.blade.php",
+                    "/tansik/stages-information":
+                        "resources/views/tansik/stages-info.blade.php"
                 },
                 runtimeCaching: [
                     {
                         //CSS or Images
                         urlPattern: /\.(?:css|png|jpg|jpeg|svg)$/,
-                        handler: 'StaleWhileRevalidate'
+                        handler: "StaleWhileRevalidate"
                     },
                     {
                         //JS
                         urlPattern: /\.(?:js)$/,
-                        handler: 'NetworkFirst'
+                        handler: "NetworkFirst"
                     },
                     {
                         urlPattern: /((\/tansik\/).+(edges|distribution$))|contact$|join-us$|TAS|\/team\//,
-                        handler: 'NetworkOnly'
+                        handler: "NetworkOnly"
                     }
                 ],
-                importScripts: ['./js/service-worker.js']
+                importScripts: ["./js/service-worker.js"]
             })
         ],
         output: {
-            publicPath: ''
+            publicPath: ""
         }
     });
 }
-
 
 mix.js("resources/js/app.js", "public/js")
     .js("resources/js/service-worker.js", "public/js")
@@ -67,6 +74,7 @@ mix.js("resources/js/app.js", "public/js")
     .js("resources/js/forms.js", "public/js")
     .js("resources/js/members.js", "public/js")
     .js("resources/js/post.js", "public/js")
+    .js("resources/js/email-sender.js", "public/js")
     .js("resources/js/notifications.js", "public/js")
     .js("resources/js/quizzes/quiz-maker.js", "public/js/quizzes")
     .js("resources/js/quizzes/general.js", "public/js/quizzes")
@@ -97,15 +105,15 @@ mix.js("resources/js/app.js", "public/js")
     .styles("resources/css/animate.css", "public/css/theme.css")
     .copy(
         "resources/summernote/font/summernote.woff",
-        "public/css/fonts/summernote.woff"
+        "public/css/font/summernote.woff"
     )
     .copy(
         "resources/summernote/font/summernote.ttf",
-        "public/css/fonts/summernote.ttf"
+        "public/css/font/summernote.ttf"
     )
     .copy(
         "resources/summernote/font/summernote.eot",
-        "public/css/fonts/summernote.eot"
+        "public/css/font/summernote.eot"
     )
     .styles(
         [

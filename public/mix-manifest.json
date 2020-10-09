@@ -5,6 +5,7 @@
     "/css/splash-screen.css": "/css/splash-screen.css",
     "/css/forms.css": "/css/forms.css",
     "/js/edges.js": "/js/edges.js",
+    "/js/email-sender.js": "/js/email-sender.js",
     "/js/forms.js": "/js/forms.js",
     "/js/home.js": "/js/home.js",
     "/js/members.js": "/js/members.js",
@@ -17,8 +18,8 @@
     "/js/effects.js": "/js/effects.js",
     "/css/fontawesome.css": "/css/fontawesome.css",
     "/css/theme.css": "/css/theme.css",
-    "/css/fonts/summernote.woff": "/css/fonts/summernote.woff",
-    "/css/fonts/summernote.ttf": "/css/fonts/summernote.ttf",
-    "/css/fonts/summernote.eot": "/css/fonts/summernote.eot",
+    "/css/font/summernote.woff": "/css/font/summernote.woff",
+    "/css/font/summernote.ttf": "/css/font/summernote.ttf",
+    "/css/font/summernote.eot": "/css/font/summernote.eot",
     "/css/texteditor.css": "/css/texteditor.css"
 }

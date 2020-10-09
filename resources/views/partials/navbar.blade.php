@@ -27,6 +27,7 @@
                     @endcan
                     <a class="dropdown-item" href="{{ route('admins.logs') }}">Logs</a>
                     <a class="dropdown-item" href="{{ route('admins.all-edges') }}">Edges Edits</a>
+                    <a class="dropdown-item" href="{{ route('admins.email-sender') }}">Email Sender</a>
                 </div>
             </li>
             @endif

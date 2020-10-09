@@ -90,6 +90,10 @@ Route::prefix('team')->group(function () {
         Route::get('all-post', 'PostController@all_post_for_admin')->name('all-posts');
         Route::get('edges', 'TansikController@all_member_counts')->name('all-edges');
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
+
+        //Email Selector & Sender
+        Route::get('email-sender', 'UsersController@email_sender')->name('email-sender');
+        Route::post('email-sender', 'UsersController@email_sender_action')->name('email-sender-action');
     });
 });
 //Quizzes
