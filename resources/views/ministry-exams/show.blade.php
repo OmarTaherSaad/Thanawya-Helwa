@@ -16,6 +16,19 @@
                 <a href="{{ route('ministryExam.index') }}" class="btn btn-primary"><i
                         class="fas fa-arrow-alt-circle-right"></i>&nbsp; جميع الامتحانات</a>
             </div>
+            <div class="col-12">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- TH Exams Page -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-8176502663524074"
+                    data-ad-slot="1820474245"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
         </div>
         <section class="bg-gradient">
             <div class="row justify-content-center text-center">
