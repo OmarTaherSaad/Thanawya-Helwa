@@ -8,33 +8,33 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
 @endphp
 <!doctype html>
 <html lang="ar" dir="rtl">
-
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         {{-- Minified SEO Tags --}}
         {!! SEO::generate(true) !!}
 
-        {{--PWA--}}
-        <link rel="manifest" href="{{ Storage::url('manifest.json') }}">
-        <meta name="theme-color" content="#E6DCE7">
-
         {{--CSRF Token--}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
-        <link rel="stylesheet" href="{{ mix('css/splash-screen.css') }}">
+        <link rel="preload" href="{{ mix('css/splash-screen.css') }}" as="style">
         {{--Scripts--}}
         <script src="{{ mix('js/app.js') }}"></script>
-
-        <link rel="stylesheet" href="{{ mix('css/theme.css') }}">
+        {{-- Google Font --}}
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500&display=swap" rel="stylesheet">
         <script defer>
             //Load css files
-                    var tag = document.createElement("link");
-                    tag.href = "{{ mix('css/app.css') }}";
-                    tag.setAttribute('rel', 'stylesheet');
-                    document.getElementsByTagName("head")[0].appendChild(tag);
+            var tag = document.createElement("link");
+            tag.href = "{{ mix('css/app.css') }}";
+            tag.setAttribute('rel', 'stylesheet');
+            document.getElementsByTagName("head")[0].appendChild(tag);
+            tag = document.createElement("link");
+            tag.href = "{{ mix('css/fontawesome.css') }}";
+            tag.setAttribute('rel', 'stylesheet');
+            document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
         @yield('head')
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
@@ -59,7 +59,7 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         </main>
         @include('partials.footer')
         @include('partials.notification-setup')
-        <script src="{{ mix('js/effects.js') }}" sync></script>
+        <script src="{{ mix('js/effects.js') }}" defer></script>
         @yield('scripts')
     </body>
 </html>

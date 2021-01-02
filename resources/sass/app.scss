@@ -1,38 +1,20 @@
-// Fonts
-@font-face {
-    font-family: "Tajawal";
-    font-display: fallback;
-    src: url("fonts/Tajawal-Medium.ttf") format("truetype");
-    font-weight: 500;
-    font-style: normal;
-}
-@font-face {
-    font-family: "Tajawal";
-    font-display: fallback;
-    src: url("fonts/Tajawal-Bold.ttf") format("truetype");
-    font-weight: 700;
-    font-style: normal;
-}
-
 // Variables
 @import "variables";
-
-@import "style.css";
-//Fontawesome
-@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "~@fortawesome/fontawesome-free/scss/solid.scss";
 // Bootstrap
 @import "~bootstrap/scss/bootstrap.scss";
 $enable-responsive-font-sizes: true;
+
 //Font
 html {
     font-size: 1.2em;
 }
+
 body {
     font-family: "Tajawal", sans-serif;
     background-color: #e4e4e4;
     text-align: right;
 }
+
 //Parallax effect
 .parallax {
     width: 100%;
@@ -43,16 +25,25 @@ body {
     background-position: top center;
     background-attachment: fixed;
 }
+
 //Scrol to top Btn START
 #toTopBtn {
-    position: fixed; /* Fixed/sticky position */
-    bottom: 20px; /* Place the button at the bottom of the page */
-    left: 30px; /* Place the button 30px from the right */
-    z-index: 99; /* Make sure it does not overlap */
-    border: none; /* Remove borders */
-    color: red; /* Text color */
-    border-radius: 10px; /* Rounded corners */
+    position: fixed;
+    /* Fixed/sticky position */
+    bottom: 20px;
+    /* Place the button at the bottom of the page */
+    left: 30px;
+    /* Place the button 30px from the right */
+    z-index: 99;
+    /* Make sure it does not overlap */
+    border: none;
+    /* Remove borders */
+    color: red;
+    /* Text color */
+    border-radius: 10px;
+    /* Rounded corners */
 }
+
 //Scrol to top Btn END
 //Navbar START
 .navbar.scrolled {
@@ -66,11 +57,13 @@ body {
     -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     padding: 0;
+
     .nav-item.active {
-        > a {
+        >a {
             color: $red !important;
         }
     }
+
     .navbar-toggler {
         border: none;
         color: rgba(0, 0, 0, 0.5) !important;
@@ -81,27 +74,33 @@ body {
         font-size: 16px;
         letter-spacing: 0.1em;
     }
+
     .nav-link {
         color: #000000 !important;
     }
+
     .nav-link.active {
         color: #f9ab30 !important;
     }
+
     .navbar-brand {
         color: #fff;
     }
 }
+
 .navbar.scrolled.awake {
     margin-top: 0px;
     -webkit-transition: 0.3s all ease-out;
     -o-transition: 0.3s all ease-out;
     transition: 0.3s all ease-out;
 }
+
 .navbar.scrolled.sleep {
     -webkit-transition: 0.3s all ease-out;
     -o-transition: 0.3s all ease-out;
     transition: 0.3s all ease-out;
 }
+
 @media (max-width: 991.98px) {
     .navbar {
         background: #000000 !important;
@@ -110,36 +109,42 @@ body {
         padding-top: 0;
         padding-bottom: 0;
         padding-left: 0;
+
         .navbar-brand {
             color: #fff;
         }
+
         .navbar-nav {
             padding-bottom: 20px;
             margin-left: 20px !important;
             margin-right: 0;
-            > .nav-item {
-                > .nav-link {
+
+            >.nav-item {
+                >.nav-link {
                     padding-left: 0;
                     padding-right: 0;
                     padding-bottom: 0;
                     color: #fff;
                 }
             }
-            > .nav-item.active {
-                > a {
+
+            >.nav-item.active {
+                >a {
                     color: #f9ab30;
                 }
             }
         }
     }
+
     .navbar.scrolled {
         .nav-item {
-            > .nav-link {
+            >.nav-link {
                 padding-left: 0 !important;
                 padding-right: 0 !important;
                 padding-bottom: 0 !important;
             }
         }
+
         .navbar-nav {
             background: none;
             border-radius: 0px;
@@ -149,8 +154,10 @@ body {
         }
     }
 }
+
 .navbar-brand {
     background: unset;
+
     img {
         height: 2.5em;
     }
@@ -161,10 +168,12 @@ body {
 footer {
     color: white;
     text-align: center;
+
     li {
         list-style: none;
         margin: 0 10px 0 0;
         display: inline-block;
+
         a {
             height: 50px;
             width: 50px;
@@ -173,7 +182,8 @@ footer {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 50%;
             position: relative;
-            span {
+
+            i {
                 position: absolute;
                 font-size: 26px;
                 top: 50%;
@@ -185,22 +195,26 @@ footer {
         }
     }
 }
+
 .social {
     list-style: none;
     margin: 0 10px 0 0;
     display: inline-block;
-    & span {
+
+    & i {
         color: white;
     }
 }
-.icon-instagram:hover {
+
+.fa-instagram:hover {
     color: mediumpurple !important;
 }
 
-.icon-messenger {
+.fa-facebook-messenger {
     &:before {
         color: whitesmoke !important;
     }
+
     &:hover {
         &:before {
             color: deepskyblue !important;
@@ -208,13 +222,14 @@ footer {
     }
 }
 
-.icon-youtube:hover {
+.fa-youtube:hover {
     color: red !important;
 }
 
-.icon-facebook2:hover {
+.fa-facebook:hover {
     color: dodgerblue !important;
 }
+
 //Footer END
 
 //Offline-ready part
@@ -237,6 +252,7 @@ footer {
     padding: 0.5em;
     text-align: center;
     z-index: 3;
+
     strong {
         cursor: pointer;
         color: white;
@@ -265,6 +281,7 @@ footer {
         transition: transform 0.3s;
         transform: translateY(0) translateX(-50%);
     }
+
     footer,
     main {
         padding-bottom: 100px;
@@ -277,6 +294,7 @@ footer {
             white-space: pre-line;
         }
     }
+
     #NotifDropdown .unread {
         color: rgba(255, 255, 255);
     }
@@ -318,8 +336,7 @@ footer {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(255, 255, 255, 0.8) url("images/ajax-loader.gif") 50% 50%
-        no-repeat;
+    background: rgba(255, 255, 255, 0.8) url("images/ajax-loader.gif") 50% 50% no-repeat;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -333,16 +350,19 @@ body.loading #axiosModal {
 tbody {
     background-color: cornsilk;
 }
+
 table {
     &.flip-list-move {
         transition: transform 1s;
     }
 }
+
 #searchBox {
     z-index: 1;
     position: initial;
     top: 0;
     transition: all 1s ease;
+
     &.fixIt {
         position: fixed;
         border-radius: 20px;

@@ -51,13 +51,9 @@
 
 @section('scripts')
 <script src="{{ mix('js/email-sender.js') }}"></script>
-<script src="{{ mix('js/texteditor.js') }}"></script>
+<script src="{{ asset('texteditor/ckeditor.js') }}"></script>
 <script defer>
-    $(document).ready(function() {
-        $('#textEditor').summernote({
-            minHeight: 300
-        });
-    });
+    CKEDITOR.replace('textEditor', {});
     window.vueApp.$data.submitURL = $("#submitForm").attr('action');
 </script>
 @endsection

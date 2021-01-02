@@ -1,5 +1,12 @@
 const mix = require("laravel-mix");
-
+mix.autoload({
+    vue: ["Vue", "window.Vue"]
+});
+mix.options({
+    imgLoaderOptions: {
+        enabled: false
+    }
+});
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -24,7 +31,6 @@ if (mix.inProduction())
 }
 
 mix.js("resources/js/app.js", "public/js")
-    .js("resources/js/service-worker.js", "public/js")
     .js("resources/js/home.js", "public/js")
     .js("resources/js/edges.js", "public/js")
     .js("resources/js/forms.js", "public/js")
@@ -34,13 +40,6 @@ mix.js("resources/js/app.js", "public/js")
     .js("resources/js/notifications.js", "public/js")
     .js("resources/js/quizzes/quiz-maker.js", "public/js/quizzes")
     .js("resources/js/quizzes/general.js", "public/js/quizzes")
-    .scripts(
-        [
-            "resources/summernote/summernote.min.js",
-            "resources/summernote/summernote-bs4.min.js"
-        ],
-        "public/js/texteditor.js"
-    )
     .scripts(
         [
             "resources/js/effects/jquery-migrate-3.0.1.min.js",
@@ -54,35 +53,8 @@ mix.js("resources/js/app.js", "public/js")
     .sass("resources/sass/home.scss", "public/css")
     .sass("resources/sass/splash-screen.scss", "public/css")
     .sass("resources/sass/forms.scss", "public/css")
-    .styles(
-        "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-        "public/css/fontawesome.css"
-    )
-    .styles("resources/css/animate.css", "public/css/theme.css")
-    .copy(
-        "resources/summernote/font/summernote.woff",
-        "public/css/font/summernote.woff"
-    )
-    .copy(
-        "resources/summernote/font/summernote.ttf",
-        "public/css/font/summernote.ttf"
-    )
-    .copy(
-        "resources/summernote/font/summernote.eot",
-        "public/css/font/summernote.eot"
-    )
-    .styles(
-        [
-            "resources/summernote/summernote.css",
-            "resources/summernote/summernote-bs4.css"
-        ],
-        "public/css/texteditor.css"
-    )
-    .copyDirectory(
-        "node_modules/@fortawesome/fontawesome-free/webfonts",
-        "public/webfonts"
-    )
-    .copyDirectory("resources/sass/fonts", "public/css/fonts");
+    .copyDirectory("resources/ckeditor", "public/texteditor")
+    .copy("node_modules/@fortawesome/fontawesome-free/css/all.min.css", "public/css/fontawesome.css");
 if (mix.inProduction())
 {
     mix.version();

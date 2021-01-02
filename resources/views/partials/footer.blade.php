@@ -8,17 +8,17 @@
                     <p>المكان الأساسي اللي بنتواجد عليه هو الفيسبوك، لكن أوقات بننزل كواليس شغلنا على الانستجرام وبنعمل فيديوهات على اليوتيوب.</p>
                     <ul class="my-2">
                         <li class="social"><a aria-label="Our Facebook Page" href="https://www.facebook.com/Thanawya.Helwa/" target="_blank" rel="noopener">
-                            <span class="icon icon-facebook2"></span>
+                            <i class="fab fa-facebook" aria-hidden="true"></i>
                         </a></li>
                         <li class="social"><a aria-label="Our Facebook Messenger" href="https://m.me/Thanawya.Helwa" target="_blank" rel="noopener">
-                            <span class="icon icon-messenger"></span>
+                            <i class="fab fa-facebook-messenger"></i>
                         </a></li>
                         <li class="social"><a aria-label="Our youTube Channel" href="https://www.youtube.com/channel/UCOKWTpg71q-tbZHwU40PUNw" target="_blank"
                             rel="noopener">
-                            <span class="icon icon-youtube"></span>
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
                         </a></li>
                         <li class="social"><a aria-label="Our Instagram Profile" href="https://www.instagram.com/thanawyahelwa/" target="_blank" rel="noopener">
-                            <span class="icon icon-instagram"></span>
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
                         </a></li>
                     </ul>
                 </div>

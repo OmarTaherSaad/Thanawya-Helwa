@@ -104,42 +104,9 @@
 
 @section('scripts')
 <script src="{{ mix('js/members.js') }}"></script>
-<script src="{{ mix('js/texteditor.js') }}"></script>
 <script type="text/javascript" src="{{ mix('js/forms.js') }}" defer></script>
+<script src="{{ asset('texteditor/ckeditor.js') }}"></script>
 <script defer>
-    $(document).ready(function() {
-        $('#textEditor').summernote({
-            minHeight: 300
-        });
-    });
-    // onImageUpload callback
-    $('#textEditor').summernote({
-        callbacks: {
-            onImageUpload: function (files) {
-                // upload image to server and create imgNode...
-                let imgNode = document.createElement('img');
-                let data = new FormData();
-                data.append('image',files[0])
-                window.axios.post("{{ route('members.save_image') }}",data,{
-                headers: {
-                'Content-Type': 'multipart/form-data'
-                }
-                }).then(response => {
-                    if (response.data.success == undefined) {
-                        alert("Sorry, we couldn't insert this image.");
-                    } else {
-                        imgNode.src = response.data.url;
-                        imgNode.classList.add('img-fluid');
-                        $('#textEditor').summernote('insertNode', imgNode);
-                    }
-                }).catch(error => {
-                    alert("Sorry, an error occured!");
-                });
-            }
-        }
-    });
-    $("#createForm").submit(e => {
-        document.body.classList.add('loading');
-    });
+    CKEDITOR.replace('textEditor', {});
 </script>
 @endsection
