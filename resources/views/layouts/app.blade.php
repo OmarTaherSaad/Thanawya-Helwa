@@ -22,6 +22,8 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         <link rel="preload" href="{{ mix('css/splash-screen.css') }}" as="style">
         {{--Scripts--}}
         <script src="{{ mix('js/app.js') }}"></script>
+        <link rel="preload" href="/webfonts/fa-solid-900.woff2">
+        <link rel="preload" href="/webfonts/fa-brands-400.woff2">
         {{-- Google Font --}}
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500&display=swap" rel="stylesheet">
