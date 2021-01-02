@@ -2,7 +2,7 @@
 
 @section('title','TA Summit Countdown')
 @section('head')
-<link rel="stylesheet" href="{{ asset('css/event.css') }}">
+<link rel="stylesheet" href="{{ mix('css/event.css') }}">
 @endsection
 @section('content')
 <!-- 2018-03-02 23:59:00 -->

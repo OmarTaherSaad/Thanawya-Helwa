@@ -11,55 +11,11 @@ const mix = require("laravel-mix");
  |
  */
 const CompressionPlugin = require("compression-webpack-plugin");
-const workboxPlugin = require("workbox-webpack-plugin");
-if (mix.inProduction()) {
+if (mix.inProduction())
+{
     mix.webpackConfig({
         plugins: [
             new CompressionPlugin(),
-            new workboxPlugin.GenerateSW({
-                importWorkboxFrom: "local",
-                cacheId: "TH",
-                cleanupOutdatedCaches: true,
-                skipWaiting: true,
-                clientsClaim: true,
-                ignoreURLParametersMatching: [/./],
-                exclude: [
-                    "node_modules/**/*",
-                    "**map*",
-                    "**/*manifest*",
-                    "**service-worker*/"
-                ],
-                templatedURLs: {
-                    "/offline": "resources/views/offline.blade.php",
-                    "/": "resources/views/index.blade.php",
-                    "/about-us": "resources/views/about-us.blade.php",
-                    "/tansik/geographic-distribution-information":
-                        "resources/views/tansik/geo-dist-info.blade.php",
-                    "/tansik/taqleel-al-eghterab":
-                        "resources/views/tansik/reduce-alienation.blade.php",
-                    "/tansik/tzalom":
-                        "resources/views/tansik/tzaloom.blade.php",
-                    "/tansik/stages-information":
-                        "resources/views/tansik/stages-info.blade.php"
-                },
-                runtimeCaching: [
-                    {
-                        //CSS or Images
-                        urlPattern: /\.(?:css|png|jpg|jpeg|svg)$/,
-                        handler: "StaleWhileRevalidate"
-                    },
-                    {
-                        //JS
-                        urlPattern: /\.(?:js)$/,
-                        handler: "NetworkFirst"
-                    },
-                    {
-                        urlPattern: /((\/tansik\/).+(edges|distribution$))|contact$|join-us$|TAS|\/team\//,
-                        handler: "NetworkOnly"
-                    }
-                ],
-                importScripts: ["./js/service-worker.js"]
-            })
         ],
         output: {
             publicPath: ""
@@ -127,7 +83,10 @@ mix.js("resources/js/app.js", "public/js")
         "public/webfonts"
     )
     .copyDirectory("resources/sass/fonts", "public/css/fonts");
-
+if (mix.inProduction())
+{
+    mix.version();
+}
 //Event
 /*mix.sass('resources/sass/event.scss', 'public/css')
     .js('resources/js/ticketsScan.js', 'public/js')

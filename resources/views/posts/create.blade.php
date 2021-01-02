@@ -63,7 +63,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/post.js') }}"></script>
+<script src="{{ mix('js/post.js') }}"></script>
 <script defer>
     window.vueApp.$data.tagsOptions = {!! $tags !!};
     window.vueApp.$data.submitURL = $("#postForm").attr('action');

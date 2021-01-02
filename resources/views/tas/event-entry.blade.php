@@ -35,5 +35,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/ticketsScan.js') }}"></script>
+    <script src="{{ mix('js/ticketsScan.js') }}"></script>
 @endsection

@@ -102,7 +102,7 @@
 </div>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/quizzes/quiz-maker.js') }}"></script>
+<script src="{{ mix('js/quizzes/quiz-maker.js') }}"></script>
 <script defer>
     window.quizApp.$data.saveURL = "{{ route('quiz.store') }}";
 </script>

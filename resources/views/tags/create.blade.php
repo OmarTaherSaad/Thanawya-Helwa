@@ -33,5 +33,5 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{ asset('js/forms.js') }}" defer></script>
+<script type="text/javascript" src="{{ mix('js/forms.js') }}" defer></script>
 @endsection

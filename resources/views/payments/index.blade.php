@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title','عرض كل التذاكر المدفوعة')
 @section('head')
-    <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/fontawesome.css') }}">
 @endsection
 @section('content')
 <div id="edgesApp" class="m-2">
@@ -90,5 +90,5 @@
 </div>
 @endsection
 @section('scripts')
-    <script src="{{ asset('js/payment.js') }}"></script>
+    <script src="{{ mix('js/payment.js') }}"></script>
 @endsection

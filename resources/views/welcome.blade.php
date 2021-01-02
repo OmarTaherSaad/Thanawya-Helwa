@@ -17,7 +17,7 @@
             </li>
         </ul>
     </div>
-    <script src="{{ asset('js/notifications.js') }}"></script>
+    <script src="{{ mix('js/notifications.js') }}"></script>
     <script defer>
 
     </script>

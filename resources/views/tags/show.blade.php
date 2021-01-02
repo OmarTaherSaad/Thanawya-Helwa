@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title',$member->name)
 @section('head')
-<link type="text/css" rel="stylesheet" href="{{ asset('css/enlarge.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ mix('css/enlarge.css') }}">
 @endsection
 
 @section('content')

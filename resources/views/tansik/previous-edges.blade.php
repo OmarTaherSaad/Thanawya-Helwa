@@ -125,7 +125,7 @@
 @endsection
 
 @section('scripts')
-<script async src="{{ asset('js/edges.js') }}"></script>
+<script async src="{{ mix('js/edges.js') }}"></script>
 <script defer>
     window.fields = {!! $fields !!};
 </script>

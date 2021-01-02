@@ -79,5 +79,5 @@
 </div>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/herman.js') }}"></script>
+<script src="{{ mix('js/herman.js') }}"></script>
 @endsection

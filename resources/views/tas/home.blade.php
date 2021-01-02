@@ -2,7 +2,7 @@
 
 @section('title','TA Summit Homepage')
 @section('head')
-<link rel="stylesheet" href="{{ asset('css/event.css') }}">
+<link rel="stylesheet" href="{{ mix('css/event.css') }}">
 @endsection
 @section('content')
     <div class="row justify-content-center">

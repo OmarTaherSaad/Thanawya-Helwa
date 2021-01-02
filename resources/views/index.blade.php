@@ -6,7 +6,7 @@
 <script defer>
     //Load css files
     var tag = document.createElement("link");
-    tag.href = "{{ asset('css/home.css') }}";
+    tag.href = "{{ mix('css/home.css') }}";
     tag.setAttribute('rel', 'stylesheet');
     document.getElementsByTagName("head")[0].appendChild(tag);
 </script>
@@ -171,5 +171,5 @@
 </section>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/home.js') }}"></script>
+<script src="{{ mix('js/home.js') }}"></script>
 @endsection

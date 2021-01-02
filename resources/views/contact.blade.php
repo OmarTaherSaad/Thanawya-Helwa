@@ -8,7 +8,7 @@
             window.location.href = '/offline';
         }
 </script>
-    <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/forms.css') }}">
 @endsection
 
 @section('content')
@@ -88,7 +88,7 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('js/forms.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('js/forms.js') }}" defer></script>
     <script defer src="https://www.google.com/recaptcha/api.js?render=6LfeSKsUAAAAAKAiHeGSYBkabpC6mh9ZmzbTKSma"></script>
     <script defer>
         window.addEventListener('load',function() {

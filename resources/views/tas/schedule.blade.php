@@ -3,7 +3,7 @@
 @section('title','جدول اليوم | TAS')
 
 @section('head')
-<link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
+<link rel="stylesheet" href="{{ mix('css/fontawesome.css') }}">
 <style>
     html {
         font-size: 1.2em !important;
@@ -67,5 +67,5 @@
 </div>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/tas-schedule.js') }}"></script>
+<script src="{{ mix('js/tas-schedule.js') }}"></script>
 @endsection

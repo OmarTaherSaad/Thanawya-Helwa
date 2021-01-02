@@ -1,6 +1,6 @@
 @auth
 @if(Auth::user()->isTeamMember())
-<script src="{{ asset('js/notifications.js') }}" defer></script>
+<script src="{{ mix('js/notifications.js') }}" defer></script>
 <script>
     window.userId = {{ auth()->user()->id }};
     //Get Notifications

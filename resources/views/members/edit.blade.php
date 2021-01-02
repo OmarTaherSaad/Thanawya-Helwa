@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title',"Members | Edit ".$member->name)
 @section('head')
-<link rel="stylesheet" href="{{ asset('css/texteditor.css') }}" />
+<link rel="stylesheet" href="{{ mix('css/texteditor.css') }}" />
 <style>
     .note-toolbar {
         z-index: 1 !important;
@@ -103,9 +103,9 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/members.js') }}"></script>
-<script src="{{ asset('js/texteditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/forms.js') }}" defer></script>
+<script src="{{ mix('js/members.js') }}"></script>
+<script src="{{ mix('js/texteditor.js') }}"></script>
+<script type="text/javascript" src="{{ mix('js/forms.js') }}" defer></script>
 <script defer>
     $(document).ready(function() {
         $('#textEditor').summernote({

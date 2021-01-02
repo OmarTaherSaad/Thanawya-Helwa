@@ -24,21 +24,21 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
 
         <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
-        <link rel="stylesheet" href="{{ asset('css/splash-screen.css') }}">
+        <link rel="stylesheet" href="{{ mix('css/splash-screen.css') }}">
         {{--Scripts--}}
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
 
-        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+        <link rel="stylesheet" href="{{ mix('css/theme.css') }}">
         <script defer>
             //Load css files
                     var tag = document.createElement("link");
-                    tag.href = "{{ asset('css/app.css') }}";
+                    tag.href = "{{ mix('css/app.css') }}";
                     tag.setAttribute('rel', 'stylesheet');
                     document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
         @yield('head')
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
-        <script data-ad-client="ca-pub-8176502663524074" async
+        <script data-ad-client="ca-pub-8176502663524074" defer
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
     </head>
     <body>
@@ -46,7 +46,7 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         @if (!auth()->check() || !auth()->user()->isTeamMember())
         <!-- Load Facebook SDK for JavaScript -->
         <div id="fb-root"></div>
-        <script>
+        <script defer>
             window.fbAsyncInit = function() {
                 FB.init({
                 xfbml  : true,
@@ -89,7 +89,7 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         </main>
         @include('partials.footer')
         @include('partials.notification-setup')
-        <script src="{{ asset('js/effects.js') }}" sync></script>
+        <script src="{{ mix('js/effects.js') }}" sync></script>
         @yield('scripts')
     </body>
 </html>

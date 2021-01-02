@@ -111,7 +111,7 @@
 @endsection
 
 @section('scripts')
-<script async src="{{ asset('js/edges.js') }}"></script>
+<script async src="{{ mix('js/edges.js') }}"></script>
 <script defer>
     const searchBoxPosition = document.querySelector('#searchBox').getBoundingClientRect().top;
 

@@ -46,7 +46,7 @@
     </section>
 @endsection
 @section('scripts')
-    <script src="{{ asset('js/quizzes/general.js') }}"></script>
+    <script src="{{ mix('js/quizzes/general.js') }}"></script>
     <script defer>
         window.quizApp.$data.questions = {!! json_encode($questions) !!};
     </script>
