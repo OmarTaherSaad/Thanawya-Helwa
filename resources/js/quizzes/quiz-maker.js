@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 import MCQquestion from './components/mcq-question'
 Vue.component("mcq-question", MCQquestion);
 

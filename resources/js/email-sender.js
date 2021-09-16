@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 window.vueApp = new Vue({
     el: "#app",
     data: {

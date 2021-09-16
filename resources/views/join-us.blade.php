@@ -8,7 +8,6 @@
             window.location.href = '/offline';
         }
 </script>
-<link rel="stylesheet" href="{{ mix('css/index.css') }}">
 @endsection
 
 @section('content')

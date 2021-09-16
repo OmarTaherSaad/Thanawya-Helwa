@@ -108,7 +108,7 @@
                     <div class="col-md-4 justify-content-center counter-wrap">
                         <div class="block-18 text-center mb-4">
                             <div class="text">
-                                <strong class="number" data-number="5">0</strong>
+                                <strong class="number" data-number="5" data-speed="1000">0</strong>
                                 <span>فعاليات</span>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                     <div class="col-md-4 justify-content-center counter-wrap">
                         <div class="block-18 text-center mb-4">
                             <div class="text">
-                                <strong class="number" data-number="+1000">0</strong>
+                                <strong class="number" data-number="1000" data-speed="2000">0</strong>
                                 <span>طالب استفادوا من فعالياتنا</span>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 th-animate">
+            <div class="col-md-3 col-6 th-animate">
                 <div class="tansik-part">
                     <a href="{{ route('tansik.geo_dist') }}" class="img"
                         style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">
@@ -155,7 +155,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-3 th-animate">
+            <div class="col-md-3 col-6 th-animate">
                 <div class="tansik-part">
                     <a href="{{ route('tansik.previous_edges') }}" class="img"
                         style="background-image: url({{ Storage::url('assets/question-card.jpg') }});">

@@ -2,11 +2,6 @@ const mix = require("laravel-mix");
 mix.autoload({
     vue: ["Vue", "window.Vue"]
 });
-mix.options({
-    imgLoaderOptions: {
-        enabled: false
-    }
-});
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -17,18 +12,6 @@ mix.options({
  | file for the application as well as bundling up all the JS files.
  |
  */
-const CompressionPlugin = require("compression-webpack-plugin");
-if (mix.inProduction())
-{
-    mix.webpackConfig({
-        plugins: [
-            new CompressionPlugin(),
-        ],
-        output: {
-            publicPath: ""
-        }
-    });
-}
 
 mix.js("resources/js/app.js", "public/js")
     .js("resources/js/home.js", "public/js")
@@ -40,15 +23,7 @@ mix.js("resources/js/app.js", "public/js")
     .js("resources/js/notifications.js", "public/js")
     .js("resources/js/quizzes/quiz-maker.js", "public/js/quizzes")
     .js("resources/js/quizzes/general.js", "public/js/quizzes")
-    .scripts(
-        [
-            "resources/js/effects/jquery-migrate-3.0.1.min.js",
-            "resources/js/effects/jquery.animateNumber.min.js",
-            "resources/js/effects/jquery.easing.1.3.js",
-            "resources/js/effects/jquery.waypoints.min.js"
-        ],
-        "public/js/effects.js"
-    )
+    .vue({ version: 2 })
     .sass("resources/sass/app.scss", "public/css")
     .sass("resources/sass/home.scss", "public/css")
     .sass("resources/sass/splash-screen.scss", "public/css")

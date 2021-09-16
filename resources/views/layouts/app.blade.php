@@ -13,13 +13,14 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         {{-- Minified SEO Tags --}}
         {!! SEO::generate(true) !!}
+        @laravelPWA        
 
         {{--CSRF Token--}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
-        <link rel="preload" href="{{ mix('css/splash-screen.css') }}" as="style">
+        <link rel="stylesheet" href="{{ mix('css/splash-screen.css') }}">
         {{--Scripts--}}
         <script src="{{ mix('js/app.js') }}"></script>
         <link rel="preload" href="/webfonts/fa-solid-900.woff2">
@@ -61,7 +62,6 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         </main>
         @include('partials.footer')
         @include('partials.notification-setup')
-        <script src="{{ mix('js/effects.js') }}" defer></script>
         @yield('scripts')
     </body>
 </html>

@@ -20,6 +20,7 @@
         "pusher/pusher-php-server": "^4.1",
         "rap2hpoutre/laravel-log-viewer": "^1.4",
         "renatomarinho/laravel-page-speed": "^1.8",
+        "silviolleite/laravelpwa": "^2.0",
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-medialibrary": "7.17.1",
         "symfony/process": "^4.3",

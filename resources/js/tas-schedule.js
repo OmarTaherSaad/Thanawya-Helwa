@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 //Vuetify Timeline component
 import Vuetify, { VTimeline, VTimelineItem } from 'vuetify/lib';
 

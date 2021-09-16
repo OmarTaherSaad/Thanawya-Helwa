@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Vuetable from "vuetable-2";
 import VuetablePaginationBootstrap from "./components/VuetablePaginationBootstrap";
 import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePaginationInfo";

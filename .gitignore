@@ -17,4 +17,4 @@ yarn-error.log
 deploy.sh
 run-schedule.sh
 .htaccess
-/**_subdomain
+/**_subdomain/
