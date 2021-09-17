@@ -17,6 +17,8 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
 
         {{--CSRF Token--}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        {{-- Facebook Domain Verification --}}
+        <meta name="facebook-domain-verification" content="jp9e6kb63rdhvbfwsxx8loghehmn4c" />
 
         <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
