@@ -67,4 +67,27 @@
         </div>
     </div>
 </div>
+@if(Auth::user()->is($user))
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-header">حذف حسابك</div>
+            <div class="card-body">
+                <form method="post" action="{{ route('users.destroy',['user' => $user]) }}" autocomplete="off"
+                    onsubmit="return confirm('هل أنت متأكد أنك تريد حذف حسابك نهائيًا؟ هذه الخطوة لا يمكن الرجوع فيها.')">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="delete" value="1"> هل ترغب في حذف حسابك وجميع البيانات المتعلقة به نهائيًا؟
+                        </label>
+                    </div>
+                    <button class="btn btn-danger" type="submit">حذف الحساب والبيانات</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 @endsection

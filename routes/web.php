@@ -9,6 +9,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', 'PagesController@index')->name('home');
 Route::get('/home', 'PagesController@index')->name('home');
 Route::get('/about-us', 'PagesController@about')->name('about-us');
