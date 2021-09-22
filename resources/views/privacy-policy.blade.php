@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row" dir="ltr">
+    <div class="row text-left" dir="ltr">
         <div class="col-12 col-md-10">
             <h2>Privacy Policy</h2>
             <p>Your privacy is important to us. It is Thanawya Helwa's policy to respect your privacy regarding any information we
@@ -25,9 +25,19 @@
                 information. If you have any questions about how we handle user data and personal information, feel free to contact
                 us.</p>
             <p>This policy is effective as of 16 July 2019.</p>
+
+            <h4 class="font-weight-bold">What Data we Collect & How to Delete it</h4>
+            <p>We only collect the data you give to us explicitly, that is: name, email, phone number (only if registered through our website manually), and facebook ID (only if registered using Facebook).</p>
+            <p>We don't store any additional data, and we don't keep your data after you delete them, we "hard-delete" them after you delete your account. To delete your account:
+                <ol>
+                    <li>Login from <a href="{{ route('login') }}">this link</a></li>
+                    <li>Click your name from the header at the top of the page and click on first link "تعديل بياناتك الشخصية" - Modify your personal information.</li>
+                    <li>Go to bottom of page, and check the checkbox to approve your desire to delete your account, then click Delete "حذف الحساب والبيانات".</li>
+                </ol>
+            </p>
         </div>
     </div>
-    <div class="row" dir="ltr">
+    <div class="row text-left" dir="ltr">
         <div class="col-12 col-md-10">
             <h2>Thanawya Helwa Terms of Service</h2>
             <h3>1. Terms</h3>
