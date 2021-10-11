@@ -35,7 +35,7 @@
         <div class="row">
         @forelse ($Tickets as $ticket)
             <div class="border border-dark col-12 col-md-4 p-1 m-1">
-                <img src="{{ route('tas.tickets.image',['ticketSerial' => $ticket->serial]) }}" alt="Ticket no. {{ $ticket->id }}" class="img-fluid">
+                <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ route('tas.tickets.image',['ticketSerial' => $ticket->serial]) }}" alt="Ticket no. {{ $ticket->id }}" class="lazyload img-fluid">
                 <div class="card-body">
                     <h5 class="card-title">تذكرة {{ $ticket->type == 'student' ? 'طلبة' : 'أولياء أمور' }}</h5>
                     <p class="card-text">
@@ -67,8 +67,8 @@
         <div class="row">
             @forelse ($AllTickets as $ticket)
             <div class="border border-dark col-12 col-md-4 p-1 m-1">
-                <img src="{{ route('tas.tickets.image',['ticketSerial' => $ticket->serial]) }}"
-                    alt="Ticket no. {{ $ticket->id }}" class="img-fluid">
+                <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ route('tas.tickets.image',['ticketSerial' => $ticket->serial]) }}"
+                    alt="Ticket no. {{ $ticket->id }}" class="lazyload img-fluid">
                 <div class="card-body">
                     <h5 class="card-title">تذكرة {{ $ticket->type == 'student' ? 'طلبة' : 'أولياء أمور' }}</h5>
                     <p class="card-text">

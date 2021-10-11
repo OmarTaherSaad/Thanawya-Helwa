@@ -41,7 +41,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-                <img src="" class="enlargeImageModalSource" style="width: 100%;">
+                <img src="{{ Storage::url('assets/blank.gif') }}" data-src="" class="lazyload enlargeImageModalSource" style="width: 100%;">
             </div>
             </div>
         </div>

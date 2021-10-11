@@ -20,7 +20,7 @@
 </div>
 <div class="row text-right my-2 py-2 align-items-center">
     <div class="col-12 col-md-3">
-        <img src="{{ Storage::url('assets/images/logo_bg.jpg') }}" alt="Thanawya Helwa Team" class="preview img-fluid" style="border-radius: 10%"/>
+        <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ Storage::url('assets/images/logo_bg.jpg') }}" alt="Thanawya Helwa Team" class="lazyload preview img-fluid" style="border-radius: 10%"/>
     </div>
     <div class="col">
         <div class="row my-3">
@@ -65,8 +65,8 @@
 <hr>
 <div class="row text-right my-2 py-2 align-items-center">
     <div class="col-12 col-md-3">
-        <img src="{{ Storage::url('assets/images/shantet_elthanawya.jpg') }}" alt="Thanawya Helwa Team"
-        class="preview img-fluid" style="border-radius: 5%">
+        <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ Storage::url('assets/images/shantet_elthanawya.jpg') }}" alt="Thanawya Helwa Team"
+        class="lazyload preview img-fluid" style="border-radius: 5%">
     </div>
     <div class="col">
         <h3>

@@ -1,6 +1,6 @@
 <div class="card text-center h-100 shadow">
     @if (is_null($member->getFirstMedia('members/profile-photos')))
-    <img src="{{ $member->getFirstMediaUrl('members/profile-photos') }}" class="card-img-top"
+    <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ $member->getFirstMediaUrl('members/profile-photos') }}" class="lazyload card-img-top"
         alt="{!! htmlspecialchars($member->name) !!}">
     @else
     {!! $member->getFirstMedia('members/profile-photos')->img('',['class'=>'card-img-top','alt'=>

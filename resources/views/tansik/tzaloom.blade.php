@@ -94,7 +94,7 @@
                                 <li class="list-group-item">خامسًا: بيبلغوا مكتب التنسيق بالنتيجة الجديدة بتاعتك عشان
                                     تعرف تقدم أو تحول للكلية اللي عايزها بمجموعك الجديد.</li>
                             </ul>
-                            <img src="{{ Storage::url('tzalom.jpg') }}" class="img-fluid w-100" alt="">
+                            <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ Storage::url('tzalom.jpg') }}" class="lazyload img-fluid w-100" alt="">
                         </p>
                     </div>
                 </div>

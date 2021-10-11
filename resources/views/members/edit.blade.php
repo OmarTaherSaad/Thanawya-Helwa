@@ -29,7 +29,7 @@
 <div class="row justify-content-center">
     <div class="col-6">
         @if (is_null($member->getFirstMedia('members/profile-photos')))
-        <img src="{{ $member->getFirstMediaUrl('members/profile-photos') }}" class="img-fluid"
+        <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ $member->getFirstMediaUrl('members/profile-photos') }}" class="lazyload img-fluid"
             alt="{!! htmlspecialchars($member->name) !!}">
         @else
         {!! $member->getFirstMedia('members/profile-photos')->img('',['class'=>'img-fluid','alt'=> htmlspecialchars($member->name)])

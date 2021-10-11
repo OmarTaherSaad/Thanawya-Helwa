@@ -4,8 +4,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="{{ route('home') }}">
-       <img src="{{ Storage::url('assets/images/logo.svg') }}"
-        onerror="this.src='../assets/images/logo.png'; this.onerror=null;" class="img-fluid" alt="فريق ثانوية حلوة">
+       <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ Storage::url('assets/images/logo.svg') }}"
+        onerror="this.src='../assets/images/logo.png'; this.onerror=null;" class="lazyload img-fluid" alt="فريق ثانوية حلوة">
     </a>
 
 

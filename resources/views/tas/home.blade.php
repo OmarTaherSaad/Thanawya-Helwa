@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-auto m-1" id="logoContainer">
             <a href="https://www.facebook.com/events/1099430050446914/" target="_blank">
-                <img src="{{ Storage::url('assets/images/tas-logo-sm.jpg') }}" alt="TA Summit">
+                <img src="{{ Storage::url('assets/blank.gif') }}" data-src="{{ Storage::url('assets/images/tas-logo-sm.jpg') }}" alt="TA Summit" class="lazyload">
             </a>
         </div>
     </div>

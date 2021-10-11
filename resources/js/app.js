@@ -1,14 +1,13 @@
 require("./bootstrap");
+import "lazysizes";
 
 axios.interceptors.request.use(
-    function (config)
-    {
+    function(config) {
         //Before request start: show loading
         document.body.classList.add("loading");
         return config;
     },
-    function (error)
-    {
+    function(error) {
         alert(
             "حصل عطل فني، ياريت تحاول في وقت تاني وبلغنا على صفحتنا على الفيسبوك"
         );
@@ -17,14 +16,12 @@ axios.interceptors.request.use(
     }
 );
 axios.interceptors.response.use(
-    function (response)
-    {
+    function(response) {
         //After request is done: hide loading
         document.body.classList.remove("loading");
         return response;
     },
-    function (error)
-    {
+    function(error) {
         alert(
             "حصل عطل فني، ياريت تحاول في وقت تاني وبلغنا على صفحتنا على الفيسبوك"
         );
@@ -33,20 +30,16 @@ axios.interceptors.response.use(
     }
 );
 
-let func = function ()
-{
+let func = function() {
     document.body.classList.add("loaded");
     //iframe must have title
-    if (document.querySelector("iframe[title='']") != null)
-    {
+    if (document.querySelector("iframe[title='']") != null) {
         document.querySelector("iframe[title='']").title = "Iframe";
     }
 };
 
-if (window.addEventListener)
-{
+if (window.addEventListener) {
     window.addEventListener("load", func);
-} else
-{
+} else {
     window.attachEvent("onload", func);
 }
