@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'PagesController@index')->name('home');
-Route::get('/home', 'PagesController@index')->name('home');
+Route::get('/home', 'PagesController@index')->name('home2');
 Route::get('/about-us', 'PagesController@about')->name('about-us');
 Route::get('get-members', 'PagesController@get_members');
 Route::get('/join-us', 'PagesController@join')->name('join-us');

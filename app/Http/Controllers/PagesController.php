@@ -28,6 +28,11 @@ class PagesController extends Controller
         $this->old_members = Member::hasStatus('old')->sortBy('name');
     }
 
+    public function index2()
+    {
+        return redirect()->route('home');
+    }
+
     public function index()
     {
         return view('index');

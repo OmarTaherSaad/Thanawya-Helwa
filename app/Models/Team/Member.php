@@ -4,15 +4,15 @@ namespace App\Models\Team;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Member extends User implements HasMedia
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
 
-    protected $fillable = ['title_on_team','title_personal','text','name','status'];
+    protected $fillable = ['title_on_team', 'title_personal', 'text', 'name', 'status'];
 
     protected $casts = [
         'status' => 'array'
@@ -25,23 +25,23 @@ class Member extends User implements HasMedia
 
     public function posts()
     {
-        return $this->hasMany('App\Models\Team\Post','written_by');
+        return $this->hasMany('App\Models\Team\Post', 'written_by');
     }
     public function coposts()
     {
-        return $this->hasMany('App\Models\Team\Post','cowriter_id');
+        return $this->hasMany('App\Models\Team\Post', 'cowriter_id');
     }
     public function quizzes_made()
     {
-        return $this->hasMany('App\Quiz','made_by');
+        return $this->hasMany('App\Quiz', 'made_by');
     }
     public function quizzes_revised()
     {
-        return $this->hasMany('App\Quiz','revised_by');
+        return $this->hasMany('App\Quiz', 'revised_by');
     }
     public function quizzes_inserted()
     {
-        return $this->hasMany('App\Quiz','inserted_by');
+        return $this->hasMany('App\Quiz', 'inserted_by');
     }
 
     public function getLinkToView()
@@ -63,7 +63,7 @@ class Member extends User implements HasMedia
         return route('members.destroy', ['member' => $this->id]);
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this->addMediaCollection('members/profile-photos')
             ->useFallbackUrl(asset('storage/members/profile-photos/default.jpg'))
@@ -71,17 +71,18 @@ class Member extends User implements HasMedia
             ->singleFile();
     }
 
-    public function getStatusCsvAttribute() {
+    public function getStatusCsvAttribute()
+    {
         $str = '';
         foreach ($this->status as $s) {
             $str .= ',' . $s;
         }
-        return substr($str,1);
+        return substr($str, 1);
     }
 
     public static function hasStatus($status)
     {
-        return Member::all()->filter(function($value) use ($status) {
+        return Member::all()->filter(function ($value) use ($status) {
             $condition = in_array($status, $value->status);
             return $condition;
         });

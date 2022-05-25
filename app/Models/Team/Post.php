@@ -5,28 +5,32 @@ namespace App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Support\Str;
 
 class Post extends Model implements HasMedia
 {
     use SoftDeletes;
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
-    protected $fillable= [
-        'content_before_review','content','fb_link','state','rate'
+    protected $fillable = [
+        'content_before_review', 'content', 'fb_link', 'state', 'rate'
     ];
 
-    public function writer() {
-        return $this->belongsTo('App\Models\Team\Member','written_by');
+    public function writer()
+    {
+        return $this->belongsTo('App\Models\Team\Member', 'written_by');
     }
 
-    public function cowriter() {
+    public function cowriter()
+    {
         return $this->belongsTo('App\Models\Team\Member', 'cowriter_id');
     }
 
-    public function approver() {
-        return $this->belongsTo('App\Models\Team\Member','approved_by');
+    public function approver()
+    {
+        return $this->belongsTo('App\Models\Team\Member', 'approved_by');
     }
 
     public function tags()
@@ -66,7 +70,7 @@ class Post extends Model implements HasMedia
 
     public function getLinkToApprove()
     {
-        return route('posts.approve',['post' => $this]);
+        return route('posts.approve', ['post' => $this]);
     }
 
     public function getLinkToDelete()
@@ -87,26 +91,25 @@ class Post extends Model implements HasMedia
 
     public function small_part()
     {
-        return \Str::limit($this->get_content(),20);
+        return Str::limit($this->get_content(), 20);
     }
 
     public function get_content()
     {
-        return str_replace('`','\`', $this->content ?? $this->content_before_review);
+        return str_replace('`', '\`', $this->content ?? $this->content_before_review);
     }
 
-    public static function all_for_member(Member $member = null,$MemberOnly = false)
+    public static function all_for_member(Member $member = null, $MemberOnly = false)
     {
         if (is_null($member)) {
             $member_posts = collect();
             $member_coposts = collect();
-        }
-        else {
+        } else {
             $member_posts = $member->posts();
             $member_coposts = $member->coposts();
         }
-        $posts = Post::where('state', '>',config('team.posts.status.DRAFT'));
-        if($MemberOnly) {
+        $posts = Post::where('state', '>', config('team.posts.status.DRAFT'));
+        if ($MemberOnly) {
             $posts = $member_posts->union($member_coposts);
         } else {
             $posts = $posts->union($member_posts)->union($member_coposts);
@@ -115,13 +118,13 @@ class Post extends Model implements HasMedia
     }
     public static function all_for_public()
     {
-        $posts = Post::where('state',config('team.posts.status.POSTED'));
+        $posts = Post::where('state', config('team.posts.status.POSTED'));
         return $posts->orderBy('updated_at', 'desc')->paginate(config('app.pagination_max'));
     }
 
     public function getStatusAttribute()
     {
-        return \Str::title(str_replace('_', ' ', array_search($this->state, config('team.posts.status'))));
+        return Str::title(str_replace('_', ' ', array_search($this->state, config('team.posts.status'))));
     }
 
     public function approved()
@@ -147,13 +150,13 @@ class Post extends Model implements HasMedia
     public function getPercentageAttribute()
     {
         similar_text($this->content, $this->content_before_review, $perc);
-        return round($perc,2);
+        return round($perc, 2);
     }
 
     public static function getStatesForFilter()
     {
         $states = collect(config('team.posts.status'))->keys()->transform(function ($s) {
-            return ['key' => $s, 'value' => \Str::title(str_replace('_', ' ', $s))];
+            return ['key' => $s, 'value' => Str::title(str_replace('_', ' ', $s))];
         })->keyBy('key')->transform(function ($s) {
             return $s['value'];
         });
