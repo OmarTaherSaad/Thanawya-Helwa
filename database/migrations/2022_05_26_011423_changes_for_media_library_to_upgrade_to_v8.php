@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ChangesForMediaLibraryToUpgradeToV9 extends Migration
+class ChangesForMediaLibraryToUpgradeToV8 extends Migration
 {
     /**
      * Run the migrations.
