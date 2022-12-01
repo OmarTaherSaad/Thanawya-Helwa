@@ -16,25 +16,13 @@ class ChangesForMediaLibraryToUpgradeToV9 extends Migration
     public function up()
     {
         Schema::table('media', function (Blueprint $table) {
-            if (!Schema::hasColumn('media', 'conversions_disk')) {
-                $table->string('conversions_disk')->nullable();
-            }
-            if (!Schema::hasColumn('media', 'uuid')) {
-                $table->uuid('uuid')->nullable();
-            }
+            $table->string('conversions_disk')->nullable();
+            $table->uuid('uuid')->nullable();
         });
 
-        if (!Schema::hasColumn('media', 'generated_conversions')) {
-            Schema::table('media', function (Blueprint $table) {
-                $table->json('generated_conversions')->nullable();
-            });
-        }
-
         Media::cursor()->each(function (Media $media) {
-            $custom_properties = $media->custom_properties;
             $media->update([
                 'uuid' => \Str::uuid(),
-                'generated_conversions' => $custom_properties['generated_conversions'],
             ]);
         });
     }
@@ -49,7 +37,6 @@ class ChangesForMediaLibraryToUpgradeToV9 extends Migration
         Schema::table('media', function (Blueprint $table) {
             $table->dropColumn('conversions_disk');
             $table->dropColumn('uuid');
-            $table->dropColumn('generated_conversions');
         });
     }
 }
