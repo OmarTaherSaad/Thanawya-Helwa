@@ -34,7 +34,7 @@ class ChangesForMediaLibraryToUpgradeToV9 extends Migration
             $custom_properties = $media->custom_properties;
             $media->update([
                 'uuid' => \Str::uuid(),
-                'generated_conversions' => $custom_properties->generated_conversions,
+                'generated_conversions' => $custom_properties['generated_conversions'],
             ]);
         });
     }
