@@ -1,18 +1,20 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Team\Member;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Member::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'title_personal' => $faker->title(),
-        'title_on_team' => $faker->title(),
-        'user_id' => $faker->randomElement(\App\User::all()->keys()),
-        'joined_at' => $faker->date,
-        'status' => $faker->randomElement(['founder','old','current']),
-
-    ];
-});
+class MemberFactory extends Factory
+{
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'title_personal' => $this->faker->title(),
+            'title_on_team' => $this->faker->title(),
+            'user_id' => $this->faker->randomElement(\App\User::all()->keys()),
+            'joined_at' => $this->faker->date,
+            'status' => $this->faker->randomElement(['founder', 'old', 'current']),
+        ];
+    }
+}

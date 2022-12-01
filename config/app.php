@@ -183,7 +183,6 @@ return [
         //App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        TomLingham\Searchy\SearchyServiceProvider::class
 
     ],
 
@@ -236,7 +235,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Searchy' => TomLingham\Searchy\Facades\Searchy::class
 
     ],
 

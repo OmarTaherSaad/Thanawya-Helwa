@@ -7,12 +7,12 @@ use App\Models\Tansik\FacultyEdge;
 use App\Models\Tansik\UniFac;
 use App\Models\Tansik\University;
 use App\Models\Team\Member;
-use App\Traits\Paginate;
+use App\Traits\ApiResultsTools;
 use Illuminate\Http\Request;
 
 class TansikController extends Controller
 {
-    use Paginate;
+    use ApiResultsTools;
 
     public function index(Request $request)
     {
@@ -20,7 +20,7 @@ class TansikController extends Controller
         $count = FacultyEdge::where('edit_by', auth()->user()->member->id)->distinct('TempName')->count();
         $countConfirm = FacultyEdge::where('confirmed_by', auth()->user()->member->id)->distinct('TempName')->count();
         $countConfirm2 = FacultyEdge::where('confirmed2_by', auth()->user()->member->id)->distinct('TempName')->count();
-        $edges = $this->paginate($edges, config('app.pagination_max'), $request->page)->withPath(route('tansik.edges.index'));
+        $edges = $this->paginateCollection($edges, config('app.pagination_max'), $request->page)->withPath(route('tansik.edges.index'));
         return view('tansik-work.index')
             ->with(compact('edges'))
             ->with(compact('countConfirm'))

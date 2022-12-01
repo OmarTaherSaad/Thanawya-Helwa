@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
-class QuizSeeder extends Seeder
+class MinistryExamSeeder extends Seeder
 {
     /**
      * Run the database seeds.

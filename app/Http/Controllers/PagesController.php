@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\Mail\ContactMail;
 use App\Mail\ContactForAdminMail;
 use Illuminate\Support\Facades\Mail;
-
 use Illuminate\Http\Request;
 use App\Models\Team\Member;
 use App\Models\Tansik\Governorate;
 use App\Models\Tansik\Administration;
 use App\Models\Tansik\FacultyEdge;
-use App\Traits\Paginate;
+use App\Traits\ApiResultsTools;
 
 class PagesController extends Controller
 {
-    use Paginate;
+    use ApiResultsTools;
 
 
     private $founder_members, $current_members, $old_members, $pageSize;
@@ -49,7 +48,7 @@ class PagesController extends Controller
     public function get_members(Request $request)
     {
         $varName = $request->role . '_members';
-        $members = $this->paginate($this->$varName, $this->pageSize, $request->page);
+        $members = $this->paginateCollection($this->$varName, $this->pageSize, $request->page);
         if ($request->ajax()) {
             $view = view('containers.members-list', compact('members'))->render();
             return response()->json(['html' => $view]);
@@ -233,12 +232,12 @@ class PagesController extends Controller
 
         //Edges
         $AllEdges = collect();
+        $edgesQuery = FacultyEdge::query();
         if ($data['filter']) {
-            $RawData = \Searchy::driver('simple')->search('faculty_edges')->fields('tempName')->query($data['filter'])->get()->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
-        } else {
-            $RawData = FacultyEdge::all()->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+            $edgesQuery = $this->searchQuery($edgesQuery, FacultyEdge::class, $data['filter']);
         }
-        foreach ($RawData as $name => $edgesOfName) {
+        $edgesQuery = $edgesQuery->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+        foreach ($edgesQuery as $name => $edgesOfName) {
             $Edges = collect();
             foreach ($edgesOfName as $edge) {
                 $Edges->put($edge->year, number_format($edge->edge, 2) + 0); //To remove .00
@@ -287,7 +286,7 @@ class PagesController extends Controller
                 }
             }
         }
-        return response()->json($this->paginate($AllEdges, $request->params['per_page'] ?? 100, $request->params['page'] ?? 1));
+        return response()->json($this->paginateCollection($AllEdges, $request->params['per_page'] ?? 100, $request->params['page'] ?? 1));
     }
 
     public function privacyPolicy()
