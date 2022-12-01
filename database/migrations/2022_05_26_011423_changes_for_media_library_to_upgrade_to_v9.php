@@ -16,8 +16,12 @@ class ChangesForMediaLibraryToUpgradeToV9 extends Migration
     public function up()
     {
         Schema::table('media', function (Blueprint $table) {
-            $table->string('conversions_disk')->nullable();
-            $table->uuid('uuid')->nullable();
+            if (!Schema::hasColumn('media', 'conversions_disk')) {
+                $table->string('conversions_disk')->nullable();
+            }
+            if (!Schema::hasColumn('media', 'uuid')) {
+                $table->uuid('uuid')->nullable();
+            }
         });
 
         if (!Schema::hasColumn('media', 'generated_conversions')) {
