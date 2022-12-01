@@ -236,7 +236,7 @@ class PagesController extends Controller
         if ($data['filter']) {
             $edgesQuery = $this->searchQuery($edgesQuery, FacultyEdge::class, $data['filter']);
         }
-        $edgesQuery = $edgesQuery->where('section', $request->params['section'])->sortByDesc('edge')->groupBy('TempName');
+        $edgesQuery = $edgesQuery->where('section', $request->params['section'])->orderBy('edge', 'desc')->groupBy('TempName')->get();
         foreach ($edgesQuery as $name => $edgesOfName) {
             $Edges = collect();
             foreach ($edgesOfName as $edge) {
