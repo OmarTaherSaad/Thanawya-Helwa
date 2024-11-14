@@ -21,7 +21,7 @@
         "sass-loader": "^12.1.0",
         "vue-loader": "^17.4.2",
         "vue-template-compiler": "^2.6.12",
-        "webpack": "^5.76.0"
+        "webpack": "^5.96.1"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.1",
