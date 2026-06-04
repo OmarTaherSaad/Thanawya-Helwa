@@ -6,6 +6,9 @@ use Illuminate\Support\Collection;
 
 /**
  * Builds Vuetable "fields" metadata for the historical coordination grid.
+ *
+ * @param  string  $section  E (علمي) or A (أدبي)
+ * @param  string|null  $thanawyaSystem  When null/empty, only name + avg columns (no year columns).
  */
 final class BuildCoordinationTableFieldsAction
 {
@@ -17,7 +20,7 @@ final class BuildCoordinationTableFieldsAction
     /**
      * @return Collection<int, array<string, mixed>>
      */
-    public function __invoke(): Collection
+    public function __invoke(string $section = 'E', ?string $thanawyaSystem = null): Collection
     {
         $fields = collect();
         $fields->push([
@@ -32,10 +35,16 @@ final class BuildCoordinationTableFieldsAction
             'callback' => 'edgeView',
         ]);
 
-        foreach (($this->yearsAction)() as $year) {
+        if ($thanawyaSystem === null || $thanawyaSystem === '') {
+            return $fields;
+        }
+
+        foreach (($this->yearsAction)($thanawyaSystem, $section) as $year) {
+            $yearLabel = (string) $year;
             $fields->push([
-                'name' => (string) $year,
-                'sortField' => (string) $year,
+                'title' => $yearLabel,
+                'name' => $yearLabel,
+                'sortField' => $yearLabel,
                 'callback' => 'edgeView',
             ]);
         }

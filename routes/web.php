@@ -39,6 +39,7 @@ Route::prefix('tansik')->name('tansik.')->group(function () {
     Route::post('admin', 'PagesController@getDist')->name('get_dist');
     //Faculties' edges for AXIOS
     Route::post('edges', 'PagesController@getEdges')->name('get_edges');
+    Route::post('coordination-table-fields', 'PagesController@getCoordinationTableFields')->name('coordination_table_fields');
 
     Route::get('geographic-distribution', 'PagesController@TansikGeoDist')->name('geo_dist');
     Route::get('geographic-distribution-information', 'PagesController@TansikGeoDistInfo')->name('geo_dist_info');

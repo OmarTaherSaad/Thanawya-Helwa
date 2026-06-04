@@ -4,6 +4,7 @@ namespace App\Actions\Tansik\Comparison;
 
 use App\Models\Tansik\FacultyEdge;
 use App\Models\Tansik\UniFac;
+use App\Support\Tansik\ThanawyaCoordinationSystem;
 use Illuminate\Support\Collection;
 
 /**
@@ -40,6 +41,10 @@ final class CompareCollegesBySlugsAction
         $edges = FacultyEdge::query()
             ->whereIn('unifac_id', $ids)
             ->where('section', $section)
+            ->where(function ($q): void {
+                $q->whereNull('thanawya_system')
+                    ->orWhere('thanawya_system', '<>', ThanawyaCoordinationSystem::OLDER_CANDIDATES);
+            })
             ->orderBy('year')
             ->get(['unifac_id', 'year', 'edge']);
 

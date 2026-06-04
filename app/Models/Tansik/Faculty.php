@@ -9,6 +9,11 @@ class Faculty extends Model
 {
     use HasFactory;
 
+    protected static function newFactory(): \Database\Factories\FacultyFactory
+    {
+        return \Database\Factories\FacultyFactory::new();
+    }
+
     protected $fillable = ['name', 'common_name', 'sections_allowed'];
 
     public function universities() {

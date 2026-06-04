@@ -28,6 +28,7 @@ mix.js("resources/js/app.js", "public/js")
     .sass("resources/sass/home.scss", "public/css")
     .sass("resources/sass/splash-screen.scss", "public/css")
     .sass("resources/sass/forms.scss", "public/css")
+    .sass("resources/sass/coordination-previous-edges.scss", "public/css")
     .copyDirectory("resources/ckeditor", "public/texteditor")
     .copy("node_modules/@fortawesome/fontawesome-free/css/all.min.css", "public/css/fontawesome.css");
 if (mix.inProduction())

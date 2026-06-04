@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Actions\Tansik\Coordination\BuildCoordinationTableFieldsAction;
 use App\Actions\Tansik\Coordination\FetchCoordinationEdgesAction;
 use App\DataTransferObjects\Tansik\CoordinationTableRequestData;
+use App\Support\Tansik\ThanawyaCoordinationSystem;
 use App\Mail\ContactMail;
 use App\Mail\ContactForAdminMail;
 use App\Support\PageSeo;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Models\Team\Member;
 use App\Models\Tansik\Governorate;
 use App\Models\Tansik\Administration;
@@ -202,9 +205,18 @@ class PagesController extends Controller
             route('tansik.previous_edges')
         );
 
-        $fields = $buildCoordinationTableFields();
+        $fields = $buildCoordinationTableFields('E', null);
 
-        return view('tansik.previous-edges')->with(compact('fields'));
+        $coordinationSystemFilters = ThanawyaCoordinationSystem::filterLabels();
+        $coordinationStudentHints = ThanawyaCoordinationSystem::studentFilterHints();
+        $coordinationPercentMaxBySystem = ThanawyaCoordinationSystem::percentMaxTotalsForFrontend();
+
+        return view('tansik.previous-edges')->with(compact(
+            'fields',
+            'coordinationSystemFilters',
+            'coordinationStudentHints',
+            'coordinationPercentMaxBySystem',
+        ));
     }
 
     public function TansikReduceAlienation()
@@ -266,11 +278,49 @@ class PagesController extends Controller
             'params.sort' => 'nullable|string|max:64',
             'params.page' => 'nullable|integer|min:1',
             'params.per_page' => 'nullable|integer|min:1|max:500',
+            'params.thanawya_system' => 'nullable|string|max:32',
+            'section' => 'nullable|string|max:5',
+            'filter' => 'nullable|string|max:255',
+            'thanawya_system' => 'nullable|string|max:32',
         ]);
+
+        $this->validateCoordinationThanawyaSystemFromRequest($request);
 
         $dto = CoordinationTableRequestData::fromRequest($request);
 
         return response()->json($fetchCoordinationEdges($dto));
+    }
+
+    /**
+     * Vuetable column definitions for the coordination grid (years depend on section + optional Thanawya filter).
+     */
+    public function getCoordinationTableFields(Request $request, BuildCoordinationTableFieldsAction $buildCoordinationTableFields)
+    {
+        $request->validate([
+            'params' => 'nullable|array',
+            'params.section' => 'nullable|string|max:5',
+            'params.thanawya_system' => 'nullable|string|max:32',
+            'params.page' => 'nullable|integer|min:1',
+            'params.per_page' => 'nullable|integer|min:1|max:500',
+            'params.filter' => 'nullable|string|max:255',
+            'params.sort' => 'nullable|string|max:64',
+            'section' => 'nullable|string|max:5',
+            'thanawya_system' => 'nullable|string|max:32',
+        ]);
+
+        $this->validateCoordinationThanawyaSystemFromRequest($request);
+
+        $dto = CoordinationTableRequestData::fromRequest($request);
+        $legacy = $dto->toLegacyParamsArray();
+
+        $fields = $buildCoordinationTableFields(
+            $legacy['section'],
+            $legacy['thanawya_system'] ?? null
+        );
+
+        return response()->json([
+            'fields' => $fields->values()->all(),
+        ]);
     }
 
     public function privacyPolicy()
@@ -282,6 +332,27 @@ class PagesController extends Controller
         );
 
         return view('privacy-policy');
+    }
+
+    /**
+     * Coordination JSON endpoints require an explicit Thanawya system (no “all systems” mode).
+     */
+    private function validateCoordinationThanawyaSystemFromRequest(Request $request): void
+    {
+        $params = $request->input('params', []);
+        if (! is_array($params)) {
+            $params = [];
+        }
+
+        $raw = trim((string) ($params['thanawya_system'] ?? ''));
+        if ($raw === '' && $request->filled('thanawya_system')) {
+            $raw = trim((string) $request->input('thanawya_system'));
+        }
+
+        Validator::make(
+            ['thanawya_system' => $raw === '' ? null : $raw],
+            ['thanawya_system' => ['required', 'string', Rule::in(ThanawyaCoordinationSystem::all())]]
+        )->validate();
     }
 
     public static function CorrectName(String $s)

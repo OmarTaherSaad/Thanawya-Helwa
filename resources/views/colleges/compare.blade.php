@@ -8,11 +8,11 @@
     $sec = $comparison['section'] ?? $section;
 @endphp
     <h1 class="h3 mb-3">مقارنة الحد الأدنى بين كليات</h1>
-    <p class="text-muted">أدخل روابط أو معرفات slug لكليات (من عنوان صفحة الكلية)، مفصولة بفواصل، حتى ٥ كليات. الشعبة: علمي أو أدبي.</p>
+    <p class="text-muted">أدخل سلسلة الـ slugs الظاهرة في رابط صفحة كل كلية (مفصولة بفواصل)، حتى ٥ كليات. الشعبة: علمي أو أدبي.</p>
     <form method="get" action="{{ route('colleges.compare') }}" class="mb-4">
         <div class="mb-3">
-            <label for="slugs" class="form-label">سلسلة الـ slugs (مثال: college-12,college-34)</label>
-            <input type="text" class="form-control" id="slugs" name="slugs" value="{{ e($slugsInput) }}" placeholder="college-1,college-2">
+            <label for="slugs" class="form-label">سلسلة الـ slugs (مثال: klya-alhandasa-gamaa-alqahr,klya-altby-gamaa-ain-shams)</label>
+            <input type="text" class="form-control" id="slugs" name="slugs" value="{{ e($slugsInput) }}" placeholder="first-college-slug,second-college-slug">
         </div>
         <div class="mb-3">
             <label for="section" class="form-label">الشعبة</label>

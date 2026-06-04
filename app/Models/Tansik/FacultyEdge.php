@@ -11,9 +11,14 @@ class FacultyEdge extends Model
 {
     use HasFactory;
 
+    protected static function newFactory(): \Database\Factories\FacultyEdgeFactory
+    {
+        return \Database\Factories\FacultyEdgeFactory::new();
+    }
+
     protected $table = 'faculty_edges';
 
-    protected $fillable = ['section', 'TempName', 'year', 'edge', 'unifac_id', 'confirmed', 'confirmed2'];
+    protected $fillable = ['section', 'TempName', 'year', 'thanawya_system', 'edge', 'unifac_id', 'confirmed', 'confirmed2'];
 
     protected static function booted(): void
     {

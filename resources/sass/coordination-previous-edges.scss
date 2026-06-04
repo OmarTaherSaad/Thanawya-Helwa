@@ -1,0 +1,168 @@
+// Historical coordination (previous edges) — mobile-first, readable table UX
+
+.coordination-page {
+    --coord-hero-bg: linear-gradient(135deg, #f8fafc 0%, #e8f4fc 45%, #f0f7ff 100%);
+    --coord-card-radius: 0.75rem;
+    --coord-header-bg: #212529;
+    --coord-sticky-cell: #fff;
+    --coord-accent: #0d6efd;
+}
+
+.coordination-hero {
+    border-radius: var(--coord-card-radius);
+    background: var(--coord-hero-bg);
+    border: 1px solid rgba(13, 110, 253, 0.12);
+}
+
+.coordination-hero__title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #0b2239;
+}
+
+.coordination-hero__lead {
+    color: #3d4f60;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 52rem;
+    margin-inline: auto;
+}
+
+.coordination-filters .form-label {
+    font-size: 0.95rem;
+    color: #24303d;
+}
+
+.coordination-filters .form-select {
+    min-height: 3rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+
+@media (min-width: 992px) {
+    .coordination-filters .form-select {
+        min-height: 2.75rem;
+    }
+}
+
+.coordination-hint {
+    color: #495057;
+    line-height: 1.55;
+    margin-top: 0.35rem;
+    margin-bottom: 0;
+}
+
+.coordination-search-card .form-control {
+    min-height: 3rem;
+    font-size: 1.05rem;
+}
+
+.coordination-search-card .input-group-text {
+    background: #f8f9fa;
+    border-inline-end: 0;
+}
+
+[dir="rtl"] .coordination-search-card .input-group-text {
+    border-inline-start: 0;
+    border-inline-end: 1px solid #dee2e6;
+}
+
+.coordination-sort-banner {
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    color: #343a40;
+}
+
+.coordination-table-card .card-header {
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.coordination-table-scroll {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: min(72vh, 720px);
+}
+
+@media (min-width: 992px) {
+    .coordination-table-scroll {
+        max-height: none;
+    }
+}
+
+.coordination-table-scroll table {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+    .coordination-table-scroll table {
+        font-size: 0.95rem;
+    }
+}
+
+.coordination-table-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: var(--coord-header-bg) !important;
+    color: #fff !important;
+    font-weight: 600;
+    vertical-align: middle;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Sticky first column (program name) while scrolling horizontally — RTL */
+[dir="rtl"] .coordination-table-scroll thead th:first-child,
+[dir="rtl"] .coordination-table-scroll tbody td:first-child {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background: var(--coord-sticky-cell);
+    box-shadow: -4px 0 8px -4px rgba(0, 0, 0, 0.12);
+}
+
+[dir="rtl"] .coordination-table-scroll thead th:first-child {
+    z-index: 5;
+    background: var(--coord-header-bg) !important;
+}
+
+.coordination-table-scroll tbody td:first-child {
+    font-weight: 500;
+    text-align: right;
+    white-space: normal;
+    max-width: 14rem;
+}
+
+@media (min-width: 576px) {
+    .coordination-table-scroll tbody td:first-child {
+        max-width: 18rem;
+    }
+}
+
+.coordination-table-scroll .table tbody td:first-child {
+    background-color: #fff;
+}
+
+.coordination-table-scroll .table.table-striped > tbody > tr:nth-of-type(odd) > td:first-child {
+    background-color: #f3f6f9;
+}
+
+.coordination-footnote {
+    font-size: 0.88rem;
+    color: #5c6670;
+}
+
+.coordination-pagination .pagination {
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+/* Vuetable wrapper: remove extra bottom margin inside card */
+.coordination-table-scroll .vuetable {
+    margin-bottom: 0;
+}

@@ -2,14 +2,22 @@
 
 namespace App\Models\Tansik;
 
+use App\Support\SeoSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Laravel\Scout\Searchable;
+use Symfony\Component\HttpFoundation\Response;
 
 class University extends Model
 {
     use HasFactory, Searchable;
+
+    protected static function newFactory(): \Database\Factories\UniversityFactory
+    {
+        return \Database\Factories\UniversityFactory::new();
+    }
 
     protected $fillable = ['name', 'type', 'logo', 'slug', 'meta_description', 'is_active'];
 
@@ -20,11 +28,26 @@ class University extends Model
     protected static function booted(): void
     {
         static::created(function (self $model): void {
-            if (blank($model->slug)) {
-                $model->slug = 'university-'.$model->id;
-                $model->saveQuietly();
+            if (filled($model->slug)) {
+                return;
             }
+
+            $model->slug = static::makeUniqueSlugForNewModel($model);
+            $model->saveQuietly();
         });
+    }
+
+    protected static function makeUniqueSlugForNewModel(self $model): string
+    {
+        $base = SeoSlug::fromTitle((string) $model->name, 'university');
+
+        return SeoSlug::unique(
+            $base,
+            fn (string $candidate): bool => static::query()
+                ->where('slug', $candidate)
+                ->whereKeyNot($model->getKey())
+                ->exists()
+        );
     }
 
     public function getRouteKeyName(): string
@@ -38,6 +61,24 @@ class University extends Model
     public function resolveRouteBinding($value, $field = null)
     {
         $field = $field ?: $this->getRouteKeyName();
+        $value = (string) $value;
+
+        if ($field === 'slug' && preg_match('/^university-(\d+)$/i', $value, $matches)) {
+            $legacy = static::query()
+                ->whereKey((int) $matches[1])
+                ->where('is_active', true)
+                ->first();
+
+            if ($legacy !== null) {
+                if ($legacy->slug !== $value) {
+                    throw new HttpResponseException(
+                        redirect()->route('universities.show', ['university' => $legacy->slug], Response::HTTP_MOVED_PERMANENTLY)
+                    );
+                }
+
+                return $legacy;
+            }
+        }
 
         return static::query()
             ->where($field, $value)

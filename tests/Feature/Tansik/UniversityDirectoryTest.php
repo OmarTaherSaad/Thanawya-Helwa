@@ -47,4 +47,34 @@ class UniversityDirectoryTest extends TestCase
 
         $this->get(route('universities.show', ['university' => $slug]))->assertNotFound();
     }
+
+    public function test_university_slug_is_derived_from_title_not_numeric_id_stub(): void
+    {
+        $university = University::factory()->create(['name' => 'جامعة تجريبية']);
+
+        $this->assertStringStartsNotWith('university-', (string) $university->fresh()->slug);
+        $this->assertSame('gamaa-tgryby', $university->fresh()->slug);
+    }
+
+    public function test_legacy_university_id_slug_redirects_to_canonical_slug(): void
+    {
+        $university = University::factory()->create(['name' => 'جامعة ألفا']);
+        $canonical = 'gamaa-alfa';
+        $university->forceFill(['slug' => $canonical])->saveQuietly();
+
+        $legacy = 'university-'.$university->id;
+
+        $this->get(route('universities.show', ['university' => $legacy]))
+            ->assertStatus(301)
+            ->assertRedirect(route('universities.show', ['university' => $canonical]));
+    }
+
+    public function test_legacy_university_id_slug_still_resolves_when_it_is_canonical(): void
+    {
+        $university = University::factory()->create(['name' => 'جامعة بيتا']);
+        $legacy = 'university-'.$university->id;
+        $university->forceFill(['slug' => $legacy])->saveQuietly();
+
+        $this->get(route('universities.show', ['university' => $legacy]))->assertOk();
+    }
 }

@@ -55,4 +55,29 @@ class CollegeDirectoryTest extends TestCase
 
         $this->get(route('colleges.show', ['college' => $slug]))->assertNotFound();
     }
+
+    public function test_college_slug_includes_university_context_in_transliteration(): void
+    {
+        $college = UniFac::factory()->create([
+            'name' => 'كلية الطب',
+        ]);
+        $college->load('university');
+
+        $slug = (string) $college->fresh()->slug;
+        $this->assertStringStartsNotWith('college-', $slug);
+        $this->assertStringContainsString('klya', $slug);
+    }
+
+    public function test_legacy_college_id_slug_redirects_to_canonical_slug(): void
+    {
+        $college = UniFac::factory()->create(['name' => 'كلية تجريبية']);
+        $canonical = 'klya-tgryby-test-slug';
+        $college->forceFill(['slug' => $canonical])->saveQuietly();
+
+        $legacy = 'college-'.$college->id;
+
+        $this->get(route('colleges.show', ['college' => $legacy]))
+            ->assertStatus(301)
+            ->assertRedirect(route('colleges.show', ['college' => $canonical]));
+    }
 }

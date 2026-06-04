@@ -64,6 +64,9 @@ return [
         'universities',
         'universities/*',
         'tansik/previous-years-edges',
+        // JSON APIs — PageSpeed HTML transforms corrupt JSON and break the coordination grid.
+        'tansik/coordination-table-fields',
+        'tansik/edges',
         'tansik/coordination-estimate',
         'tansik/coordination-estimate/*',
         'ministryExam',

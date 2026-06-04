@@ -4,6 +4,7 @@ namespace App\Actions\Tansik\Prediction;
 
 use App\Models\Tansik\FacultyEdge;
 use App\Models\Tansik\UniFac;
+use App\Support\Tansik\ThanawyaCoordinationSystem;
 use Illuminate\Support\Collection;
 
 /**
@@ -29,6 +30,10 @@ final class PredictCoordinationTrendAction
         $points = FacultyEdge::query()
             ->where('unifac_id', $college->id)
             ->where('section', $section)
+            ->where(function ($q): void {
+                $q->whereNull('thanawya_system')
+                    ->orWhere('thanawya_system', '<>', ThanawyaCoordinationSystem::OLDER_CANDIDATES);
+            })
             ->orderBy('year')
             ->get(['year', 'edge']);
 

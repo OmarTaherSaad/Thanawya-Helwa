@@ -2,6 +2,7 @@
 
 namespace App\DataTransferObjects\Tansik;
 
+use App\Support\Tansik\ThanawyaCoordinationSystem;
 use Illuminate\Http\Request;
 
 /**
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
  *
  * Preserves backward compatibility with clients that send a nested {@see $params} array
  * or omit optional keys (defaults match legacy {@see PagesController::getEdges} behaviour).
+ * JSON coordination endpoints additionally require {@see $thanawyaSystem} (enforced in the controller).
  */
 final class CoordinationTableRequestData
 {
@@ -18,6 +20,7 @@ final class CoordinationTableRequestData
         public readonly ?string $sort,
         public readonly int $page,
         public readonly int $perPage,
+        public readonly ?string $thanawyaSystem,
     ) {
     }
 
@@ -29,6 +32,13 @@ final class CoordinationTableRequestData
         $params = $request->input('params', $request->get('params'));
         if (! is_array($params)) {
             $params = [];
+        }
+
+        // Vuetable append-params are often merged at the request root instead of under `params`.
+        foreach (['section', 'filter', 'thanawya_system'] as $key) {
+            if (! array_key_exists($key, $params) && $request->has($key)) {
+                $params[$key] = $request->input($key);
+            }
         }
 
         $section = strtoupper((string) ($params['section'] ?? 'E'));
@@ -43,7 +53,10 @@ final class CoordinationTableRequestData
         $perPage = (int) ($params['per_page'] ?? 100);
         $perPage = max(1, min(500, $perPage));
 
-        return new self($section, $filter, $sort, $page, $perPage);
+        $rawSystem = trim((string) ($params['thanawya_system'] ?? ''));
+        $thanawyaSystem = $rawSystem === '' ? null : (in_array($rawSystem, ThanawyaCoordinationSystem::all(), true) ? $rawSystem : null);
+
+        return new self($section, $filter, $sort, $page, $perPage, $thanawyaSystem);
     }
 
     /**
@@ -57,6 +70,7 @@ final class CoordinationTableRequestData
             'sort' => $this->sort,
             'page' => $this->page,
             'per_page' => $this->perPage,
+            'thanawya_system' => $this->thanawyaSystem,
         ];
     }
 }
