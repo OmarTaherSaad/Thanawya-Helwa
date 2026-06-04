@@ -2,13 +2,29 @@
 
 namespace App\Models\Tansik;
 
+use App\Actions\Tansik\Coordination\GetCoordinationDistinctYearsAction;
+use App\Models\Team\Member;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FacultyEdge extends Model
 {
+    use HasFactory;
+
     protected $table = 'faculty_edges';
 
     protected $fillable = ['section', 'TempName', 'year', 'edge', 'unifac_id', 'confirmed', 'confirmed2'];
+
+    protected static function booted(): void
+    {
+        static::saved(static function (): void {
+            GetCoordinationDistinctYearsAction::forgetCache();
+        });
+
+        static::deleted(static function (): void {
+            GetCoordinationDistinctYearsAction::forgetCache();
+        });
+    }
 
     public function UniFac()
     {
@@ -17,17 +33,17 @@ class FacultyEdge extends Model
 
     public function editor()
     {
-        return $this->belongsTo('App\User', 'edit_by');
+        return $this->belongsTo(Member::class, 'edit_by');
     }
 
     public function confirmer()
     {
-        return $this->belongsTo('App\User', 'confirmed_by');
+        return $this->belongsTo(Member::class, 'confirmed_by');
     }
 
     public function confirmer2()
     {
-        return $this->belongsTo('App\User', 'confirmed2_by');
+        return $this->belongsTo(Member::class, 'confirmed2_by');
     }
 
     public function confirmed()

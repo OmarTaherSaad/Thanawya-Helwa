@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Tansik\Coordination\BuildCoordinationTableFieldsAction;
+use App\Actions\Tansik\Coordination\FetchCoordinationEdgesAction;
+use App\DataTransferObjects\Tansik\CoordinationTableRequestData;
 use App\Mail\ContactMail;
 use App\Mail\ContactForAdminMail;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Team\Member;
 use App\Models\Tansik\Governorate;
 use App\Models\Tansik\Administration;
-use App\Models\Tansik\FacultyEdge;
 use App\Traits\ApiResultsTools;
 
 class PagesController extends Controller
@@ -155,29 +158,17 @@ class PagesController extends Controller
         return redirect('https://www.facebook.com/Thanawya.Helwa/reviews/');
     }
 
-    public function TansikPrevEdges()
+    public function TansikPrevEdges(BuildCoordinationTableFieldsAction $buildCoordinationTableFields)
     {
-        //Fields
-        $fields = collect();
-        $fields->push([
-            'title' => 'اسم الكلية',
-            'name' => 'name',
-            'sortField' => 'name'
-        ]);
-        $fields->push([
-            'title' => 'المتوسط',
-            'name' => 'avg',
-            'sortField' => 'avg',
-            'callback' => 'edgeView'
-        ]);
-        foreach (FacultyEdge::pluck('Year')->unique()->sort() as $year) {
-            $fields->push([
-                'name' => (string) $year,
-                'sortField' => (string) $year,
-                'callback' => 'edgeView'
+        SEOMeta::setTitle('تنسيق السنوات السابقة | الحد الأدنى لكليات ومعاهد مصر');
+        SEOMeta::setDescription(
+            'جدول تنسيق السنوات السابقة للثانوية العامة (علمي وأدبي): الحد الأدنى لكليات ومعاهد مصر منذ 2014 مع إمكانية البحث والترتيب.'
+        );
+        SEOMeta::setCanonical(route('tansik.previous_edges'));
+        SEOMeta::setRobots('index,follow');
 
-            ]);
-        }
+        $fields = $buildCoordinationTableFields();
+
         return view('tansik.previous-edges')->with(compact('fields'));
     }
 
@@ -225,68 +216,20 @@ class PagesController extends Controller
         return redirect()->to("https://blog.thanawyahelwa.org/2020/08/12/59/%d8%a5%d9%8a%d9%87-%d9%87%d9%8a-%d9%85%d8%b1%d8%a7%d8%ad%d9%84-%d8%a7%d9%84%d8%aa%d9%86%d8%b3%d9%8a%d9%82-%d9%88%d9%85%d8%b9%d9%86%d8%a7%d9%87%d8%a7-%d8%a5%d9%8a%d9%87%d8%9f/");
     }
 
-    public function getEdges(Request $request)
+    public function getEdges(Request $request, FetchCoordinationEdgesAction $fetchCoordinationEdges)
     {
-        $data = $request->params;
-        $Years = FacultyEdge::pluck('Year')->unique()->sort();
+        $request->validate([
+            'params' => 'nullable|array',
+            'params.section' => 'nullable|string|max:5',
+            'params.filter' => 'nullable|string|max:255',
+            'params.sort' => 'nullable|string|max:64',
+            'params.page' => 'nullable|integer|min:1',
+            'params.per_page' => 'nullable|integer|min:1|max:500',
+        ]);
 
-        //Edges
-        $AllEdges = collect();
-        $edgesQuery = FacultyEdge::query();
-        if ($data['filter']) {
-            $edgesQuery = $this->searchQuery($edgesQuery, FacultyEdge::class, $data['filter']);
-        }
-        $edgesQuery = $edgesQuery->where('section', $request->params['section'])->orderBy('edge', 'desc')->get()->groupBy('TempName');
-        foreach ($edgesQuery as $name => $edgesOfName) {
-            $Edges = collect();
-            foreach ($edgesOfName as $edge) {
-                $Edges->put($edge->year, number_format($edge->edge, 2) + 0); //To remove .00
-            }
-            $Edges->put('avg', number_format($Edges->sum() / $Edges->count(), 2) + 0);
-            $Edges->put('name', $name);
-            $Edges->put('section', $edgesOfName[0]->section);
-            $AllEdges->push($Edges);
-        }
-        //Filter
-        if ($data['filter'] && false) {
-            $AllEdges = $AllEdges->filter(function ($edge) use ($data) {
-                similar_text($edge['name'], $data['filter'], $percent);
-                return $percent > 50;
-                return \Str::contains($edge['name'], $data['filter']);
-            });
-        }
-        //Add Missing Years
-        foreach ($AllEdges as $edge) {
-            foreach ($Years as $year) {
-                if (!\Arr::has($edge, $year)) {
-                    $edge->put($year, 'غير موجود');
-                }
-            }
-        }
-        //Sort if existing
-        if ($data['sort']) {
-            $sort = explode('|', $data['sort']);
-            if ($sort[1] == 'asc') {
-                if (is_numeric($sort[0])) {
-                    $field = $sort[0];
-                    $AllEdges = $AllEdges->sortBy(function ($edge) use ($field) {
-                        return is_numeric($edge[$field]) ? $edge[$field] : 500;
-                    });
-                } else {
-                    $AllEdges = $AllEdges->sortBy($sort[0]);
-                }
-            } else {
-                if (is_numeric($sort[0])) {
-                    $field = $sort[0];
-                    $AllEdges = $AllEdges->sortByDesc(function ($edge) use ($field) {
-                        return is_numeric($edge[$field]) ? $edge[$field] : -1;
-                    });
-                } else {
-                    $AllEdges = $AllEdges->sortByDesc($sort[0]);
-                }
-            }
-        }
-        return response()->json($this->paginateCollection($AllEdges, $request->params['per_page'] ?? 100, $request->params['page'] ?? 1));
+        $dto = CoordinationTableRequestData::fromRequest($request);
+
+        return response()->json($fetchCoordinationEdges($dto));
     }
 
     public function privacyPolicy()
