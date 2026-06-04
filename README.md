@@ -35,3 +35,13 @@ That compares the **PHP binary that actually runs Composer** to `composer.json`,
 3. **Cursor / VS Code** — Set the workspace / user **PHP executable** to your 8.2 binary (e.g. Herd: `~/Library/Application Support/Herd/bin/php`, Homebrew: `/opt/homebrew/opt/php@8.2/bin/php`).
 
 4. **Debian/Ubuntu** — Prefer `update-alternatives` or a `php8.2` wrapper so `/usr/bin/env php` resolves to 8.2 for the user that runs Composer.
+
+## Website shows the error but SSH `php -v` is 8.2
+
+Composer 2 adds **`vendor/composer/platform_check.php`**, which runs whenever **`vendor/autoload.php`** loads (HTTP requests, `php artisan`, etc.). It uses the **PHP version of that process**, not your SSH CLI binary.
+
+On shared hosting, **CLI** and **FPM / LiteSpeed / Apache module** can differ:
+
+1. In **Hostinger hPanel** → your domain → **PHP configuration** / **Advanced** → set the site to **PHP 8.2** (same family as CLI 8.2.30).
+2. Confirm what the **web** uses, e.g. a temporary route `return PHP_VERSION;` or `phpinfo();` **then remove it**.
+3. This repo sets **`config.platform-check`** to **`false`** so Composer does not ship the strict bootstrap check (avoids a fatal when the panel lags). Prefer fixing the panel PHP to 8.2 anyway; after changing it, you can set **`platform-check`** back to **`true`** if you want the guard again. After any change, run **`composer dump-autoload`** in **`public_html`**.
