@@ -49,4 +49,18 @@ return [
         'redirect' => env('FACEBOOK_REDIRECT_URI')
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | tansik.digital.gov.eg coordination limit importer (HTTP)
+    |--------------------------------------------------------------------------
+    |
+    | Laravel's HTTP client defaults connect_timeout to 10s; slow TLS/handshake
+    | from some hosts to the ministry site can hit that before transfer starts.
+    |
+    */
+    'tansik_digital_gov_import' => [
+        'http_timeout' => (int) env('TANSIK_DIGITAL_GOV_IMPORT_HTTP_TIMEOUT', 120),
+        'http_connect_timeout' => (int) env('TANSIK_DIGITAL_GOV_IMPORT_HTTP_CONNECT_TIMEOUT', 60),
+    ],
+
 ];

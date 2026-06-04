@@ -3,6 +3,7 @@
 namespace App\Support\Tansik;
 
 use App\Models\Tansik\FacultyEdge;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -10,6 +11,23 @@ use Illuminate\Support\Facades\Http;
  */
 final class DigitalGovCoordinationLimitImporter
 {
+    /**
+     * Shared HTTP client: raises connect_timeout above Laravel's default 10s
+     * (slow TLS to the ministry host otherwise yields cURL 28 before transfer).
+     */
+    public static function http(): PendingRequest
+    {
+        $cfg = config('services.tansik_digital_gov_import', []);
+
+        return Http::timeout((int) ($cfg['http_timeout'] ?? 120))
+            ->connectTimeout((int) ($cfg['http_connect_timeout'] ?? 60))
+            ->withHeaders([
+                'User-Agent' => 'ThanawyaHelwaCoordinationImporter/1.0 (+https://thanawyahelwa.org)',
+                'Accept' => 'text/html,*/*',
+                'Accept-Language' => 'ar-EG,ar;q=0.9',
+            ]);
+    }
+
     public function __construct(
         private DigitalGovCoordinationLimitParser $parser,
     ) {
@@ -97,13 +115,7 @@ final class DigitalGovCoordinationLimitImporter
 
     private function download(string $url): string
     {
-        $response = Http::timeout(90)
-            ->withHeaders([
-                'User-Agent' => 'ThanawyaHelwaCoordinationImporter/1.0 (+https://thanawyahelwa.org)',
-                'Accept' => 'text/html,*/*',
-                'Accept-Language' => 'ar-EG,ar;q=0.9',
-            ])
-            ->get($url);
+        $response = self::http()->get($url);
 
         if (! $response->successful()) {
             throw new \RuntimeException('HTTP '.$response->status().' when fetching '.$url);

@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Support\Tansik\DigitalGovCoordinationLimitCatalog;
 use App\Support\Tansik\DigitalGovCoordinationLimitImporter;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 use Throwable;
 
 /**
@@ -40,11 +39,7 @@ class ImportTansikDigitalGovernmentCoordinationLimitsCommand extends Command
         $this->info(sprintf('Years: %d–%d%s', $fromYear, $toYear, $dryRun ? ' (dry run)' : ''));
 
         try {
-            $portalHtml = Http::timeout(90)
-                ->withHeaders([
-                    'User-Agent' => 'ThanawyaHelwaCoordinationImporter/1.0 (+https://thanawyahelwa.org)',
-                    'Accept' => 'text/html,*/*',
-                ])
+            $portalHtml = DigitalGovCoordinationLimitImporter::http()
                 ->get($portalUrl)
                 ->throw()
                 ->body();
