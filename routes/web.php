@@ -47,6 +47,10 @@ Route::get('/privacy-policy-and-terms', 'PagesController@privacyPolicy');
 //Offline
 Route::get('/offline', 'PagesController@offline')->name('offline');
 
+// Colleges (public directory — UniFac)
+Route::get('colleges', 'CollegeController@index')->name('colleges.index');
+Route::get('colleges/{college}', 'CollegeController@show')->name('colleges.show');
+
 //Auth & Facebook Login
 Auth::routes();
 //Notifications

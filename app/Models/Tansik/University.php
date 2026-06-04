@@ -2,11 +2,14 @@
 
 namespace App\Models\Tansik;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class University extends Model
 {
-    protected $fillable = ['name','type','logo'];
+    use HasFactory;
+
+    protected $fillable = ['name', 'type', 'logo'];
 
     public function administrations() {
         return $this->belongsToMany(Administration::class,'geoDist');
