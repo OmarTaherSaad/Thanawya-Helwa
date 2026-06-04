@@ -10,7 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "axios": "^0.32.0",
+        "axios": "^1.8.2",
         "bootstrap": "^5.3.3",
         "cross-env": "^5.2.1",
         "jquery": "^3.7.1",
@@ -19,9 +19,9 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.32.13",
         "sass-loader": "^12.6.0",
-        "vue-loader": "^17.4.2",
+        "vue-loader": "^15.11.1",
         "vue-template-compiler": "^2.7.16",
-        "webpack": ">=5.96.1 <5.107.0"
+        "webpack": "~5.96.1"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.4",
@@ -44,5 +44,17 @@
         "vue-toasted": "^1.1.28",
         "vuetable-2": "^1.7.5",
         "waypoints": "^4.0.1"
+    },
+    "overrides": {
+        "axios": "^1.8.2",
+        "follow-redirects": "^1.15.11",
+        "@babel/plugin-transform-modules-systemjs": "^7.29.4",
+        "lodash": "^4.18.1",
+        "brace-expansion": "^1.1.13",
+        "fast-uri": "^3.1.2",
+        "immutable": "^5.1.5",
+        "bn.js": "^5.2.2",
+        "webpack-dev-server": "^4.15.2",
+        "uuid": "^11.1.1"
     }
 }

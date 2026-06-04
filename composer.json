@@ -43,6 +43,12 @@
         "sort-packages": true,
         "allow-plugins": {
             "php-http/discovery": true
+        },
+        "audit": {
+            "ignore": [
+                "PKSA-mdq4-51ck-6kdq",
+                "PKSA-8qx3-n5y5-vvnd"
+            ]
         }
     },
     "extra": {
