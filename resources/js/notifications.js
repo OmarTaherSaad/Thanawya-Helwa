@@ -65,8 +65,26 @@ window.notifApp = new Vue({
             }
             this.toast("New Notification!", notif.text, "info");
         });
+        // Vue re-renders the toggle; bind Bootstrap dropdown after mount.
+        this.$nextTick(() => {
+            this.bindNotificationDropdown();
+        });
+    },
+    updated() {
+        this.$nextTick(() => {
+            this.bindNotificationDropdown();
+        });
     },
     methods: {
+        bindNotificationDropdown() {
+            const toggle =
+                this.$el &&
+                this.$el.querySelector &&
+                this.$el.querySelector('[data-bs-toggle="dropdown"]');
+            if (toggle && window.bootstrap && window.bootstrap.Dropdown) {
+                window.bootstrap.Dropdown.getOrCreateInstance(toggle);
+            }
+        },
         markAsRead() {
             axios.post(this.markReadURL).then(res => {
                 if (res.data.success != undefined) {

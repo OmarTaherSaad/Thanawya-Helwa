@@ -1,72 +1,53 @@
-<div class="row">
-	<div class="col-10">
-	@if ($message = Session::get('success'))
+@php
+    $thHasFlash = Session::has('success')
+        || Session::has('error')
+        || Session::has('warning')
+        || Session::has('info')
+        || $errors->any();
+@endphp
+@if ($thHasFlash)
+<div class="row justify-content-center mb-3">
+    <div class="col-12">
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-dismissible fade show text-end" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
 
-	<div class="alert alert-success alert-dismissible fade show {{ App::getLocale() == 'ar' ? 'text-right' : '' }}" role="alert">
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show text-end" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+                <strong>
+                    <ul class="mb-0 ps-3">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </strong>
+            </div>
+        @endif
 
-		<button type="button" class="close" data-dismiss="alert">×</button>	
+        @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-dismissible fade show text-end" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
 
-			<strong>{{ $message }}</strong>
+        @if ($message = Session::get('warning'))
+            <div class="alert alert-warning alert-dismissible fade show text-end" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
 
-	</div>
-
-	@endif
-
-
-	{{--System Errors--}}
-	@if ($errors->any())
-	<div class="alert alert-danger alert-dismissible fade show {{ App::getLocale() == 'ar' ? 'text-right' : '' }}" role="alert">
-
-			<button type="button" class="close" data-dismiss="alert">×</button>	
-			<strong>
-				<ul>
-					@foreach ($errors->all() as $error)
-						<li>{{ $error }}</li>
-					@endforeach
-				</ul>
-			</strong>
-		
-		</div>
-	@endif
-
-	@if ($message = Session::get('error'))
-
-	<div class="alert alert-danger alert-dismissible fade show {{ App::getLocale() == 'ar' ? 'text-right' : '' }}" role="alert">
-
-		<button type="button" class="close" data-dismiss="alert">×</button>	
-
-			<strong>{{ $message }}</strong>
-
-	</div>
-
-	@endif
-
-
-
-	@if ($message = Session::get('warning'))
-
-	<div class="alert alert-warning alert-dismissible fade show {{ App::getLocale() == 'ar' ? 'text-right' : '' }}" role="alert">
-
-		<button type="button" class="close" data-dismiss="alert">×</button>	
-
-		<strong>{{ $message }}</strong>
-
-	</div>
-
-	@endif
-
-
-
-	@if ($message = Session::get('info'))
-
-	<div class="alert alert-info alert-dismissible fade show {{ App::getLocale() == 'ar' ? 'text-right' : '' }}" role="alert">
-
-		<button type="button" class="close" data-dismiss="alert">×</button>	
-
-		<strong>{{ $message }}</strong>
-
-	</div>
-
-	@endif
-	</div>
+        @if ($message = Session::get('info'))
+            <div class="alert alert-info alert-dismissible fade show text-end" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="إغلاق"></button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
+    </div>
 </div>
+@endif

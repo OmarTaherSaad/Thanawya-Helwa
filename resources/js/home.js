@@ -13,10 +13,18 @@ AOS.init({
     "use strict";
 
     var fullHeight = function() {
-        $(".js-fullheight").css("height", $(window).height());
-        $(window).on("resize", function() {
-            $(".js-fullheight").css("height", $(window).height());
-        });
+        // Fill viewport from the hero’s top edge (navbar + optional flash row), not from window top only.
+        var apply = function() {
+            var $hero = $(".js-fullheight").first();
+            if (!$hero.length) {
+                return;
+            }
+            var top = $hero[0].getBoundingClientRect().top;
+            var h = Math.max(280, $(window).height() - top);
+            $(".js-fullheight").css({ height: h, minHeight: h });
+        };
+        apply();
+        $(window).on("resize", apply);
     };
     fullHeight();
 

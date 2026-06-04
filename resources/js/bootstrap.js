@@ -1,7 +1,7 @@
 window._ = require('lodash');
-window.Popper = require('popper.js').default;
 window.$ = window.jQuery = require('jquery');
-require('bootstrap');
+// Bootstrap 5 + Popper 2 (bundle). Expose API for Vue mounts / inline scripts (webpack does not set global.bootstrap).
+window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

@@ -19,7 +19,7 @@
         <h4 class="d-block d-sm-none">Move right & left to see all details.</h4>
         <div class="col-12 table-responsive">
             <table class="table table-light table-bordered table-hover table-sm">
-                <thead class="thead-dark">
+                <thead class="table-dark">
                     <tr>
                         <th class="align-middle">Edit</th>
                         <th class="align-middle">Delete</th>

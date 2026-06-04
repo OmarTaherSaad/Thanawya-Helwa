@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Support\PageSeo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -38,6 +39,17 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        PageSeo::applyNoindex(
+            'إنشاء حساب | ثانوية حلوة',
+            'تسجيل حساب جديد على موقع ثانوية حلوة.',
+            route('register')
+        );
+
+        return view('auth.register');
     }
 
     /**

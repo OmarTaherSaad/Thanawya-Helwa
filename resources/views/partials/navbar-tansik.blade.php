@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,16 +9,13 @@
     </a>
 
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+    <div class="collapse navbar-collapse justify-content-lg-between align-items-lg-center" id="navbarNav">
+        <ul class="navbar-nav flex-wrap">
             <li class="nav-item {{ Route::currentRouteName() == 'home' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('home') }}">الرئيسية</a>
             </li>
             <li class="nav-item {{ Route::currentRouteNamed('careers.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('careers.index') }}">بعد الثانوية</a>
-            </li>
-            <li class="nav-item {{ Route::currentRouteNamed('search.*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('search.index') }}">بحث</a>
             </li>
             <li class="nav-item {{ Route::currentRouteNamed('colleges.compare') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('colleges.compare') }}">مقارنة كليات</a>
@@ -50,6 +47,9 @@
             <li class="nav-item {{ Route::currentRouteName() == 'Tansik-Stages-Info' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('tansik.stages_info') }}">مراحل التنسيق</a>
             </li>
+        </ul>
+        <ul class="navbar-nav mt-3 mt-lg-0 flex-shrink-0">
+            @include('partials.navbar-directory-search')
         </ul>
     </div>
 </nav>

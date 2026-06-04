@@ -1,13 +1,12 @@
 @extends('layouts.app')
 @section('title', 'الجامعات')
 @section('content')
-<div class="container py-4">
     <h1 class="h3 mb-3">الجامعات</h1>
     <p class="lead text-muted mb-3">جامعات مرتبطة ببيانات التنسيق على الموقع.</p>
     <p><a href="{{ route('colleges.index') }}">عرض كليات ومعاهد مصر</a></p>
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
+            <thead class="table-dark">
                 <tr>
                     <th>الجامعة</th>
                     <th>النوع</th>
@@ -26,5 +25,4 @@
         </table>
     </div>
     {{ $universities->withQueryString()->links() }}
-</div>
 @endsection

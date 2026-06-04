@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Tansik\College\ListCollegesAction;
 use App\Actions\Tansik\College\PrepareCollegeShowPageAction;
 use App\Models\Tansik\UniFac;
-use Artesaos\SEOTools\Facades\SEOMeta;
+use App\Support\PageSeo;
 use Illuminate\View\View;
 
 class CollegeController extends Controller
@@ -15,10 +15,11 @@ class CollegeController extends Controller
      */
     public function index(ListCollegesAction $listColleges): View
     {
-        SEOMeta::setTitle('كليات ومعاهد مصر | دليل ثانوية حلوة');
-        SEOMeta::setDescription('قائمة بكليات ومعاهد مصر المرتبطة بتنسيق الثانوية العامة مع روابط لصفحات التفاصيل والحد الأدنى عبر السنوات.');
-        SEOMeta::setCanonical(route('colleges.index'));
-        SEOMeta::setRobots('index,follow');
+        PageSeo::apply(
+            'كليات ومعاهد مصر | دليل ثانوية حلوة',
+            'قائمة بكليات ومعاهد مصر المرتبطة بتنسيق الثانوية العامة مع روابط لصفحات التفاصيل والحد الأدنى عبر السنوات.',
+            route('colleges.index')
+        );
 
         $colleges = $listColleges();
 
@@ -33,12 +34,9 @@ class CollegeController extends Controller
         $page = $prepareCollegeShowPage($college);
 
         $title = $page->college->name.' | تنسيق الثانوية العامة';
-        SEOMeta::setTitle($title);
         $description = $page->college->meta_description
             ?: 'حد أدنى وتنسيق '.$page->college->name.' عبر السنوات (علمي وأدبي) على ثانوية حلوة.';
-        SEOMeta::setDescription($description);
-        SEOMeta::setCanonical(route('colleges.show', ['college' => $page->college->slug]));
-        SEOMeta::setRobots('index,follow');
+        PageSeo::apply($title, $description, route('colleges.show', ['college' => $page->college->slug]));
 
         return view('colleges.show', compact('page'));
     }

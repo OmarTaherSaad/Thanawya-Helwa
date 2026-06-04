@@ -13,9 +13,9 @@
 </style>
 @endsection
 @section('content')
-<div class="row align-items-center my-3 my-3">
+<div class="row align-items-center my-4">
     <div class="col text-center">
-        <h1>عن الفريق</h1>
+        <h1 class="h2 mb-0">عن الفريق</h1>
     </div>
 </div>
 <div class="row text-right my-2 py-2 align-items-center">
@@ -95,13 +95,13 @@
         <div class="col-12 px-0">
             <!-- Header -->
             <div class="bg-success text-center py-5 mb-4">
-                <div class="container">
-                    <h1 class="font-weight-light text-white">Meet Our Founders</h1>
+                <div class="px-3">
+                    <h1 class="fw-light text-white">Meet Our Founders</h1>
                 </div>
             </div>
 
             <!-- Page Content -->
-            <div class="container">
+            <div>
                 <div class="row justify-content-center members-data" id="founders-data" data-role="founder">
                     @include('containers.members-list',['members' => $members_founder])
                 </div>
@@ -122,13 +122,13 @@
         <div class="col-12 px-0">
             <!-- Header -->
             <div class="bg-primary text-center py-5 mb-4">
-                <div class="container">
-                    <h1 class="font-weight-light text-white">and Here is our Current Team!</h1>
+                <div class="px-3">
+                    <h1 class="fw-light text-white">and Here is our Current Team!</h1>
                 </div>
             </div>
 
             <!-- Page Content -->
-            <div class="container">
+            <div>
                 <div class="row justify-content-center members-data" id="member-current-data" data-role="current">
                     @include('containers.members-list',['members' => $members_current])
                 </div>
@@ -150,13 +150,13 @@
         <div class="col-12 px-0">
             <!-- Header -->
             <div class="bg-secondary text-center py-5 mb-4">
-                <div class="container">
-                    <h1 class="font-weight-light text-white">Also, we would love to thank our former members :)</h1>
+                <div class="px-3">
+                    <h1 class="fw-light text-white">Also, we would love to thank our former members :)</h1>
                 </div>
             </div>
 
             <!-- Page Content -->
-            <div class="container">
+            <div>
                 <div class="row justify-content-center members-data" id="member-old-data" data-role="old">
                     @include('containers.members-list',['members' => $members_old])
                 </div>

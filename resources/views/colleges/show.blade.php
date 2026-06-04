@@ -2,9 +2,8 @@
 @section('title', $page->college->name)
 @section('content')
 @php /** @var \App\DataTransferObjects\Tansik\CollegeShowPageData $page */ @endphp
-<div class="container py-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+    <nav aria-label="مسار التنقل">
+        <ol class="breadcrumb bg-transparent px-0 mb-3">
             <li class="breadcrumb-item"><a href="{{ route('colleges.index') }}">كليات ومعاهد مصر</a></li>
             @if ($page->college->university && $page->college->university->is_active && $page->college->university->slug)
             <li class="breadcrumb-item"><a href="{{ route('universities.show', $page->college->university) }}">{{ $page->college->university->name }}</a></li>
@@ -25,7 +24,7 @@
     @else
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+            <thead class="table-dark">
                 <tr>
                     <th>السنة</th>
                     <th>الشعبة</th>
@@ -47,5 +46,4 @@
     <p class="mt-4">
         <a href="{{ route('tansik.previous_edges') }}" class="btn btn-outline-primary">تنسيق كل الكليات عبر السنوات</a>
     </p>
-</div>
 @endsection

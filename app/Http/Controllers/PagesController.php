@@ -7,7 +7,7 @@ use App\Actions\Tansik\Coordination\FetchCoordinationEdgesAction;
 use App\DataTransferObjects\Tansik\CoordinationTableRequestData;
 use App\Mail\ContactMail;
 use App\Mail\ContactForAdminMail;
-use Artesaos\SEOTools\Facades\SEOMeta;
+use App\Support\PageSeo;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Team\Member;
@@ -37,11 +37,23 @@ class PagesController extends Controller
 
     public function index()
     {
+        PageSeo::apply(
+            'الرئيسية | ثانوية حلوة',
+            'فريق متطوع يساعد طلبة الثانوية العامة المصرية في التنسيق، الجامعات، الامتحانات، والتحضير للكليات.',
+            route('home')
+        );
+
         return view('index');
     }
 
     public function about()
     {
+        PageSeo::apply(
+            'عن الفريق | ثانوية حلوة',
+            'تعرف على فريق ثانوية حلوة التطوعي، أهدافه، وأعضائه الحاليين والسابقين.',
+            route('about-us')
+        );
+
         return view('about-us')
             ->with('members_founder', $this->founder_members)
             ->with('members_current', $this->current_members->take($this->pageSize))
@@ -61,16 +73,34 @@ class PagesController extends Controller
 
     public function join()
     {
+        PageSeo::apply(
+            'انضم إلينا | ثانوية حلوة',
+            'انضم لفريق ثانوية حلوة التطوعي وساهم في دعم طلبة الثانوية العامة.',
+            route('join-us')
+        );
+
         return view('join-us');
     }
 
     public function offline()
     {
+        PageSeo::applyNoindex(
+            'وضع عدم الاتصال | ثانوية حلوة',
+            'صفحة تعمل بدون إنترنت لعرض محتوى محدود عند انقطاع الشبكة.',
+            route('offline')
+        );
+
         return view('offline');
     }
 
     public function contact()
     {
+        PageSeo::apply(
+            'تواصل معنا | ثانوية حلوة',
+            'راسل فريق ثانوية حلوة لأسئلة، اقتراحات، أو تعاون إعلامي.',
+            route('contact')
+        );
+
         return view('contact');
     }
 
@@ -150,6 +180,12 @@ class PagesController extends Controller
 
             ];
         }
+        PageSeo::apply(
+            'الأخبار '.$MediaType[0].' عن ثانوية حلوة',
+            'تغطيات إعلامية في الصحافة والتلفزيون والراديو عن فريق ثانوية حلوة.',
+            $type == 'TV' ? route('media.tv') : route('media.newspaper')
+        );
+
         return view('media')->with(compact('Items'))->with('type', $MediaType);
     }
 
@@ -160,12 +196,11 @@ class PagesController extends Controller
 
     public function TansikPrevEdges(BuildCoordinationTableFieldsAction $buildCoordinationTableFields)
     {
-        SEOMeta::setTitle('تنسيق السنوات السابقة | الحد الأدنى لكليات ومعاهد مصر');
-        SEOMeta::setDescription(
-            'جدول تنسيق السنوات السابقة للثانوية العامة (علمي وأدبي): الحد الأدنى لكليات ومعاهد مصر منذ 2014 مع إمكانية البحث والترتيب.'
+        PageSeo::apply(
+            'تنسيق السنوات السابقة | الحد الأدنى لكليات ومعاهد مصر',
+            'جدول تنسيق السنوات السابقة للثانوية العامة (علمي وأدبي): الحد الأدنى لكليات ومعاهد مصر منذ 2014 مع إمكانية البحث والترتيب.',
+            route('tansik.previous_edges')
         );
-        SEOMeta::setCanonical(route('tansik.previous_edges'));
-        SEOMeta::setRobots('index,follow');
 
         $fields = $buildCoordinationTableFields();
 
@@ -178,6 +213,12 @@ class PagesController extends Controller
     }
     public function TansikGeoDist()
     {
+        PageSeo::apply(
+            'التوزيع الجغرافي للقبول | ثانوية حلوة',
+            'اعرف التوزيع الجغرافي للقبول في الجامعات حسب المحافظة والإدارة التعليمية.',
+            route('tansik.geo_dist')
+        );
+
         return view('tansik.geo-dist')->with('govs', Governorate::orderBy('name')->pluck('name', 'id'));
     }
 
@@ -234,6 +275,12 @@ class PagesController extends Controller
 
     public function privacyPolicy()
     {
+        PageSeo::apply(
+            'سياسة الخصوصية والشروط | ثانوية حلوة',
+            'سياسة الخصوصية وشروط استخدام موقع ثانوية حلوة.',
+            route('privacy.policy')
+        );
+
         return view('privacy-policy');
     }
 

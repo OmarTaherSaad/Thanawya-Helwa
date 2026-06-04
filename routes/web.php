@@ -10,8 +10,14 @@
 |
 */
 
+use App\Http\Controllers\AdminEntryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+Route::get('robots.txt', 'RobotsTxtController@__invoke')->name('robots');
+
+// Member/team sign-in entry (not advertised in the public navbar); guests → login, auth → post-login home.
+Route::get('/admin', AdminEntryController::class)->name('admin.entry');
 
 Route::get('/', 'PagesController@index')->name('home');
 Route::get('/home', 'PagesController@index')->name('home2');
@@ -44,14 +50,17 @@ Route::prefix('tansik')->name('tansik.')->group(function () {
 });
 
 //Privacy Policy
-Route::get('/privacy-policy-and-terms', 'PagesController@privacyPolicy');
+Route::get('/privacy-policy-and-terms', 'PagesController@privacyPolicy')->name('privacy.policy');
 
 //Offline
 Route::get('/offline', 'PagesController@offline')->name('offline');
 
 Route::get('careers', 'CareerController@index')->name('careers.index');
 Route::get('search', 'SearchController@index')->name('search.index');
-Route::get('sitemap.xml', 'SitemapController@__invoke')->name('sitemap');
+Route::get('sitemap.xml', 'SitemapIndexController@__invoke')->name('sitemap.index');
+Route::get('sitemap-{segment}.xml', 'SitemapSegmentController@__invoke')
+    ->whereIn('segment', ['static', 'colleges', 'universities'])
+    ->name('sitemap.segment');
 
 // Colleges (public directory — UniFac)
 Route::get('colleges', 'CollegeController@index')->name('colleges.index');

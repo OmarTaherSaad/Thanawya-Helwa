@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Tansik\Comparison\CompareCollegesBySlugsAction;
-use Artesaos\SEOTools\Facades\SEOMeta;
+use App\Support\PageSeo;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -23,13 +23,14 @@ class CollegeComparisonController extends Controller
         $slugs = array_values(array_filter(array_map('trim', explode(',', (string) $request->input('slugs', '')))));
         $slugs = array_slice(array_unique($slugs), 0, 5);
 
-        SEOMeta::setTitle('مقارنة كليات | تنسيق الثانوية العامة');
-        SEOMeta::setDescription('قارن الحد الأدنى المسجل لعدة كليات أو معاهد في شعبة واحدة عبر السنوات المتاحة في بيانات الموقع.');
-        SEOMeta::setCanonical(route('colleges.compare', array_filter([
-            'section' => $section !== 'E' ? $section : null,
-            'slugs' => $request->filled('slugs') ? $request->input('slugs') : null,
-        ])));
-        SEOMeta::setRobots('index,follow');
+        PageSeo::apply(
+            'مقارنة كليات | تنسيق الثانوية العامة',
+            'قارن الحد الأدنى المسجل لعدة كليات أو معاهد في شعبة واحدة عبر السنوات المتاحة في بيانات الموقع.',
+            route('colleges.compare', array_filter([
+                'section' => $section !== 'E' ? $section : null,
+                'slugs' => $request->filled('slugs') ? $request->input('slugs') : null,
+            ]))
+        );
 
         $data = $compare($slugs, $section);
 

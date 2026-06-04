@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Tansik\University\ListUniversitiesAction;
 use App\Actions\Tansik\University\PrepareUniversityShowPageAction;
 use App\Models\Tansik\University;
-use Artesaos\SEOTools\Facades\SEOMeta;
+use App\Support\PageSeo;
 use Illuminate\View\View;
 
 class UniversityController extends Controller
@@ -15,10 +15,11 @@ class UniversityController extends Controller
      */
     public function index(ListUniversitiesAction $listUniversities): View
     {
-        SEOMeta::setTitle('الجامعات | دليل ثانوية حلوة');
-        SEOMeta::setDescription('قائمة بالجامعات المرتبطة ببيانات التنسيق على ثانوية حلوة مع روابط لكلياتها ومعاهدها.');
-        SEOMeta::setCanonical(route('universities.index'));
-        SEOMeta::setRobots('index,follow');
+        PageSeo::apply(
+            'الجامعات | دليل ثانوية حلوة',
+            'قائمة بالجامعات المرتبطة ببيانات التنسيق على ثانوية حلوة مع روابط لكلياتها ومعاهدها.',
+            route('universities.index')
+        );
 
         $universities = $listUniversities();
 
@@ -33,12 +34,9 @@ class UniversityController extends Controller
         $page = $prepareUniversityShowPage($university);
 
         $title = $page->university->name.' | جامعات مصر';
-        SEOMeta::setTitle($title);
         $description = $page->university->meta_description
             ?: 'كليات ومعاهد '.$page->university->name.' في دليل التنسيق على ثانوية حلوة.';
-        SEOMeta::setDescription($description);
-        SEOMeta::setCanonical(route('universities.show', ['university' => $page->university->slug]));
-        SEOMeta::setRobots('index,follow');
+        PageSeo::apply($title, $description, route('universities.show', ['university' => $page->university->slug]));
 
         return view('universities.show', compact('page'));
     }

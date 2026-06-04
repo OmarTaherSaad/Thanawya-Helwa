@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title','كل البيانات')
 @section('content')
-<div class="container pb-5 mb-5">
     <div class="row justify-content-center text-center mt-5">
         <div class="col-12 col-md-6">
             <h1>بيانات التنسيق</h1>
@@ -44,5 +43,4 @@
             {!! $edges->links() !!}
         </div>
     </div>
-</div>
 @endsection

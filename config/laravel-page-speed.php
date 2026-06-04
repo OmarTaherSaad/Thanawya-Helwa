@@ -55,7 +55,19 @@ return [
         '*.flv',
         '*.m4v',
         '*.torrent',
-        'telescope/*'
+        'telescope/*',
+        'search',
+        'search/*',
+        'careers',
+        'colleges',
+        'colleges/*',
+        'universities',
+        'universities/*',
+        'tansik/previous-years-edges',
+        'tansik/coordination-estimate',
+        'tansik/coordination-estimate/*',
+        'ministryExam',
+        'ministryExam/*',
     ],
 
 ];

@@ -1,143 +1,141 @@
 @extends('layouts.app')
 @section('title', 'كل الامتحانات')
 @section('content')
-    <div class="container pb-5 mb-5">
-        @if (auth()->check() &&
-            auth()->user()->isTeamMember())
-            <div class="row justify-content-center text-center mt-5">
-                <div class="col-12 col-6">
-                    <a class="btn btn-primary" href="{{ route('ministryExam.create') }}">Add Exam</a>
-                </div>
-            </div>
-        @endif
-        <div class="row justify-content-center text-center mt-5">
-            <div class="col-12 col-md-6">
-                <h1>امتحانات من الوزارة</h1>
+    @if (auth()->check() && auth()->user()->isTeamMember())
+        <div class="row justify-content-center text-center mt-3">
+            <div class="col-12 col-sm-auto">
+                <a class="btn btn-primary" href="{{ route('ministryExam.create') }}">Add Exam</a>
             </div>
         </div>
-        <div class="row justify-content-center text-center mt-5">
-            <div class="col-12">
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- TH Exams Page -->
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8176502663524074"
-                    data-ad-slot="1820474245" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-            <div class="col-12">
-                <form class="form-inline" {{ route('ministryExam.index') }} id="filterForm">
-                    <div class="form-group">
-                        <label>قم باختيار الشعبة</label>
-                        <select class="form-control" name="major" onchange="this.form.submit()">
+    @endif
+
+    <div class="row justify-content-center text-center mt-4">
+        <div class="col-12 col-md-8">
+            <h1 class="h2 mb-0">امتحانات من الوزارة</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-12">
+            <form action="{{ route('ministryExam.index') }}" method="get" id="filterForm" class="text-end">
+                <div class="row g-3 align-items-end">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label mb-1 d-block" for="filter-major">قم باختيار الشعبة</label>
+                        <select class="form-select" id="filter-major" name="major" onchange="this.form.submit()">
                             <option selected disabled>اختر الشعبة</option>
                             <option value="adby" @selected('adby' == Request::get('major'))>أدبي</option>
                             <option value="oloom" @selected('oloom' == Request::get('major'))>علمي علوم</option>
                             <option value="ryada" @selected('ryada' == Request::get('major'))>علمي رياضة</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>قم باختيار المادة</label>
-                        <select class="form-control" name="subject" onchange="this.form.submit()">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label mb-1 d-block" for="filter-subject">قم باختيار المادة</label>
+                        <select class="form-select" id="filter-subject" name="subject" onchange="this.form.submit()">
                             <option selected disabled>اختر المادة</option>
                             @foreach ($subjects as $key => $s)
-                                <option value="{{ $key }}" @selected($key == Request::get('subject'))>
-                                    {{ $s }}</option>
+                                <option value="{{ $key }}" @selected($key == Request::get('subject'))>{{ $s }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>قم باختيار السنة الدراسية (الصف الثانوي)</label>
-                        <select class="form-control" name="educational_year" onchange="this.form.submit()">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label mb-1 d-block" for="filter-educational-year">قم باختيار السنة الدراسية (الصف الثانوي)</label>
+                        <select class="form-select" id="filter-educational-year" name="educational_year" onchange="this.form.submit()">
                             <option selected disabled>اختر السنة</option>
                             @foreach ($educational_years as $y)
-                                <option value="{{ $y }}" @selected($y == Request::get('educational_year'))>
-                                    {{ $y }}</option>
+                                <option value="{{ $y }}" @selected($y == Request::get('educational_year'))>{{ $y }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>قم باختيار سنة الامتحان</label>
-                        <select class="form-control" name="year" onchange="this.form.submit()">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label mb-1 d-block" for="filter-year">قم باختيار سنة الامتحان</label>
+                        <select class="form-select" id="filter-year" name="year" onchange="this.form.submit()">
                             <option selected disabled>اختر السنة</option>
                             @foreach ($years as $y)
-                                <option value="{{ $y }}" @selected($y == Request::get('year'))>
-                                    {{ $y }}</option>
+                                <option value="{{ $y }}" @selected($y == Request::get('year'))>{{ $y }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <button type="button" onclick="resetFilters();this.form.submit();" class="btn btn-danger m-2">إعادة
-                        الضبط</button>
-                </form>
-            </div>
+                    <div class="col-12 text-center text-md-end">
+                        <button type="button" class="btn btn-danger" onclick="resetFilters(); document.getElementById('filterForm').submit();">إعادة الضبط</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row">
-            <div class="col-12 table-responsive">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead class="thead-dark">
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 table-responsive">
+            <table class="table table-bordered table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">العنوان</th>
+                        <th scope="col">السنة</th>
+                        <th scope="col">الصف الدراسي</th>
+                        @auth
+                            @if (auth()->user()->isTeamMember())
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+                            @endif
+                        @endauth
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($ministryExams as $ministryExam)
                         <tr>
-                            <th>العنوان</th>
-                            <th>السنة</th>
-                            <th>الصف الدراسي</th>
-                            @can('update', $ministryExams->first())
-                                <th>Edit</th>
-                            @endcan
-                            @can('delete', $ministryExams->first())
-                                <th>Delete</th>
-                            @endcan
+                            <td>
+                                <a href="{{ route('ministryExam.show', ['ministryExam' => $ministryExam]) }}">{{ $ministryExam->subject_name }}
+                                    - {{ $ministryExam->title }}</a>
+                            </td>
+                            <td>{{ $ministryExam->year }}</td>
+                            <td>{{ $ministryExam->educational_year }}</td>
+                            @auth
+                                @if (auth()->user()->isTeamMember())
+                                    <td>
+                                        @can('update', $ministryExam)
+                                            <a href="{{ $ministryExam->getLinkToEdit() }}" class="btn btn-sm btn-secondary">Edit</a>
+                                        @endcan
+                                    </td>
+                                    <td>
+                                        @can('delete', $ministryExam)
+                                            <a href="#deleteModal" data-id="{{ $ministryExam->getLinkToDelete() }}"
+                                                data-name="{{ $ministryExam->title }}" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal" class="deleteBtn btn btn-sm btn-danger">Delete</a>
+                                        @endcan
+                                    </td>
+                                @endif
+                            @endauth
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($ministryExams as $ministryExam)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('ministryExam.show', ['ministryExam' => $ministryExam]) }}">{{ $ministryExam->subject_name }}
-                                        - {{ $ministryExam->title }}</a>
-                                </td>
-                                <td>{{ $ministryExam->year }}</td>
-                                <td>{{ $ministryExam->educational_year }}</td>
-                                @can('update', $ministryExam)
-                                    <td>
-                                        <a href="{{ $ministryExam->getLinkToEdit() }}" class="btn btn-secondary">Edit</a>
-                                    </td>
-                                @endcan
-                                @can('delete', $ministryExam)
-                                    <td>
-                                        <a href="#deleteModal" data-id="{{ $ministryExam->getLinkToDelete() }}"
-                                            data-name="{{ $ministryExam->title }}" data-toggle="modal"
-                                            class=" deleteBtn btn btn-danger">Delete</a>
-                                    </td>
-                                @endcan
-                            </tr>
-                        @empty
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                    @empty
+                        <tr>
+                            <td colspan="{{ auth()->check() && auth()->user()->isTeamMember() ? 5 : 3 }}" class="text-center text-muted py-4">لا توجد امتحانات مطابقة للفلاتر الحالية.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-auto">
-                {!! $ministryExams->links() !!}
-            </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-auto">
+            {!! $ministryExams->links() !!}
         </div>
-        @auth
-            @can('delete', $ministryExams->first())
-                <div class="modal" tabindex="-1" role="dialog" id="deleteModal">
-                    <div class="modal-dialog" role="document">
+    </div>
+
+    @auth
+        @if ($ministryExams->contains(fn ($exam) => auth()->user()->can('delete', $exam)))
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Deleting an exam</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <h5 class="modal-title" id="deleteModalLabel">Deleting an exam</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Do you really want to delete <span id="DeleteExamName"></span> ? Note that this action cannot be
-                                    undone.</p>
+                                <p class="mb-0">Do you really want to delete <span id="DeleteExamName"></span>? Note that this action cannot be undone.</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <form id="deleteExam" method="POST">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <form id="deleteExam" method="POST" class="d-inline">
                                     @method('DELETE')
                                     @csrf
                                     <button class="btn btn-danger" type="submit">Yes, Delete!</button>
@@ -146,21 +144,21 @@
                         </div>
                     </div>
                 </div>
-            @endcan
-        @endauth
-    </div>
+            @endif
+    @endauth
 @endsection
 
 @section('scripts')
     <script>
-        $(".deleteBtn").on('click', (e) => {
-            e.preventDefault;
-            $("#deleteExam").attr('action', $(e.target).data('id'));
-            $("#DeleteExamName").html($(e.target).data('name'));
+        $(document).on('click', '.deleteBtn', function (e) {
+            e.preventDefault();
+            const $btn = $(this);
+            $('#deleteExam').attr('action', $btn.data('id'));
+            $('#DeleteExamName').text($btn.data('name'));
         });
 
         function resetFilters() {
-            $("#filterForm select").prop('selectedIndex', 0);
+            $('#filterForm select').prop('selectedIndex', 0);
         }
     </script>
 @endsection

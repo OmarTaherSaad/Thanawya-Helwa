@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\MinistryExam;
+use App\Support\PageSeo;
 use App\Traits\GetSubjects;
 use DOMDocument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -50,11 +52,18 @@ class MinistryExamController extends Controller
         $educational_years = MinistryExam::all()->unique('educational_year')->pluck('educational_year');
 
         $exams = $exams->paginate(config('app.pagination_max'));
-        $exams = $exams->appends([
-            'educational_year' => $request->educational_year,
-            'subject' => $request->subject,
-            'major' => $request->major
-        ]);
+        $exams = $exams->appends($request->only([
+            'year',
+            'educational_year',
+            'subject',
+            'major',
+        ]));
+        PageSeo::apply(
+            'امتحانات الوزارة | ثانوية حلوة',
+            'نماذج وامتحانات وزارة التربية والتعليم للثانوية العامة في المواد المختلفة مع إمكانية التصفية والتنزيل.',
+            URL::current()
+        );
+
         return view('ministry-exams.index')
         ->with(compact('subjects'))
         ->with(compact('years'))
@@ -69,6 +78,12 @@ class MinistryExamController extends Controller
      */
     public function create()
     {
+        PageSeo::applyNoindex(
+            'إضافة امتحان وزارة | فريق',
+            'إضافة امتحان جديد (أعضاء الفريق).',
+            route('ministryExam.create')
+        );
+
         $subjects = $this->getSubjects();
         return view('ministry-exams.create')->with(compact('subjects'));
     }
@@ -153,6 +168,11 @@ class MinistryExamController extends Controller
      */
     public function show(MinistryExam $ministryExam)
     {
+        $subjectLabel = (string) $ministryExam->subject_name;
+        $title = $subjectLabel.' — '.$ministryExam->title.' | امتحانات وزارة';
+        $description = 'نموذج امتحان '.$subjectLabel.' — '.$ministryExam->title.' (سنة '.$ministryExam->year.'). تنزيل PDF من ثانوية حلوة.';
+        PageSeo::apply($title, $description, route('ministryExam.show', $ministryExam));
+
         return view('ministry-exams.show',['MinistryExam' => $ministryExam]);
     }
 
@@ -164,6 +184,12 @@ class MinistryExamController extends Controller
      */
     public function edit(MinistryExam $ministryExam)
     {
+        PageSeo::applyNoindex(
+            'تعديل امتحان وزارة | فريق',
+            'تعديل بيانات امتحان وزارة (أعضاء الفريق).',
+            route('ministryExam.edit', $ministryExam)
+        );
+
         $subjects = $this->getSubjects();
         return view('ministry-exams.edit')->with(compact('subjects'))->with(compact('ministryExam'));
     }

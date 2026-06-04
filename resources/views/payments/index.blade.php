@@ -18,7 +18,7 @@
         <h4 class="d-block d-sm-none">اتحرك يمين وشمال جوا الجدول عشان تشوف باقي البيانات</h4>
         <div class="col-12 table-responsive">
             <table class="table table-light table-bordered table-hover">
-                <thead class="thead-dark">
+                <thead class="table-dark">
                     <tr>
                         <th>وسيلة الدفع</th>
                         <th>المبلغ</th>

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -18,7 +18,7 @@
                 <a class="nav-link" href="{{ route('tas.schedule') }}">جدول اليوم</a>
             </li>
             <li class="nav-item dropdown {{ Str::contains(Route::currentRouteName(),'ticket') ? 'active' : '' }}">
-                <a class="nav-link dropdown-toggle" id="TicketsLink" data-toggle="dropdown" aria-haspopup="true"
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="TicketsLink" data-bs-toggle="dropdown"
                     aria-expanded="false">التذاكر</a>
                 <div class="dropdown-menu" aria-labelledby="TicketsLink">
                     <a class="dropdown-item {{ Route::currentRouteName() == 'tas.tickets.register' ? 'active' : '' }}"
@@ -45,7 +45,7 @@
                 </li>
             @endif
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="MainSiteLink" data-toggle="dropdown" aria-haspopup="true"
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="MainSiteLink" data-bs-toggle="dropdown"
                     aria-expanded="false">العودة للموقع</a>
                 <div class="dropdown-menu" aria-labelledby="MainSiteLink">
                     <a class="dropdown-item" href="{{ route('home') }}">الرئيسية</a>
@@ -67,9 +67,6 @@
         <ul class="navbar-nav">
             <!-- Authentication Links -->
             @guest
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
-            </li>
             @if (Route::has('register'))
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('register') }}">التسجيل لحضور القمة</a>
@@ -77,8 +74,8 @@
             @endif
             @else
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                     {{ Auth::user()->name }} <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

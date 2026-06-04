@@ -7,9 +7,12 @@ use App\Models\Team\Member;
 use App\Models\Team\Post;
 use App\Models\Team\Tag;
 use App\Notifications\PostAddedForApproveNotification;
+use App\Support\PageSeo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class PostController extends Controller
@@ -29,6 +32,12 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        PageSeo::apply(
+            'منشورات الفريق | ثانوية حلوة',
+            'مقالات وتحديثات من فريق ثانوية حلوة التطوعي لطلاب الثانوية العامة.',
+            URL::current()
+        );
+
         if (auth()->check() && auth()->user()->isTeamMember()) {
             $Posts = Post::all_for_member(auth()->user()->member);
         } else {
@@ -76,6 +85,12 @@ class PostController extends Controller
      */
     public function create()
     {
+        PageSeo::applyNoindex(
+            'إضافة منشور | ثانوية حلوة',
+            'إنشاء منشور جديد لفريق ثانوية حلوة.',
+            route('posts.create')
+        );
+
         $tags = $this->getTagsForSelector();
         $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id')->except(auth()->user()->member->id);
         return view('posts.create')->with(compact('tags'))->with(compact('members'));
@@ -133,6 +148,17 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $canonical = route('posts.show', ['post' => $post]);
+        $excerpt = Str::limit(preg_replace('/\s+/u', ' ', strip_tags((string) $post->content)), 180, '');
+        if ($excerpt === '') {
+            $excerpt = 'منشور من فريق ثانوية حلوة.';
+        }
+        if ($post->posted()) {
+            PageSeo::apply('منشور | ثانوية حلوة', $excerpt, $canonical);
+        } else {
+            PageSeo::applyNoindex('معاينة منشور | ثانوية حلوة', $excerpt, $canonical);
+        }
+
         return view('posts.show', ['post' => $post]);
     }
 
@@ -144,6 +170,12 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        PageSeo::applyNoindex(
+            'تعديل منشور | ثانوية حلوة',
+            'تعديل مسودة أو منشور قيد المراجعة.',
+            route('posts.edit', ['post' => $post])
+        );
+
         $tags = $this->getTagsForSelector();
         $members = Member::hasStatus('current')->sortBy('name')->pluck('name', 'id')->except($post->writer->id);
         $tagsSelected = $this->getTagsForSelector($post->tags->pluck('name', 'id'));

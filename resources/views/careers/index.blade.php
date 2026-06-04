@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', 'مسارات بعد الثانوية العامة')
 @section('content')
-<div class="container py-4">
     <h1 class="h3 mb-3">مسارات بعد الثانوية العامة</h1>
     <p class="lead">ثانوية حلوة تجمع أدوات تساعدك في مرحلة التنسيق والتحضير — من غير ما نكرر محتوى الجهات الرسمية.</p>
     <ul class="list-group mb-4">
@@ -31,5 +30,4 @@
         </li>
     </ul>
     <p class="text-muted">للمحتوى التفصيلي والمقالات: <a href="https://blog.thanawyahelwa.org" rel="noopener" target="_blank">مدونة ثانوية حلوة</a>.</p>
-</div>
 @endsection

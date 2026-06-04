@@ -4,10 +4,11 @@ namespace App\Models\Tansik;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Laravel\Scout\Searchable;
 
 class UniFac extends Pivot
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     /**
      * Pivot rows carry their own primary key (used by faculty_edges.unifac_id).
@@ -68,5 +69,25 @@ class UniFac extends Pivot
     public function hasFaculty()
     {
         return ! is_null($this->faculty);
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return (bool) $this->is_active && filled($this->slug);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => (string) $this->name,
+            'slug' => (string) $this->slug,
+            'address' => (string) ($this->address ?? ''),
+            'university_id' => $this->university_id,
+            'is_active' => (bool) $this->is_active,
+        ];
     }
 }

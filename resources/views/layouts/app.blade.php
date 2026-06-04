@@ -23,8 +23,7 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
         <link rel="stylesheet" href="{{ mix('css/splash-screen.css') }}">
-        {{--Scripts--}}
-        <script src="{{ mix('js/app.js') }}"></script>
+        {{--Scripts (moved to end of <body> so DOM exists before Bootstrap/jQuery run) --}}
         <link rel="preload" href="/webfonts/fa-solid-900.woff2">
         <link rel="preload" href="/webfonts/fa-brands-400.woff2">
         {{-- Google Font --}}
@@ -42,6 +41,11 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
             document.getElementsByTagName("head")[0].appendChild(tag);
         </script>
         @yield('head')
+        @if (config('ads.enabled') && ! Route::currentRouteNamed('home') && filled(config('ads.adsense_client')))
+            <script async
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ rawurlencode(config('ads.adsense_client')) }}"
+                crossorigin="anonymous"></script>
+        @endif
         <link rel="icon" href="{{ Storage::url('assets/images/Logo.ico') }}">
         <!-- Facebook Pixel Code -->
         <script>
@@ -64,23 +68,34 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
     <body>
         {{-- Splash Screen --}}
         @include('partials.splash-screen')
-        @include('partials.navbar')
-
-        <main role="main ">
-            @if(Route::currentRouteNamed('home'))
-            <div class="container-fluid px-0">
-            @else
-            <div class="container">
+        {{-- Wrapper: single flex child that grows so footer stays at viewport bottom on short pages --}}
+        <div class="th-site">
+            @include('partials.navbar')
+            {{-- Stacked min-height ad slots before <main> push the homepage hero down; reserve them on inner pages only. --}}
+            @if (config('ads.enabled') && ! Route::currentRouteNamed('home') && filled(config('ads.adsense_client')))
+                @include('partials.adsense-slots')
             @endif
-                @include('partials.show-alerts')
-                {{-- Content --}}
-                @yield('content')
-            </div>
-            {{--AXIOS loading effect--}}
-            <div class="modal" id="axiosModal"></div>
-        </main>
+
+            <main role="main">
+                @if(Route::currentRouteNamed('home'))
+                <div class="container-fluid px-0">
+                @else
+                {{-- Single .container here; inner views must not nest another .container (avoids double padding / crooked alignment). --}}
+                <div class="container th-page-gutter">
+                @endif
+                    @include('partials.show-alerts')
+                    {{-- Content --}}
+                    @yield('content')
+                </div>
+                {{--AXIOS loading effect--}}
+                <div class="modal" id="axiosModal"></div>
+            </main>
+        </div>
         @include('partials.footer')
         @include('partials.notification-setup')
+        <script src="{{ mix('js/app.js') }}"></script>
+        @stack('styles')
+        @stack('adsense-push')
         @yield('scripts')
     </body>
 </html>

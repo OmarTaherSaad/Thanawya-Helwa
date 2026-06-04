@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Support\PageSeo;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -45,6 +46,12 @@ class LoginController extends Controller
         {
             session(['url.intended' => url()->previous()]);
         }
+        PageSeo::applyNoindex(
+            'تسجيل الدخول | ثانوية حلوة',
+            'دخول أعضاء فريق ثانوية حلوة.',
+            route('login')
+        );
+
         return view('auth.login');
     }
 

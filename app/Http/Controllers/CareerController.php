@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Artesaos\SEOTools\Facades\SEOMeta;
+use App\Support\PageSeo;
 use Illuminate\View\View;
 
 /**
@@ -12,10 +12,11 @@ class CareerController extends Controller
 {
     public function index(): View
     {
-        SEOMeta::setTitle('مسارات بعد الثانوية العامة | ثانوية حلوة');
-        SEOMeta::setDescription('تعرف على أدوات ثانوية حلوة بعد الثانوية العامة: التنسيق، الامتحانات، الاختبارات، والجامعات.');
-        SEOMeta::setCanonical(route('careers.index'));
-        SEOMeta::setRobots('index,follow');
+        PageSeo::apply(
+            'مسارات بعد الثانوية العامة | ثانوية حلوة',
+            'تعرف على أدوات ثانوية حلوة بعد الثانوية العامة: التنسيق، الامتحانات، الاختبارات، والجامعات.',
+            route('careers.index')
+        );
 
         return view('careers.index');
     }

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,8 +17,7 @@
             </li>
             @elseif(auth()->user()->isAdmin())
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="AdminDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Admin Tools &nbsp;</a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="AdminDropdown" data-bs-toggle="dropdown" aria-expanded="false">Admin Tools &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="AdminDropdown">
                     <a class="dropdown-item" href="{{ route('admins.all-posts') }}">View All Posts</a>
                     <a class="dropdown-item" href="{{ route('users.index') }}">View All Users</a>
@@ -35,24 +34,21 @@
                 <a class="nav-link" href="{{ route('tansik.edges.index') }}">مسابقة التنسيق</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="QuizzesDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Quizzes &nbsp;</a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="QuizzesDropdown" data-bs-toggle="dropdown" aria-expanded="false">Quizzes &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="QuizzesDropdown">
                     <a class="dropdown-item" href="{{ route('quiz.index') }}">All Quizzes</a>
                     <a class="dropdown-item" href="{{ route('quiz.create') }}">Create New Quiz</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="ExamsDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Ministry Exams &nbsp;</a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="ExamsDropdown" data-bs-toggle="dropdown" aria-expanded="false">Ministry Exams &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="ExamsDropdown">
                     <a class="dropdown-item" href="{{ route('ministryExam.index') }}">All Exams</a>
                     <a class="dropdown-item" href="{{ route('ministryExam.create') }}">Add New Exam</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="PostsDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Posts & Tags &nbsp;</a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="PostsDropdown" data-bs-toggle="dropdown" aria-expanded="false">Posts & Tags &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="PostsDropdown">
                     <a class="dropdown-item"
                         href="{{ route('posts.view-member-posts',['member' => auth()->user()->member ]) }}">View & Edit
@@ -65,14 +61,14 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="MainWebsiteDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Main Website &nbsp;</a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="MainWebsiteDropdown" data-bs-toggle="dropdown" aria-expanded="false">Main Website &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="MainWebsiteDropdown">
                     <a class="dropdown-item" href="{{ route('home') }}">الرئيسية</a>
+                    <a class="dropdown-item" href="{{ route('search.index') }}">بحث بالاسم (جامعة / كلية)</a>
                     <a class="dropdown-item" href="{{ route('about-us') }}">عن الفريق</a>
                     <a class="dropdown-item" href="{{ route('contact') }}">تواصل معنا</a>
                     <a class="dropdown-item" href="{{ route('join-us') }}">انضم إلينا</a>
-                    <hr>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
@@ -102,9 +98,10 @@
                 <a class="nav-link" href="https://blog.thanawyahelwa.org">مدونة ثانوية حلوة</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="TansikDropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">دليلك في التنسيق &nbsp;</a>
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="TansikDropdown" data-bs-toggle="dropdown" aria-expanded="false">دليلك في التنسيق &nbsp;</a>
                 <div class="dropdown-menu" aria-labelledby="TansikDropdown">
+                    <a class="dropdown-item" href="{{ route('search.index') }}">بحث بالاسم في الدليل</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist') }}">جدول التوزيع الجغرافي</a>
                     <a class="dropdown-item" href="{{ route('tansik.geo_dist_info') }}">معلومات عن القبول الجغرافي</a>
@@ -119,21 +116,18 @@
 
         {{--End Right--}}
         <div class="mx-md-auto"></div>
-        {{--Left--}}
-        <ul class="navbar-nav">
-            <!-- Authentication Links -->
-            @guest
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">تسجيل دخول</a>
-            </li>
-            @else
+        {{--Left: حساب + بحث الدليل على طرف الشريط (في RTL يظهر بعيد عن الروابط الرئيسية) --}}
+        <ul class="navbar-nav align-items-lg-center flex-lg-row">
+            <!-- Auth: no public login link (members use /admin). -->
+            @auth
 
             {{-- Notifications --}}
             <li class="nav-item dropdown" id="NotifApp" dir="ltr">
                 <a v-bind:class="[newNotifications.length ? 'unread nav-link dropdown-toggle' : 'nav-link dropdown-toggle']"
-                    id="NotifDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    href="#" role="button" id="NotifDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-bell" aria-hidden="true"></i>
-                    <span class="d-inline d-md-none">Notifications</span> <span class="badge badge-pill badge-secondary"
+                    <span class="d-inline d-md-none">Notifications</span>
+                    <span class="badge rounded-pill bg-secondary"
                         v-html="newNotifications.length"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="NotifDropdown">
@@ -153,8 +147,8 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                     {{ Auth::user()->name }} <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -184,7 +178,8 @@
                     </form>
                 </div>
             </li>
-            @endguest
+            @endauth
+            @include('partials.navbar-directory-search')
         </ul>
 
     </div>

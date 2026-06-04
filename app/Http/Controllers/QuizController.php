@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Team\Member;
 use App\Quiz;
+use App\Support\PageSeo;
 use App\Traits\GetSubjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use \Artesaos\SEOTools\Traits\SEOTools as SEOToolsTrait;
 
 class QuizController extends Controller
 {
-    use GetSubjects,SEOToolsTrait;
+    use GetSubjects;
 
     public function __construct()
     {
@@ -28,6 +28,12 @@ class QuizController extends Controller
      */
     public function index()
     {
+        PageSeo::apply(
+            'نماذج اختبارات | ثانوية حلوة',
+            'اختبارات تجريبية للمواد المختلفة للثانوية العامة من فريق ثانوية حلوة.',
+            route('quiz.index')
+        );
+
         if (auth()->check() && auth()->user()->isTeamMember()) {
             return view('quizzes.index')->with('quizzes', Quiz::orderBy('updated_at', 'desc')->paginate(config('app.pagination_max')));
         }
@@ -41,6 +47,12 @@ class QuizController extends Controller
      */
     public function create()
     {
+        PageSeo::applyNoindex(
+            'إنشاء اختبار | فريق',
+            'إضافة اختبار جديد (أعضاء الفريق).',
+            route('quiz.create')
+        );
+
         $members = Member::has('posts')->pluck('name', 'id');
         $subjects = $this->getSubjects();
         return view('quizzes.create')->with(compact('subjects'))->with(compact('members'));
@@ -94,7 +106,9 @@ class QuizController extends Controller
         })->toArray();
         $subject = $this->getSubjects()->get($quiz->subject);
 
-        $this->seo()->setDescription($quiz->description);
+        $title = trim((string) $quiz->subject_name).' — اختبار تجريبي | ثانوية حلوة';
+        PageSeo::apply($title, (string) $quiz->description, route('quiz.show', $quiz));
+
         return view('quizzes.show')->with(compact('quiz'))->with(compact('subject'))->with(compact('questions'));
     }
 
@@ -106,6 +120,12 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
+        PageSeo::applyNoindex(
+            'تعديل اختبار | فريق',
+            'تعديل اختبار (أعضاء الفريق).',
+            route('quiz.edit', $quiz)
+        );
+
         $members = Member::has('posts')->pluck('name', 'id');
         $subjects = $this->getSubjects();
         return view('quizzes.edit')->with(compact('quiz'))->with(compact('subjects'))->with(compact('members'));

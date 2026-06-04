@@ -5,10 +5,11 @@ namespace App\Models\Tansik;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 
 class University extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = ['name', 'type', 'logo', 'slug', 'meta_description', 'is_active'];
 
@@ -60,6 +61,25 @@ class University extends Model
     public function uniFacs(): HasMany
     {
         return $this->hasMany(UniFac::class);
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return (bool) $this->is_active && filled($this->slug);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => (string) $this->name,
+            'slug' => (string) $this->slug,
+            'type' => (string) ($this->type ?? ''),
+            'is_active' => (bool) $this->is_active,
+        ];
     }
 
     public static function CorrectName(University $uni)

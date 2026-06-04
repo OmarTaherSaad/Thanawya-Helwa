@@ -1,6 +1,30 @@
 require("./bootstrap");
 import "lazysizes";
 
+/**
+ * Ensure navbar dropdowns work: Bootstrap delegates clicks on document, but Vue
+ * re-renders (e.g. notifications bell) and stacking contexts can require instances.
+ */
+function initNavbarDropdowns() {
+    if (!window.bootstrap || !window.bootstrap.Dropdown) {
+        return;
+    }
+    document.querySelectorAll('.navbar [data-bs-toggle="dropdown"]').forEach((el) => {
+        try {
+            window.bootstrap.Dropdown.getOrCreateInstance(el);
+        } catch (_) {
+            /* ignore */
+        }
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNavbarDropdowns);
+} else {
+    initNavbarDropdowns();
+}
+window.addEventListener("load", initNavbarDropdowns);
+
 axios.interceptors.request.use(
     function(config) {
         //Before request start: show loading

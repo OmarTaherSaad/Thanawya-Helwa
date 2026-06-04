@@ -22,8 +22,20 @@ class RoadmapModulesTest extends TestCase
         $r = $this->get('/sitemap.xml');
         $r->assertOk();
         $r->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
-        $this->assertStringContainsString('<urlset', $r->getContent());
-        $this->assertStringContainsString('</urlset>', $r->getContent());
+        $content = $r->getContent();
+        $this->assertStringContainsString('<sitemapindex', $content);
+        $this->assertStringContainsString('</sitemapindex>', $content);
+        $this->assertStringContainsString('sitemap-static.xml', $content);
+        $this->assertStringContainsString('<lastmod>', $content);
+    }
+
+    public function test_robots_txt_has_absolute_sitemap(): void
+    {
+        $r = $this->get('/robots.txt');
+        $r->assertOk();
+        $r->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+        $expected = 'Sitemap: '.rtrim((string) config('app.url'), '/').'/sitemap.xml';
+        $this->assertStringContainsString($expected, $r->getContent());
     }
 
     public function test_search_finds_university_name(): void
@@ -79,6 +91,12 @@ class RoadmapModulesTest extends TestCase
         $this->post(route('tansik.coordination_estimate.submit'), [
             'college_slug' => $college->slug,
             'section' => 'E',
-        ])->assertOk()->assertSee('395', false);
+        ])->assertOk()->assertSee('410', false);
+
+        $this->assertDatabaseHas('coordination_prediction_runs', [
+            'college_slug' => $college->slug,
+            'section' => 'E',
+            'method' => 'linear_regression_next_year',
+        ]);
     }
 }

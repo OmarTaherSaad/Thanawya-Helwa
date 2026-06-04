@@ -30,7 +30,7 @@
             <p>We only collect the data you give to us explicitly, that is: name, email, phone number (only if registered through our website manually), and facebook ID (only if registered using Facebook).</p>
             <p>We don't store any additional data, and we don't keep your data after you delete them, we "hard-delete" them after you delete your account. To delete your account:
                 <ol>
-                    <li>Login from <a href="{{ route('login') }}">this link</a></li>
+                    <li>Sign in by opening <a href="{{ url('/admin') }}">{{ url('/admin') }}</a> in your browser (member login).</li>
                     <li>Click your name from the header at the top of the page and click on first link "تعديل بياناتك الشخصية" - Modify your personal information.</li>
                     <li>Go to bottom of page, and check the checkbox to approve your desire to delete your account, then click Delete "حذف الحساب والبيانات".</li>
                 </ol>

@@ -24,7 +24,7 @@ window.vueApp = new Vue({
         tableCss: {
             table: {
                 tableWrapper: "",
-                tableHeaderClass: "thead-dark mb-0",
+                tableHeaderClass: "table-dark mb-0",
                 tableBodyClass: "mb-0",
                 tableClass: "table table-bordered table-hover table-striped",
                 loadingClass: "loading",

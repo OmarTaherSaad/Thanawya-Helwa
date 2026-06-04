@@ -1,1 +1,30 @@
-$(document).on("focus","input:not([type=submit]), textarea",(function(){$(this).parents(".form-group").addClass("focused")})),$(document).on("click","label:not(.form-check-label)",(function(){$(this).parents(".form-group").addClass("focused"),$(this).siblings("input, textarea").focus()})),$(document).on("blur","input:not([type=submit]), textarea",(function(){var s=$(this).val();$(this).is(":invalid")&&""!==s?$(this).addClass("invalid"):""===s?($(this).removeClass("filled invalid"),$(this).parents(".form-group").removeClass("focused")):($(this).addClass("filled"),$(this).removeClass("invalid"))})),$("form").on("submit",(function(s){document.body.classList.add("loading")}));
+/******/ (() => { // webpackBootstrap
+/*!*******************************!*\
+  !*** ./resources/js/forms.js ***!
+  \*******************************/
+$(document).on("focus", "input:not([type=submit]), textarea", function () {
+  $(this).parents('.form-group').addClass('focused');
+});
+$(document).on("click", "label:not(.form-check-label)", function () {
+  $(this).parents('.form-group').addClass('focused');
+  $(this).siblings("input, textarea").focus();
+});
+$(document).on("blur", "input:not([type=submit]), textarea", function () {
+  var inputValue = $(this).val();
+  //If Invalid input
+  if ($(this).is(":invalid") && inputValue !== "") {
+    $(this).addClass('invalid');
+  } else if (inputValue === "") {
+    //If Empty
+    $(this).removeClass('filled invalid');
+    $(this).parents('.form-group').removeClass('focused');
+  } else {
+    $(this).addClass('filled');
+    $(this).removeClass('invalid');
+  }
+});
+$("form").on('submit', function (e) {
+  document.body.classList.add('loading');
+});
+/******/ })()
+;

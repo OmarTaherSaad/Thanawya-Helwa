@@ -181,6 +181,7 @@
 
 .loaded #splash-screen {
     visibility: hidden;
+    pointer-events: none;
 
     transform: translateY(-100%);
     -o-transform: translateY(-100%);

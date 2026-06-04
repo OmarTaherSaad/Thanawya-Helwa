@@ -11,13 +11,19 @@ return [
         'defaults'       => [
             'title'        => false, // set false to total remove
             'titleBefore'  => false, // Put defaults.title before page title, like 'Thanawya Helwa - Dashboard'
-            'description'  => 'Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).', // set false to total remove
-            'separator'    => ' - ',
-            'keywords'     => array_merge([
+            'description'  => 'ثانوية حلوة: فريق تطوعي يساعد طلبة الثانوية العامة المصرية في التنسيق، الجامعات، الكليات، والامتحانات.',
+            'separator'    => ' | ',
+            'keywords'     => array_merge([], (static function (): array {
+                $path = storage_path('app/keywords.json');
+                if (! is_readable($path)) {
+                    return [];
+                }
+                $decoded = json_decode((string) file_get_contents($path), true);
 
-            ], (file_get_contents(storage_path('app/keywords.json')) ? json_decode(file_get_contents(storage_path('app/keywords.json'))) : [] )),
-            'canonical'    => false, // Set null for using Url::current(), set false to total remove
-            'robots'       => false, // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
+                return is_array($decoded) ? $decoded : [];
+            })()),
+            'canonical'    => null,
+            'robots'       => 'index,follow',
         ],
         /*
          * Webmaster tags are always added.
@@ -38,11 +44,11 @@ return [
          * The default configurations to be used by the opengraph generator.
          */
         'defaults' => [
-            'title'       => 'Thanawya Helwa', // set false to total remove
-            'description' => 'Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).', // set false to total remove
-            'url'         => false, // Set null for using Url::current(), set false to total remove
-            'type'        => 'Educational',
-            'site_name'   => 'Thanawya Helwa',
+            'title'       => config('app.name', 'Thanawya Helwa'),
+            'description' => 'ثانوية حلوة: فريق تطوعي يساعد طلبة الثانوية العامة المصرية في التنسيق والجامعات والامتحانات.',
+            'url'         => null,
+            'type'        => 'website',
+            'site_name'   => config('app.name', 'Thanawya Helwa'),
             'images'      => [],
         ],
     ],
@@ -51,8 +57,8 @@ return [
          * The default values to be used by the twitter cards generator.
          */
         'defaults' => [
-            //'card'        => 'summary',
-            //'site'        => '@LuizVinicius73',
+            'card' => 'summary_large_image',
+            'site' => filled(config('seo.twitter_site')) ? config('seo.twitter_site') : false,
         ],
     ],
     'json-ld' => [
@@ -60,9 +66,9 @@ return [
          * The default configurations to be used by the json-ld generator.
          */
         'defaults' => [
-            'title'       => 'Thanawya Helwa', // set false to total remove
-            'description' => 'Website of Thanawya Helwa Team to help thanawya amma students (high school in Egypt).', // set false to total remove
-            'url'         => false, // Set null for using Url::current(), set false to total remove
+            'title'       => config('app.name', 'Thanawya Helwa'),
+            'description' => 'ثانوية حلوة: فريق تطوعي يساعد طلبة الثانوية العامة المصرية في التنسيق والجامعات والامتحانات.',
+            'url'         => null,
             'type'        => 'WebPage',
             'images'      => [],
         ],
