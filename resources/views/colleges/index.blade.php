@@ -4,6 +4,7 @@
 <div class="container py-4">
     <h1 class="h3 mb-3">كليات ومعاهد مصر</h1>
     <p class="lead text-muted">روابط لكل كلية أو معهد مرتبط ببيانات التنسيق على الموقع.</p>
+    <p class="mb-3"><a href="{{ route('universities.index') }}">عرض الجامعات</a></p>
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">

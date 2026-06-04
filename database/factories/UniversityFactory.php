@@ -18,6 +18,9 @@ class UniversityFactory extends Factory
             'name' => mb_substr($this->faker->company(), 0, 48),
             'type' => 'governmental',
             'logo' => null,
+            'slug' => null,
+            'meta_description' => null,
+            'is_active' => true,
         ];
     }
 }

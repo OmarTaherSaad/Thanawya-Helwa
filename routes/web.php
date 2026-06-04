@@ -51,6 +51,10 @@ Route::get('/offline', 'PagesController@offline')->name('offline');
 Route::get('colleges', 'CollegeController@index')->name('colleges.index');
 Route::get('colleges/{college}', 'CollegeController@show')->name('colleges.show');
 
+// Universities (public directory)
+Route::get('universities', 'UniversityController@index')->name('universities.index');
+Route::get('universities/{university}', 'UniversityController@show')->name('universities.show');
+
 //Auth & Facebook Login
 Auth::routes();
 //Notifications

@@ -14,6 +14,9 @@
             <li class="nav-item {{ Route::currentRouteName() == 'home' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('home') }}">الرئيسية</a>
             </li>
+            <li class="nav-item {{ Route::currentRouteNamed('universities.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('universities.index') }}">الجامعات</a>
+            </li>
             <li class="nav-item {{ Route::currentRouteNamed('colleges.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('colleges.index') }}">كليات ومعاهد مصر</a>
             </li>

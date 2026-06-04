@@ -6,6 +6,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('colleges.index') }}">كليات ومعاهد مصر</a></li>
+            @if ($page->college->university && $page->college->university->is_active && $page->college->university->slug)
+            <li class="breadcrumb-item"><a href="{{ route('universities.show', $page->college->university) }}">{{ $page->college->university->name }}</a></li>
+            @endif
             <li class="breadcrumb-item active" aria-current="page">{{ $page->college->name }}</li>
         </ol>
     </nav>
