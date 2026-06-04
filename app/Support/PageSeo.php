@@ -2,7 +2,7 @@
 
 namespace App\Support;
 
-use Artesaos\SEOTools\Facades\JsonLd;
+use Artesaos\SEOTools\Facades\JsonLdMulti;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
@@ -33,7 +33,11 @@ class PageSeo
         OpenGraph::setDescription($description);
         OpenGraph::setUrl($canonical);
         OpenGraph::setType('website');
-        OpenGraph::setSiteName(config('app.name', 'Thanawya Helwa'));
+        OpenGraph::setSiteName((string) (config('seo.site_name') ?: config('app.name', 'Thanawya Helwa')));
+        $locale = (string) config('seo.og_locale', 'ar_EG');
+        if ($locale !== '') {
+            OpenGraph::addProperty('locale', $locale);
+        }
 
         $image = $ogImageUrl ?: (string) config('seo.default_og_image', '');
         if ($image !== '') {
@@ -49,10 +53,14 @@ class PageSeo
             TwitterCard::setSite($site);
         }
 
-        JsonLd::setTitle($title);
-        JsonLd::setDescription($description);
-        JsonLd::setUrl($canonical);
-        JsonLd::setType('WebPage');
+        // SEO::generate() renders json-ld-multi, not the json-ld singleton — keep them in sync.
+        JsonLdMulti::select(0);
+        JsonLdMulti::setTitle($title);
+        JsonLdMulti::setDescription($description);
+        JsonLdMulti::setUrl($canonical);
+        JsonLdMulti::setType('WebPage');
+
+        self::appendSiteStructuredData();
     }
 
     /**
@@ -69,5 +77,51 @@ class PageSeo
     public static function applyNoindexFollow(string $title, string $description, ?string $canonicalUrl = null): void
     {
         self::apply($title, $description, $canonicalUrl ?? URL::current(), 'noindex,follow');
+    }
+
+    /**
+     * Global Organization + WebSite (SearchAction) graph nodes for richer results / discoverability.
+     */
+    protected static function appendSiteStructuredData(): void
+    {
+        $baseUrl = rtrim((string) config('app.url'), '/');
+        $siteName = (string) (config('seo.site_name') ?: config('app.name', 'Thanawya Helwa'));
+
+        $orgValues = array_filter([
+            '@id' => $baseUrl.'#organization',
+            'name' => $siteName,
+            'url' => $baseUrl,
+        ]);
+
+        $logo = trim((string) config('seo.organization_logo', ''));
+        if ($logo !== '') {
+            $orgValues['logo'] = [
+                '@type' => 'ImageObject',
+                'url' => $logo,
+            ];
+        }
+
+        JsonLdMulti::newJsonLd()
+            ->setType('Organization')
+            ->addValues($orgValues);
+
+        $searchTemplate = route('search.index', [], true).'?q={search_term_string}';
+
+        JsonLdMulti::newJsonLd()
+            ->setType('WebSite')
+            ->addValues([
+                '@id' => $baseUrl.'#website',
+                'name' => $siteName,
+                'url' => $baseUrl,
+                'publisher' => ['@id' => $baseUrl.'#organization'],
+                'potentialAction' => [
+                    '@type' => 'SearchAction',
+                    'target' => [
+                        '@type' => 'EntryPoint',
+                        'urlTemplate' => $searchTemplate,
+                    ],
+                    'query-input' => 'required name=search_term_string',
+                ],
+            ]);
     }
 }

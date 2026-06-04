@@ -1,5 +1,17 @@
 @extends('layouts.app')
 @section('title', $page->college->name)
+@php
+    $breadcrumbItems = [
+        ['name' => 'الرئيسية', 'url' => route('home')],
+        ['name' => 'كليات ومعاهد مصر', 'url' => route('colleges.index')],
+    ];
+    $uni = $page->college->university;
+    if ($uni && $uni->is_active && $uni->slug) {
+        $breadcrumbItems[] = ['name' => $uni->name, 'url' => route('universities.show', $uni)];
+    }
+    $breadcrumbItems[] = ['name' => $page->college->name, 'url' => route('colleges.show', $page->college)];
+@endphp
+<x-schema-breadcrumb :items="$breadcrumbItems" />
 @section('content')
 @php /** @var \App\DataTransferObjects\Tansik\CollegeShowPageData $page */ @endphp
     <nav aria-label="مسار التنقل">

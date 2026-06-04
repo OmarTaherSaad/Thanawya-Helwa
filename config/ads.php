@@ -28,4 +28,22 @@ return [
         'footer_banner' => env('ADSENSE_SLOT_FOOTER', env('ADS_SLOT_FOOTER', '')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Layout / performance
+    |--------------------------------------------------------------------------
+    |
+    | min_heights: reserve space before ads load (reduces CLS). Values are CSS lengths.
+    | push_idle_ms: defer AdSense push until the browser is idle (0 = push immediately).
+    |
+    */
+
+    'min_heights' => [
+        'sidebar_top' => env('ADS_MIN_HEIGHT_SIDEBAR_TOP', '120px'),
+        'in_content' => env('ADS_MIN_HEIGHT_IN_CONTENT', '120px'),
+        'footer_banner' => env('ADS_MIN_HEIGHT_FOOTER', '90px'),
+    ],
+
+    'push_idle_ms' => (int) env('ADS_PUSH_IDLE_MS', 800),
+
 ];

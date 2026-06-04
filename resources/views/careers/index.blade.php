@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('title', 'مسارات بعد الثانوية العامة')
+<x-schema-breadcrumb :items="[
+    ['name' => 'الرئيسية', 'url' => route('home')],
+    ['name' => 'مسارات بعد الثانوية العامة', 'url' => route('careers.index')],
+]" />
 @section('content')
     <h1 class="h3 mb-3">مسارات بعد الثانوية العامة</h1>
     <p class="lead">ثانوية حلوة تجمع أدوات تساعدك في مرحلة التنسيق والتحضير — من غير ما نكرر محتوى الجهات الرسمية.</p>

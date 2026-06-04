@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('title', 'الجامعات')
+<x-schema-breadcrumb :items="[
+    ['name' => 'الرئيسية', 'url' => route('home')],
+    ['name' => 'الجامعات', 'url' => route('universities.index')],
+]" />
 @section('content')
     <h1 class="h3 mb-3">الجامعات</h1>
     <p class="lead text-muted mb-3">جامعات مرتبطة ببيانات التنسيق على الموقع.</p>

@@ -1,5 +1,13 @@
 @extends('layouts.app')
 @section('title', $page->university->name)
+@php
+    $breadcrumbItems = [
+        ['name' => 'الرئيسية', 'url' => route('home')],
+        ['name' => 'الجامعات', 'url' => route('universities.index')],
+        ['name' => $page->university->name, 'url' => route('universities.show', $page->university)],
+    ];
+@endphp
+<x-schema-breadcrumb :items="$breadcrumbItems" />
 @section('content')
 @php /** @var \App\DataTransferObjects\Tansik\UniversityShowPageData $page */ @endphp
     <nav aria-label="مسار التنقل">

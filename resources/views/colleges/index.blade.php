@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('title', 'كليات ومعاهد مصر')
+<x-schema-breadcrumb :items="[
+    ['name' => 'الرئيسية', 'url' => route('home')],
+    ['name' => 'كليات ومعاهد مصر', 'url' => route('colleges.index')],
+]" />
 @section('content')
     <h1 class="h3 mb-3">كليات ومعاهد مصر</h1>
     <p class="lead text-muted">روابط لكل كلية أو معهد مرتبط ببيانات التنسيق على الموقع.</p>

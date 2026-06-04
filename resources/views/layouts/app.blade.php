@@ -11,16 +11,37 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        {{-- Minified SEO Tags --}}
+        @php
+            use Artesaos\SEOTools\Facades\JsonLdMulti;
+            use Artesaos\SEOTools\Facades\OpenGraph;
+            use Artesaos\SEOTools\Facades\SEOMeta;
+            use Artesaos\SEOTools\Facades\TwitterCard;
+
+            $metaTitle = SEOMeta::getTitle();
+            if (($metaTitle === false || $metaTitle === null || $metaTitle === '') && isset($__env) && $__env->hasSection('title')) {
+                $t = trim(strip_tags($__env->yieldContent('title')));
+                if ($t !== '') {
+                    $full = $t.' | ثانوية حلوة';
+                    SEOMeta::setTitle($full, false);
+                    OpenGraph::setTitle($full);
+                    TwitterCard::setTitle($full);
+                    JsonLdMulti::select(0)->setTitle($full);
+                    $desc = SEOMeta::getDescription();
+                    if (is_string($desc) && $desc !== '') {
+                        JsonLdMulti::setDescription($desc);
+                    }
+                }
+            }
+        @endphp
+        {{-- Minified SEO Tags (includes single <title> from SEOMeta) --}}
         {!! SEO::generate(true) !!}
+        @stack('jsonld')
         @laravelPWA        
 
         {{--CSRF Token--}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
         {{-- Facebook Domain Verification --}}
         <meta name="facebook-domain-verification" content="jp9e6kb63rdhvbfwsxx8loghehmn4c" />
-
-        <title>@yield('title',config('app.name', 'Thanawya Helwa')) | ثانوية حلوة</title>
         {{--Splash Screen--}}
         <link rel="stylesheet" href="{{ mix('css/splash-screen.css') }}">
         {{--Scripts (moved to end of <body> so DOM exists before Bootstrap/jQuery run) --}}
@@ -42,6 +63,8 @@ if(array_key_exists('HTTP_ACCEPT_ENCODING',$_SERVER)) {
         </script>
         @yield('head')
         @if (config('ads.enabled') && ! Route::currentRouteNamed('home') && filled(config('ads.adsense_client')))
+            <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+            <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
             <script async
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ rawurlencode(config('ads.adsense_client')) }}"
                 crossorigin="anonymous"></script>
