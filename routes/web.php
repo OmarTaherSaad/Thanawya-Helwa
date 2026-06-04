@@ -39,6 +39,8 @@ Route::prefix('tansik')->name('tansik.')->group(function () {
     Route::get('tzalom', 'PagesController@TansikTzalom')->name('tzalom');
     Route::get('stages-information', 'PagesController@TansikStagesInfo')->name('stages_info');
     Route::get('taqleel-al-eghterab', 'PagesController@TansikReduceAlienation')->name('reduce_alienation');
+    Route::get('coordination-estimate', 'CoordinationEstimateController@show')->name('coordination_estimate');
+    Route::post('coordination-estimate', 'CoordinationEstimateController@estimate')->name('coordination_estimate.submit');
 });
 
 //Privacy Policy
@@ -47,8 +49,13 @@ Route::get('/privacy-policy-and-terms', 'PagesController@privacyPolicy');
 //Offline
 Route::get('/offline', 'PagesController@offline')->name('offline');
 
+Route::get('careers', 'CareerController@index')->name('careers.index');
+Route::get('search', 'SearchController@index')->name('search.index');
+Route::get('sitemap.xml', 'SitemapController@__invoke')->name('sitemap');
+
 // Colleges (public directory — UniFac)
 Route::get('colleges', 'CollegeController@index')->name('colleges.index');
+Route::get('colleges/compare', 'CollegeComparisonController@show')->name('colleges.compare');
 Route::get('colleges/{college}', 'CollegeController@show')->name('colleges.show');
 
 // Universities (public directory)

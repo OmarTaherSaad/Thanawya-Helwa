@@ -28,6 +28,7 @@
             <div class="col-md-12 text-center">
                 <p>
                 تم تطوير الموقع بواسطة <a aria-label="Link to website developer" href="https://www.omartahersaad.com" target="_blank" rel="noopener"><abbr class="initialism" title="Omar Taher Saad">OTS</abbr></a>
+                &nbsp;|&nbsp; <a href="{{ route('sitemap') }}">خريطة الموقع (XML)</a>
                 </p>
             </div>
         </div>

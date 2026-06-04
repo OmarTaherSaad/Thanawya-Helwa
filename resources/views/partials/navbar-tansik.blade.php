@@ -14,6 +14,18 @@
             <li class="nav-item {{ Route::currentRouteName() == 'home' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('home') }}">الرئيسية</a>
             </li>
+            <li class="nav-item {{ Route::currentRouteNamed('careers.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('careers.index') }}">بعد الثانوية</a>
+            </li>
+            <li class="nav-item {{ Route::currentRouteNamed('search.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('search.index') }}">بحث</a>
+            </li>
+            <li class="nav-item {{ Route::currentRouteNamed('colleges.compare') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('colleges.compare') }}">مقارنة كليات</a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('tansik.coordination_estimate', 'tansik.coordination_estimate.submit') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('tansik.coordination_estimate') }}">تقدير تجريبي</a>
+            </li>
             <li class="nav-item {{ Route::currentRouteNamed('universities.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('universities.index') }}">الجامعات</a>
             </li>
