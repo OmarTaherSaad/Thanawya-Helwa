@@ -11,6 +11,9 @@ final class DigitalGovCoordinationLimitCatalog
 
     public const LIMITS_BASE_PATH = 'https://tansik.digital.gov.eg/application/Certificates/Thanwy/Limits/';
 
+    /** Saved portal HTML from {@see PullTansikDigitalGovernmentCoordinationLimitsCommand} (use with import --portal-file). */
+    public const PULLED_PORTAL_FILENAME = 'portal.html';
+
     /**
      * @return list<array{path: string, section: string, year: int, is_older_candidates: bool}>
      */

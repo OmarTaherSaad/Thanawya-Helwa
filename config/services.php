@@ -57,10 +57,22 @@ return [
     | Laravel's HTTP client defaults connect_timeout to 10s; slow TLS/handshake
     | from some hosts to the ministry site can hit that before transfer starts.
     |
+    | force_ipv4: many hosts resolve AAAA first; if the IPv6 route is broken you
+    | get connect timeouts until connect_timeout elapses (set false only if needed).
+    |
+    | http_proxy: Guzzle proxy URL when production cannot egress directly (e.g.
+    | http://user:pass@host:8123 or socks5h://127.0.0.1:9050).
+    |
+    | limits_dir: directory of Limit*.htm files (from tansik:pull-government-coordination-limits)
+    | when the app host cannot open TCP to tansik.digital.gov.eg at all.
+    |
     */
     'tansik_digital_gov_import' => [
         'http_timeout' => (int) env('TANSIK_DIGITAL_GOV_IMPORT_HTTP_TIMEOUT', 120),
         'http_connect_timeout' => (int) env('TANSIK_DIGITAL_GOV_IMPORT_HTTP_CONNECT_TIMEOUT', 60),
+        'force_ipv4' => filter_var(env('TANSIK_DIGITAL_GOV_IMPORT_FORCE_IPV4', true), FILTER_VALIDATE_BOOLEAN),
+        'http_proxy' => env('TANSIK_DIGITAL_GOV_IMPORT_HTTP_PROXY') ?: null,
+        'limits_dir' => env('TANSIK_DIGITAL_GOV_IMPORT_LIMITS_DIR') ?: null,
     ],
 
 ];

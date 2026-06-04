@@ -19,13 +19,29 @@ final class DigitalGovCoordinationLimitImporter
     {
         $cfg = config('services.tansik_digital_gov_import', []);
 
-        return Http::timeout((int) ($cfg['http_timeout'] ?? 120))
+        $request = Http::timeout((int) ($cfg['http_timeout'] ?? 120))
             ->connectTimeout((int) ($cfg['http_connect_timeout'] ?? 60))
             ->withHeaders([
                 'User-Agent' => 'ThanawyaHelwaCoordinationImporter/1.0 (+https://thanawyahelwa.org)',
                 'Accept' => 'text/html,*/*',
                 'Accept-Language' => 'ar-EG,ar;q=0.9',
             ]);
+
+        $guzzle = [];
+        $proxy = $cfg['http_proxy'] ?? null;
+        if (is_string($proxy) && $proxy !== '') {
+            $guzzle['proxy'] = $proxy;
+        }
+        if (! empty($cfg['force_ipv4']) && defined('CURL_IPRESOLVE_V4')) {
+            $guzzle['curl'] = [
+                CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+            ];
+        }
+        if ($guzzle !== []) {
+            $request = $request->withOptions($guzzle);
+        }
+
+        return $request;
     }
 
     public function __construct(
@@ -36,16 +52,20 @@ final class DigitalGovCoordinationLimitImporter
     /**
      * @return array{created: int, updated: int, parsed_rows: int}
      */
+    /**
+     * @param  string|null  $localLimitsDirectory  If set, reads basename(url) from this directory instead of HTTP.
+     */
     public function importFromUrl(
         string $url,
         string $section,
         int $admissionYear,
         bool $isOlderCandidatesFile,
         bool $dryRun,
+        ?string $localLimitsDirectory = null,
     ): array {
         $section = strtoupper($section) === 'A' ? 'A' : 'E';
 
-        $html = $this->download($url);
+        $html = $this->download($url, $localLimitsDirectory);
         $rows = $this->parser->parseLimitTableHtml($html);
         $system = ThanawyaCoordinationSystem::resolve($isOlderCandidatesFile, $admissionYear);
 
@@ -113,8 +133,32 @@ final class DigitalGovCoordinationLimitImporter
         ];
     }
 
-    private function download(string $url): string
+    private function download(string $url, ?string $localLimitsDirectory): string
     {
+        $localRoot = is_string($localLimitsDirectory) && $localLimitsDirectory !== ''
+            ? rtrim($localLimitsDirectory, '/\\')
+            : null;
+
+        if ($localRoot !== null) {
+            $basename = basename(parse_url($url, PHP_URL_PATH) ?? '');
+            if ($basename === '') {
+                throw new \RuntimeException('Could not derive filename for '.$url);
+            }
+            $path = $localRoot.DIRECTORY_SEPARATOR.$basename;
+            if (! is_readable($path)) {
+                throw new \RuntimeException('Local limit file not readable: '.$path);
+            }
+            $raw = file_get_contents($path);
+            if ($raw === false) {
+                throw new \RuntimeException('Could not read local limit file: '.$path);
+            }
+            if ($raw === '') {
+                throw new \RuntimeException('Empty local limit file: '.$path);
+            }
+
+            return $raw;
+        }
+
         $response = self::http()->get($url);
 
         if (! $response->successful()) {
