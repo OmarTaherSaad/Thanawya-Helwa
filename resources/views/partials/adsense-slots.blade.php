@@ -1,34 +1,33 @@
 @php
     $adsenseClient = (string) config('ads.adsense_client');
     $idleMs = max(0, (int) config('ads.push_idle_ms', 0));
+
+    $slotId = trim((string) config('ads.slot', ''));
+    if ($slotId === '' || ! ctype_digit($slotId)) {
+        foreach (['sidebar_top', 'in_content', 'footer_banner'] as $placement) {
+            $try = trim((string) config('ads.slots.'.$placement));
+            if ($try !== '' && ctype_digit($try)) {
+                $slotId = $try;
+                break;
+            }
+        }
+    }
+    $slotOk = $slotId !== '' && ctype_digit($slotId);
+    $minH = (string) config('ads.min_height', '120px');
 @endphp
 @if ($adsenseClient === '')
     {{-- ADS_ENABLED but ADSENSE_CLIENT missing — no AdSense markup (avoid broken requests). --}}
+@elseif (! $slotOk)
+    {{-- Client set but no numeric ADSENSE_SLOT (or legacy slot) — skip <ins> until you create one Display unit in AdSense. --}}
 @else
-    @php
-        $minHeights = config('ads.min_heights', []);
-        $units = [
-            'sidebar_top' => ['class' => 'th-ad-slot th-ad-slot--sidebar-top mb-3', 'min' => $minHeights['sidebar_top'] ?? '120px'],
-            'in_content' => ['class' => 'th-ad-slot th-ad-slot--in-content my-3', 'min' => $minHeights['in_content'] ?? '120px'],
-            'footer_banner' => ['class' => 'th-ad-slot th-ad-slot--footer-banner mt-3', 'min' => $minHeights['footer_banner'] ?? '90px'],
-        ];
-    @endphp
-    @foreach ($units as $key => $wrap)
-        @php
-            $slotId = trim((string) config('ads.slots.'.$key));
-            $slotOk = $slotId !== '' && ctype_digit($slotId);
-        @endphp
-        @if ($slotOk)
-            <div class="{{ $wrap['class'] }}" style="min-height: {{ $wrap['min'] }}">
-                <ins class="adsbygoogle"
-                    style="display:block"
-                    data-ad-client="{{ e($adsenseClient) }}"
-                    data-ad-slot="{{ e($slotId) }}"
-                    data-ad-format="auto"
-                    data-full-width-responsive="true"></ins>
-            </div>
-        @endif
-    @endforeach
+    <div class="th-ad-slot th-ad-slot--primary mb-3" style="min-height: {{ $minH }}">
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="{{ e($adsenseClient) }}"
+            data-ad-slot="{{ e($slotId) }}"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+    </div>
     @once
         @push('adsense-push')
             <script>

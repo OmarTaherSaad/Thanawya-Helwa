@@ -4,11 +4,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Site-wide AdSense (layout slots)
+    | Site-wide AdSense (single display unit)
     |--------------------------------------------------------------------------
     |
-    | Set ADS_ENABLED=true and ADSENSE_CLIENT (ca-pub-…). Each slot must be the
-    | numeric AdSense ad unit ID from your AdSense UI. Empty slot = no markup.
+    | Set ADS_ENABLED=true and ADSENSE_CLIENT (ca-pub-…). Create one Display ad
+    | unit in AdSense and put its numeric ID in ADSENSE_SLOT. If empty, no <ins>
+    | is rendered (avoids broken placements until the unit exists).
+    |
+    | Legacy: ADSENSE_SLOT_SIDEBAR_TOP / _IN_CONTENT / _FOOTER are fallbacks when
+    | ADSENSE_SLOT is empty (the layout uses the first non-empty numeric value).
     |
     */
 
@@ -20,7 +24,12 @@ return [
     'adsense_client' => env('ADSENSE_CLIENT', ''),
 
     /*
-    | Numeric ad unit slot IDs (digits only) per placement.
+    | Single numeric ad unit ID (digits only). Prefer this.
+    */
+    'slot' => env('ADSENSE_SLOT', ''),
+
+    /*
+    | @deprecated Optional fallbacks read in order by the view if "slot" is empty.
     */
     'slots' => [
         'sidebar_top' => env('ADSENSE_SLOT_SIDEBAR_TOP', env('ADS_SLOT_SIDEBAR_TOP', '')),
@@ -33,10 +42,13 @@ return [
     | Layout / performance
     |--------------------------------------------------------------------------
     |
-    | min_heights: reserve space before ads load (reduces CLS). Values are CSS lengths.
+    | min_height: reserve space before the ad loads (reduces CLS).
+    | min_heights: kept for backward compatibility with older env keys.
     | push_idle_ms: defer AdSense push until the browser is idle (0 = push immediately).
     |
     */
+
+    'min_height' => env('ADS_MIN_HEIGHT', '120px'),
 
     'min_heights' => [
         'sidebar_top' => env('ADS_MIN_HEIGHT_SIDEBAR_TOP', '120px'),
