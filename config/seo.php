@@ -4,6 +4,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Redirect non-APP_URL hosts to APP_URL (301)
+    |--------------------------------------------------------------------------
+    |
+    | When true, requests whose Host header differs from the host in APP_URL
+    | are redirected to the same path on APP_URL (fixes www vs apex duplicates).
+    | Set false only for special local setups (e.g. multiple dev hostnames).
+    |
+    */
+    'canonical_host_redirect' => filter_var(env('SEO_CANONICAL_HOST_REDIRECT', '1'), FILTER_VALIDATE_BOOLEAN),
+
+    /*
+    |--------------------------------------------------------------------------
     | Default Open Graph / social preview image (absolute URL recommended)
     |--------------------------------------------------------------------------
     */

@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+
+        $root = rtrim((string) config('app.url'), '/');
+        if ($root !== '' && parse_url($root, PHP_URL_HOST)) {
+            URL::forceRootUrl($root);
+        }
+
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }

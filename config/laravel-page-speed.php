@@ -24,6 +24,10 @@ return [
     */
     'skip' => [
         '*.xml',
+        // Explicit paths: some stacks do not match *.xml reliably for sitemap routes.
+        'sitemap.xml',
+        'sitemap-*',
+        'robots.txt',
         '*.less',
         '*.pdf',
         '*.doc',
