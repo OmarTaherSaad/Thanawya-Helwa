@@ -14,7 +14,7 @@ class EditEdgesToFloat extends Migration
     public function up()
     {
         Schema::table('faculty_edges', function (Blueprint $table) {
-            $table->unsignedDecimal('edge')->change();
+            $table->decimal('edge', 10, 2)->unsigned()->change();
         });
     }
 
