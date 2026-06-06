@@ -13,15 +13,8 @@ return [
             'titleBefore'  => false, // Put defaults.title before page title, like 'Thanawya Helwa - Dashboard'
             'description'  => 'ثانوية حلوة: فريق تطوعي يساعد طلبة الثانوية العامة المصرية في التنسيق، الجامعات، الكليات، والامتحانات.',
             'separator'    => ' | ',
-            'keywords'     => array_merge([], (static function (): array {
-                $path = storage_path('app/keywords.json');
-                if (! is_readable($path)) {
-                    return [];
-                }
-                $decoded = json_decode((string) file_get_contents($path), true);
-
-                return is_array($decoded) ? $decoded : [];
-            })()),
+            // Meta keywords are ignored by major search engines and were bloating the head.
+            'keywords'     => [],
             'canonical'    => null,
             'robots'       => 'index,follow',
         ],

@@ -19,6 +19,10 @@
                 <h4 class="text-light">أهلًا بيك في موقع فريق ثانوية حلوة .. فريق كامل من المتطوعين بنساعد طلبة الثانوية
                     العامة المصرية </h4>
                 <h1 class="text-light">هدفنا نساعدكم توصلوا</h1>
+                <p class="text-light mt-3 mb-0 mx-auto" style="max-width: 42rem;">
+                    هدفنا نساعدكم توصلوا لمعلومات واضحة عن التنسيق والجامعات.
+                    نوجّهكم خطوة بخطوة: من اختيار الكلية، لحد ما تستعدوا للامتحانات.
+                </p>
             </div>
         </div>
     </div>
@@ -30,13 +34,18 @@
             <div class="col-md-6 order-md-last heading-section pl-md-5 th-animate">
                 <h2 class="mb-4">بنساعد الطالب بكل الأشكال الممكنة</h2>
                 <p>
-                    في ثانوية عامة بيكون مهم إنك تحدد هدفك وتعرف عايز تعمل إيه بالظبط، وبعدها تشتغل على تحقيق الهدف ده
-                    بتركيز وثبات وتمشي خطوات صحيحة في الطريق إليه.
+                    في ثانوية عامة، لازم تحدد هدفك. تعرف عايز إيه بالظبط.
                 </p>
                 <p>
-                    المشكلة إنك وإنت في الطريق ده ساعات بتزهق أو بتتعب، وبتحس إنك مش قادر تكمله، أو بتحصل حاجة تحبطك
-                    وتحس إنك ماشي غلط! وعشان كده "ثانوية حلوة" دورها إنها تساعدك في تحديد الطريق وتكون معاك من أوله
-                    لآخره؛ ترشدك وتدلك على الأخطاء اللي تتجنبها والحاجات الصح اللي تعملها.
+                    بعدها تشتغل على الهدف بتركيز. تمشي خطوات صحيحة في الطريق إليه.
+                </p>
+                <p>
+                    في الطريق، ساعات بتزهق أو بتتعب. بتحس إنك مش قادر تكمل.
+                    أو بتحصل حاجة تحبطك. وتحس إنك ماشي غلط.
+                </p>
+                <p>
+                    عشان كده ثانوية حلوة بتلعب دورها. تساعدك تحدد الطريق. وتفضل معاك من أوله لآخره.
+                    ترشدك. وتدلّك على الأخطاء اللي تتجنبها. والحاجات الصح اللي تعملها.
                 </p>
             </div>
             <div class="col-md-6">
@@ -87,6 +96,43 @@
     </div>
 </section>
 
+<section class="ftco-section bg-white border-top">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 heading-section th-animate">
+                <h2 class="mb-4">إيه اللي تلاقيه على الموقع؟</h2>
+                <p>
+                    بنجمع محتوى عملي عن التنسيق والجامعات. وبنسهّل عليكم الوصول لكليات مناسبة لمجموعكم.
+                </p>
+                <ul class="mb-4">
+                    <li>
+                        <a href="{{ route('universities.index') }}">دليل الجامعات</a>:
+                        معلومات منظمة عن الجامعات المصرية.
+                    </li>
+                    <li>
+                        <a href="{{ route('colleges.index') }}">دليل الكليات</a>:
+                        مقارنة وتصفّح حسب الشعب والمجموعات.
+                    </li>
+                    <li>
+                        <a href="{{ route('tansik.geo_dist') }}">التوزيع الجغرافي</a>
+                        و<a href="{{ route('tansik.previous_edges') }}">تنسيق السنوات السابقة</a>:
+                        أدوات تساعدكم تفهموا النظام.
+                    </li>
+                    <li>
+                        <a href="{{ route('careers.index') }}">فرص التطوع والانضمام</a>
+                        لو حابب تساهم مع الفريق.
+                    </li>
+                </ul>
+                <p class="mb-0">
+                    لو محتاجين تواصل مباشر، صفحة
+                    <a href="{{ route('contact') }}">اتصل بنا</a>
+                    متاحة لأسئلتكم.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="th-counter img" id="eventCounters">
     <div class="container">
         <div class="row d-flex">
@@ -108,7 +154,7 @@
                     <div class="col-md-4 justify-content-center counter-wrap">
                         <div class="block-18 text-center mb-4">
                             <div class="text">
-                                <strong class="number" data-number="5" data-speed="1000">0</strong>
+                                <span class="number font-weight-bold" data-number="5" data-speed="1000">0</span>
                                 <span>فعاليات</span>
                             </div>
                         </div>
@@ -116,7 +162,7 @@
                     <div class="col-md-4 justify-content-center counter-wrap">
                         <div class="block-18 text-center mb-4">
                             <div class="text">
-                                <strong class="number" data-number="1000" data-speed="2000">0</strong>
+                                <span class="number font-weight-bold" data-number="1000" data-speed="2000">0</span>
                                 <span>طالب استفادوا من فعالياتنا</span>
                             </div>
                         </div>
@@ -124,7 +170,7 @@
                     <div class="col-md-4 justify-content-center counter-wrap">
                         <div class="block-18 text-center mb-4">
                             <div class="text">
-                                <strong class="number" data-number="+58000">30000</strong>
+                                <span class="number font-weight-bold" data-number="+58000">30000</span>
                                 <span>متابع على صفحتنا</span>
                             </div>
                         </div>
