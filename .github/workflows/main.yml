@@ -63,19 +63,22 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ~/domains/thanawyahelwa.org/public_html
-            # activate maintenance mode
-            php artisan down
-            echo "Server maintenance mode activated"
 
-            # update source code
+            # update source code first (bootstrap/cache is gitignored and can reference removed packages)
             git fetch origin
             git reset --hard origin/deploy
             echo "Updates fetched"
 
-            # update PHP dependencies
+            rm -f bootstrap/cache/*.php
+            echo "Stale bootstrap cache cleared"
+
+            # update PHP dependencies before artisan (post-install runs package:discover)
             export COMPOSER_HOME="$HOME/.config/composer"
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
             echo "Composer installed"
+
+            php artisan down
+            echo "Server maintenance mode activated"
 
             #Refresh caches
             php artisan optimize:clear
