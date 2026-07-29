@@ -36,12 +36,41 @@ That compares the **PHP binary that actually runs Composer** to `composer.json`,
 
 4. **Debian/Ubuntu** — Prefer `update-alternatives` or a `php8.2` wrapper so `/usr/bin/env php` resolves to 8.2 for the user that runs Composer.
 
-## Website shows the error but SSH `php -v` is 8.2
+## Website shows the error but SSH `php -v` is 8.2+
 
-Composer 2 adds **`vendor/composer/platform_check.php`**, which runs whenever **`vendor/autoload.php`** loads (HTTP requests, `php artisan`, etc.). It uses the **PHP version of that process**, not your SSH CLI binary.
+Laravel 12 calls **`ReflectionFunction::isAnonymous()`**, which requires **PHP 8.2+**. If SSH shows 8.4 but the site fatals with *undefined method ReflectionFunction::isAnonymous()*, the **web** process is still on an older PHP.
 
-On shared hosting, **CLI** and **FPM / LiteSpeed / Apache module** can differ:
+On Hostinger / cPanel, **CLI** and **web** often differ. A common cause is the **root** `.htaccess` (gitignored, lives on the server only) pinning an old handler:
 
-1. In **Hostinger hPanel** → your domain → **PHP configuration** / **Advanced** → set the site to **PHP 8.2** (same family as CLI 8.2.30).
-2. Confirm what the **web** uses, e.g. a temporary route `return PHP_VERSION;` or `phpinfo();` **then remove it**.
-3. This repo sets **`config.platform-check`** to **`false`** so Composer does not ship the strict bootstrap check (avoids a fatal when the panel lags). Prefer fixing the panel PHP to 8.2 anyway; after changing it, you can set **`platform-check`** back to **`true`** if you want the guard again. After any change, run **`composer dump-autoload`** in **`public_html`**.
+```apache
+# php -- BEGIN cPanel-generated handler, do not edit
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+```
+
+That block overrides hPanel’s PHP version for every request routed through `public_html`.
+
+**Fix:** edit `public_html/.htaccess` and either:
+
+1. Update the handler to match your target version, e.g. `application/x-httpd-ea-php84`, or
+2. Remove the entire cPanel `AddHandler` block and set PHP 8.2+ in **hPanel → PHP Configuration**.
+
+Then confirm **web** PHP (not SSH):
+
+```bash
+echo '<?php echo PHP_VERSION;' > public/_php-check.php
+curl -s https://thanawyahelwa.org/_php-check.php
+rm public/_php-check.php
+```
+
+After any change, run in **`public_html`**:
+
+```bash
+rm -f bootstrap/cache/*.php
+composer dump-autoload -o
+php artisan optimize:clear && php artisan config:cache && php artisan route:cache && php artisan view:cache
+```
+
+This repo sets **`config.platform-check`** to **`false`** so Composer does not ship the strict bootstrap check (avoids a fatal when the panel lags). Prefer fixing web PHP to 8.2+ anyway; you can set **`platform-check`** back to **`true`** once web and CLI match.
