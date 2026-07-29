@@ -59,10 +59,13 @@ window.vueApp = new Vue({
         percentMaxTotal() {
             const map = window.coordinationPercentMaxBySystem || {};
             const v = this.thanawyaSystem ? map[this.thanawyaSystem] : null;
-            return typeof v === "number" && v > 0 ? v : 410;
+            return typeof v === "number" && v > 0 ? v : null;
         },
         percentModeNote() {
             const max = this.percentMaxTotal;
+            if (!max) {
+                return "اختر نظام الثانوية أولًا لحساب النسبة على المجموع الصحيح.";
+            }
             return (
                 "النسبة تُحسب كـ (درجة الحد الأدنى ÷ " +
                 max +
@@ -125,13 +128,7 @@ window.vueApp = new Vue({
         },
         percent() {
             this.$nextTick(() => {
-                if (
-                    this.thanawyaSystem &&
-                    this.coordinationFieldsReady &&
-                    this.$refs.vuetable
-                ) {
-                    this.$refs.vuetable.refresh();
-                }
+                this.refreshPercentDisplay();
             });
         },
         section() {
@@ -139,6 +136,11 @@ window.vueApp = new Vue({
         },
         thanawyaSystem() {
             this.scheduleReloadCoordinationFields();
+        },
+        percentMaxTotal() {
+            this.$nextTick(() => {
+                this.refreshPercentDisplay();
+            });
         },
         perPage() {
             this.$nextTick(() => {
@@ -294,6 +296,9 @@ window.vueApp = new Vue({
 
                 this.fields = fieldList;
                 this.coordinationFieldsReady = true;
+                this.$nextTick(() => {
+                    this.refreshPercentDisplay();
+                });
             } catch (e) {
                 if (e && e.name === "AbortError") {
                     return;
@@ -321,6 +326,17 @@ window.vueApp = new Vue({
                 return json.data;
             }
             return null;
+        },
+        refreshPercentDisplay() {
+            if (
+                String(this.percent) === "1" &&
+                this.thanawyaSystem &&
+                this.percentMaxTotal &&
+                this.coordinationFieldsReady &&
+                this.$refs.vuetable
+            ) {
+                this.$refs.vuetable.refresh();
+            }
         },
         loading() {
             document.body.classList.add("loading");

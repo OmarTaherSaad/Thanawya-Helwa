@@ -26,6 +26,12 @@ final class ThanawyaCoordinationSystem
     /** «دفعات أقدم» limits from Limit*O*.htm (parallel table for older repeat / deferred cohorts). */
     public const OLDER_CANDIDATES = 'older_candidates';
 
+    /** Mainstream coordination totals on the 410-point Thanawya scale (pre‑2025 reforms). */
+    public const PERCENT_MAX_TOTAL_CLASSIC = 410;
+
+    /** Post‑2024/25 curriculum restructuring: five graded subjects totalling 320 (80 + 4×60). */
+    public const PERCENT_MAX_TOTAL_NEW_CURRICULUM = 320;
+
     /**
      * @return array<string, string> slug => Arabic label for UI filters
      */
@@ -140,27 +146,34 @@ final class ThanawyaCoordinationSystem
             self::PRE_SINGLE_YEAR => 'مناسب لو بتقارن أو تذاكر سنوات قبل تحويل الثانوية لسنة واحدة (المجموع الكلي كان مختلف عن اللي بعده).',
             self::SINGLE_YEAR_PAPER => 'يناسب دفعات تقريبًا ٢٠١٥–٢٠٢٠: ثانوية عامة سنة واحدة وتنسيق ورقي تقليدي بمجموع حتى ٤١٠.',
             self::ELECTRONIC_BANK => 'يناسب دفعات تقريبًا ٢٠٢١–٢٠٢٤: بنوك أسئلة إلكترونية وتنسيق بنفس أسلوب المجموع الحديث (٤١٠).',
-            self::NEW_CURRICULUM => 'يناسب دفعات بعد هيكلة مناهج ٢٠٢٤/٢٠٢٥؛ لسه التنسيق يظهر تدريجيًا. النسبة في الوضع «٪» تُحسب تقريبًا على ٤١٠ إلى حين ثبوت حد أقصى رسمي جديد.',
-            self::OLDER_CANDIDATES => 'دي جداول «أقدم» المنشورة جنب السنة على موقع التنسيق — مجموعات مختلفة عن الطلبة الجدد لنفس السنة.',
+            self::NEW_CURRICULUM => 'يناسب دفعات بعد هيكلة مناهج ٢٠٢٤/٢٠٢٥ (مجموع امتحانات ٣٢٠ درجة). النسبة في الوضع «٪» تُحسب على ٣٢٠.',
+            self::OLDER_CANDIDATES => 'دي جداول «أقدم» المنشورة جنب السنة على موقع التنسيق — غالبًا على مقياس ٤١٠ حتى لو كانت سنة التنسيق حديثة.',
         ];
     }
 
     /**
-     * Approximate maximum coordination total used only for the optional % column in the UI.
-     * Tune when the ministry publishes a new cap for the post‑2024 track.
-     *
+     * Maximum Thanawya total used only for the optional % column in the coordination explorer.
+     * Values follow official limit tables on tansik.digital.gov.eg (e.g. LimitE2025 ≈ 320-scale,
+     * LimitEO2025 ≈ 410-scale for «أقدم»).
+     */
+    public static function percentMaxTotalForSystem(string $system): ?int
+    {
+        return self::percentMaxTotalsForFrontend()[$system] ?? null;
+    }
+
+    /**
      * @return array<string, int>
      */
     public static function percentMaxTotalsForFrontend(): array
     {
-        $cap410 = 410;
+        $classic = self::PERCENT_MAX_TOTAL_CLASSIC;
 
         return [
-            self::PRE_SINGLE_YEAR => $cap410,
-            self::SINGLE_YEAR_PAPER => $cap410,
-            self::ELECTRONIC_BANK => $cap410,
-            self::NEW_CURRICULUM => $cap410,
-            self::OLDER_CANDIDATES => $cap410,
+            self::PRE_SINGLE_YEAR => $classic,
+            self::SINGLE_YEAR_PAPER => $classic,
+            self::ELECTRONIC_BANK => $classic,
+            self::NEW_CURRICULUM => self::PERCENT_MAX_TOTAL_NEW_CURRICULUM,
+            self::OLDER_CANDIDATES => $classic,
         ];
     }
 }

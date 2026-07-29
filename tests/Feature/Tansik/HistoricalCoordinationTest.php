@@ -24,6 +24,14 @@ class HistoricalCoordinationTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('edgesApp', false);
+        $response->assertSee(
+            '"new_curriculum":'.ThanawyaCoordinationSystem::PERCENT_MAX_TOTAL_NEW_CURRICULUM,
+            false
+        );
+        $response->assertSee(
+            '"electronic_bank":'.ThanawyaCoordinationSystem::PERCENT_MAX_TOTAL_CLASSIC,
+            false
+        );
     }
 
     public function test_coordination_edges_json_groups_rows_and_paginates(): void
