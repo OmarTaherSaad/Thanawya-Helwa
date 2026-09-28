@@ -1,99 +1,90 @@
-# This is a basic workflow to help you get started with Actions
+name: Deploy
 
-name: Deployment
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push events but only for the master branch
   push:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [master]
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: write
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    name: Build
     runs-on: ubuntu-latest
     environment: production
-    concurrency: production
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    outputs:
+      stamp: ${{ steps.push.outputs.stamp }}
+      sha: ${{ steps.push.outputs.sha }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
-      - name: Install and run NPM
+          node-version: 20
+          cache: npm
+
+      - name: Mix production assets
         run: |
-          npm install
+          echo "::group::npm ci"
+          npm ci
+          echo "::endgroup::"
           npm run production
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: LLL
-          utcOffset: "+02:00"
-      - name: Commit built assets
+
+      - name: Push deploy branch
+        id: push
+        env:
+          TZ: Africa/Cairo
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          set -euo pipefail
+          STAMP=$(date '+%Y-%m-%d %H:%M %Z')
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
           git checkout -B deploy
           git add -f public/
-          git commit -m "Deployment at ${{ steps.current-time.outputs.formattedTime }}" --allow-empty
+          git commit --allow-empty -m "deploy: ${STAMP}"
           git push -f origin deploy
-          echo "MESSAGE=Deployment at ${{ steps.current-time.outputs.formattedTime }}" >> $GITHUB_ENV
+          SHA=$(git rev-parse --short HEAD)
+          echo "stamp=${STAMP}" >> "$GITHUB_OUTPUT"
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Build"
+            echo "| | |"
+            echo "|---|---|"
+            echo "| SHA | \`${SHA}\` |"
+            echo "| When | ${STAMP} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   deploy:
-      needs: build
-      # The type of runner that the job will run on
-      runs-on: ubuntu-latest
-      environment: production
-      concurrency: production
-      steps:
-      - name: Deploy to Server using SSH
-        uses: appleboy/ssh-action@master
+    name: Server
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: SSH deploy
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          command_timeout: 15m
           script: |
+            set -euo pipefail
             cd ~/domains/thanawyahelwa.org/public_html
-
-            # update source code first (bootstrap/cache is gitignored and can reference removed packages)
-            git fetch origin
+            git fetch --prune origin
             git reset --hard origin/deploy
-            echo "Updates fetched"
+            chmod +x scripts/server-deploy.sh
+            APP_DIR="$PWD" bash scripts/server-deploy.sh
 
-            rm -f bootstrap/cache/*.php
-            echo "Stale bootstrap cache cleared"
-
-            # update PHP dependencies before artisan (post-install runs package:discover)
-            export COMPOSER_HOME="$HOME/.config/composer"
-            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-            echo "Composer installed"
-
-            php artisan down
-            echo "Server maintenance mode activated"
-
-            #Refresh caches
-            php artisan optimize:clear
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-            echo "Cache udpated."
-
-            # update database
-            php artisan migrate --force	# --force		Required to run when in production.
-            echo "Migrations done"
-            # restart queues 
-            php artisan -v queue:restart
-            echo "Queue restarted"
-
-            # stop maintenance mode
-            php artisan up
-            echo "Server is active again"
+      - name: Summary
+        run: |
+          {
+            echo "## Live"
+            echo "Released **${{ needs.build.outputs.sha }}** at ${{ needs.build.outputs.stamp }}."
+          } >> "$GITHUB_STEP_SUMMARY"
