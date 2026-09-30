@@ -1,0 +1,35 @@
+---
+description: Thanawya Helwa handoff — stack, deploy, and domain rules the next agent must follow
+globs: "**/*"
+alwaysApply: true
+---
+
+# Thanawya Helwa
+
+Arabic RTL site for Egyptian Thanawya coordination (تنسيق). Public URL thanawyahelwa.org. Laravel 12, PHP 8.2 (`.php-version`), Mix/Vue 2/Bootstrap 5, MySQL, Scout. Full map: `AGENTS.md`. Saved 2026-09-30 from `master` `5476306`.
+
+## Use Cases
+
+- Any edit, deploy, SEO, tansik import, or dependency bump in this repo.
+- Deciding where new coordination or directory code belongs.
+
+## Constraints
+
+- PHP for Composer, Artisan, and the web SAPI must be 8.2+. Hostinger CLI and web PHP often differ; root `.htaccess` `AddHandler` can pin PHP 8.1. See `README.md`.
+- `config.platform-check` is `false` on purpose. Do not re-enable until web PHP is 8.2+.
+- Production deploy is push to `master` → Actions builds Mix → force-pushes `deploy` → SSH runs `scripts/server-deploy.sh` in `~/domains/thanawyahelwa.org/public_html`. Do not deploy via `DeployController` (`routes/api.php` webhook still points at a dead `~/thanawyahelwa.org/deploy.sh`).
+- `APP_URL` is the canonical host. `ForceCanonicalHost` 301s other hosts when `SEO_CANONICAL_HOST_REDIRECT=true`. `docs/production.env.example` uses `https://www.thanawyahelwa.org`; `.env.example` uses the apex. Do not change the live host without checking production `APP_URL`.
+- Coordination % uses `ThanawyaCoordinationSystem::percentMaxTotalForSystem`. New curriculum (2025+) is 320; other systems including «أقدم» are 410. Section `E` = علمي, `A` = أدبي.
+- Blog and the Content Factory plugin live on WordPress at blog.thanawyahelwa.org, not in this repo.
+- Do not commit `.env` or secrets. Do not commit unless asked.
+
+## Valid Examples
+
+- New tansik query logic in `app/Actions/Tansik/`, with a feature test beside `tests/Feature/Tansik/`.
+- Percent display reading `percentMaxTotalsForFrontend()` instead of a hardcoded 410.
+
+## Invalid Examples
+
+- Hardcoding 410 for every thanawya system.
+- Running `composer install` or `php artisan` on PHP 8.1.
+- Treating `DeployController` or `git push origin master` alone as the server release step without the Actions `deploy` branch.
