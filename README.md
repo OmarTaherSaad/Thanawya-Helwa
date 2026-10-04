@@ -2,15 +2,15 @@
 
 ## Requirements
 
-- PHP **8.2+**
+- PHP **8.4+**
 - Composer 2.x
 - Node.js 18+ (for Laravel Mix assets)
 
-This repo includes a `.php-version` file for **asdf** / **phpenv** so the project shell uses PHP 8.2.
+This repo includes a `.php-version` file for **asdf** / **phpenv** so the project shell uses PHP 8.4.
 
-## Composer says PHP is below 8.2
+## Composer says PHP is below 8.4
 
-Message: *“Composer detected issues in your platform: Your Composer dependencies require a PHP version \">= 8.2.0\".”*
+Message: *“Composer detected issues in your platform: Your Composer dependencies require a PHP version \">= 8.4.0\".”*
 
 That compares the **PHP binary that actually runs Composer** to `composer.json`, not whatever you see in another context.
 
@@ -27,16 +27,16 @@ That compares the **PHP binary that actually runs Composer** to `composer.json`,
    If `php -v` is **8.1 or older** here, fix PATH or call Composer explicitly:
 
    ```bash
-   php8.2 "$(command -v composer)" install
+   php8.4 "$(command -v composer)" install
    ```
 
-2. **SSH interactive vs deploy / IDE** — Login shells often load `.bashrc` / Homebrew / Herd and point `php` to 8.2; **non-interactive SSH**, **cron**, **CI**, or **Cursor/PhpStorm** may use a different `PATH` and pick `/usr/bin/php` (older). Point those environments at the same PHP 8.2 binary (full path), or set `PATH` before `composer`.
+2. **SSH interactive vs deploy / IDE** — Login shells often load `.bashrc` / Homebrew / Herd and point `php` to 8.4; **non-interactive SSH**, **cron**, **CI**, or **Cursor/PhpStorm** may use a different `PATH` and pick `/usr/bin/php` (older). Point those environments at the same PHP 8.4 binary (full path), or set `PATH` before `composer`.
 
-3. **Cursor / VS Code** — Set the workspace / user **PHP executable** to your 8.2 binary (e.g. Herd: `~/Library/Application Support/Herd/bin/php`, Homebrew: `/opt/homebrew/opt/php@8.2/bin/php`).
+3. **Cursor / VS Code** — Set the workspace / user **PHP executable** to your 8.4 binary (e.g. Herd: `~/Library/Application Support/Herd/bin/php`, Homebrew: `/opt/homebrew/opt/php@8.4/bin/php`).
 
-4. **Debian/Ubuntu** — Prefer `update-alternatives` or a `php8.2` wrapper so `/usr/bin/env php` resolves to 8.2 for the user that runs Composer.
+4. **Debian/Ubuntu** — Prefer `update-alternatives` or a `php8.4` wrapper so `/usr/bin/env php` resolves to 8.4 for the user that runs Composer.
 
-## Website shows the error but SSH `php -v` is 8.2+
+## Website shows the error but SSH `php -v` is 8.4+
 
 Laravel 12 calls **`ReflectionFunction::isAnonymous()`**, which requires **PHP 8.2+**. If SSH shows 8.4 but the site fatals with *undefined method ReflectionFunction::isAnonymous()*, the **web** process is still on an older PHP.
 
@@ -55,7 +55,7 @@ That block overrides hPanel’s PHP version for every request routed through `pu
 **Fix:** edit `public_html/.htaccess` and either:
 
 1. Update the handler to match your target version, e.g. `application/x-httpd-ea-php84`, or
-2. Remove the entire cPanel `AddHandler` block and set PHP 8.2+ in **hPanel → PHP Configuration**.
+2. Remove the entire cPanel `AddHandler` block and set PHP 8.4+ in **hPanel → PHP Configuration**.
 
 Then confirm **web** PHP (not SSH):
 
@@ -73,4 +73,4 @@ composer dump-autoload -o
 php artisan optimize:clear && php artisan config:cache && php artisan route:cache && php artisan view:cache
 ```
 
-This repo sets **`config.platform-check`** to **`false`** so Composer does not ship the strict bootstrap check (avoids a fatal when the panel lags). Prefer fixing web PHP to 8.2+ anyway; you can set **`platform-check`** back to **`true`** once web and CLI match.
+This repo sets **`config.platform-check`** to **`false`** so Composer does not ship the strict bootstrap check (avoids a fatal when the panel lags). Prefer fixing web PHP to 8.4+ anyway; you can set **`platform-check`** back to **`true`** once web and CLI match.

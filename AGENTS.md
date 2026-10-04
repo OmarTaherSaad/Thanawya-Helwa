@@ -14,11 +14,11 @@ Public Arabic (RTL) site for Egyptian general-secondary students: coordination c
 
 ## Stack
 
-- PHP `^8.2` (`.php-version` is `8.2`). Laravel `^12.60`.
+- PHP `^8.4` (`.php-version` is `8.4`). Laravel `^12.60`.
 - Frontend: Laravel Mix 6, Vue 2.7, Bootstrap 5, jQuery. Build with `npm run dev` or `npm run production`. Node 20 in CI.
 - MySQL. Scout is installed; local `.env.example` uses `SCOUT_DRIVER=database`. Tests force `SCOUT_DRIVER=collection`.
 - Other packages: artesaos/seotools, spatie/laravel-medialibrary, laravel/telescope, laravel/socialite, silviolleite/laravelpwa, renatomarinho/laravel-page-speed, simplesoftwareio/simple-qrcode.
-- `composer.json` sets `config.platform-check` to `false` so an old web PHP does not fatal on Composer's platform check. Prefer fixing web PHP. Do not turn the check back on until web and CLI are both 8.2+.
+- `composer.json` sets `config.platform-check` to `false` so an old web PHP does not fatal on Composer's platform check. Prefer fixing web PHP. Do not turn the check back on until web and CLI are both 8.4+.
 
 ## Layout
 
@@ -82,14 +82,14 @@ Concurrency group is `production` and does not cancel an in-progress deploy. Tim
 
 `app/Http/Controllers/DeployController.php` and `POST /api/webhook/githhub` (typo kept) are a legacy HMAC hook that runs `cd ~/thanawyahelwa.org; ./deploy.sh`. That path is not the current release process. Do not "fix" production by calling it.
 
-Hostinger trap: SSH `php -v` can be 8.2+ while the site still runs 8.1 because `public_html/.htaccess` (gitignored, server only) has `AddHandler application/x-httpd-ea-php81`. Laravel 12 needs `ReflectionFunction::isAnonymous()` (PHP 8.2+). Details and the `_php-check.php` curl check are in `README.md`.
+Hostinger trap: SSH `php -v` can be 8.4+ while the site still runs 8.1 because `public_html/.htaccess` (gitignored, server only) has `AddHandler application/x-httpd-ea-php81`. Laravel 12 needs `ReflectionFunction::isAnonymous()` (PHP 8.2+). Details and the `_php-check.php` curl check are in `README.md`.
 
 After a server `.env` or PHP change, from `public_html`: clear `bootstrap/cache/*.php`, then `optimize:clear`, `config:cache`, `route:cache`, `view:cache`.
 
 ## Local checks
 
 ```bash
-php -v   # must be 8.2+
+php -v   # must be 8.4+
 composer check-platform-reqs
 php artisan test
 npm run dev
