@@ -5,7 +5,7 @@
 
 # Thanawya Helwa
 
-Arabic RTL site for Egyptian Thanawya coordination (تنسيق). Public URL thanawyahelwa.org. Laravel 12, PHP 8.4 (`.php-version`), Mix/Vue 2/Bootstrap 5, MySQL, Scout. Full map: `AGENTS.md`. Saved 2026-09-30 from `master` `5476306`.
+Arabic RTL site for Egyptian Thanawya coordination (تنسيق). Public URL thanawyahelwa.org. Laravel 12, PHP 8.4 (`.php-version`), Mix/Vue 2/Bootstrap 5, MySQL, Scout. Human guide: `README.md`. Full AI map: `AGENTS.md`. Updated 2026-10-16 from `master` `eca715d`.
 
 ## Use Cases
 
